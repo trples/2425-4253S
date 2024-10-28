@@ -9,13 +9,10 @@ bool intakeReversed = false;
 void setIntake(){
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
         intake.move(127);
-        pros::lcd::set_text(0, "L1 pressed");
     }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
         intake.move(-127);
-        pros::lcd::set_text(1, "L2 pressed");
     }else{
         intake.brake();
-        pros::lcd::set_text(2, "intake off");
     }
     
     /*if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
