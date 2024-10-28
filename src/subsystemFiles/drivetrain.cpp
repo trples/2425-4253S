@@ -44,8 +44,21 @@ int drivePID(int goal){
     double kP = 0.2345;
     double kI = 0.3;
     double kD = 0.374;
+    double error;
+    double prevError;
+
+    while(enableDrivePID){
+        // proportional
+        error = goal - getAverageEncoderVal();
+
+        // integral
+        
+
+        // deriv
 
 
+
+    }
     return 0;
 }
 
@@ -55,7 +68,18 @@ int turnPID(int deg){
 
 void translate(double distance, double deg){
     resetDriveEncoders();
-    
+
+    /*if(deg != 0){
+        rotate(deg);
+    }*/
+
+    enableDrivePID = true;
+    // drive until robot has travelled distance
+    while(getAverageEncoderVal() < fabs(distance)){
+        
+    }
+    enableDrivePID = false;
+
 }
 
 void rotate(double deg){
