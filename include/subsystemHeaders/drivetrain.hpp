@@ -15,7 +15,7 @@ int drivePID(int goal);
 
 int rotatePID(int deg);
 
-void translate(double distance, double deg); 
+void translate(double distance, int direction); 
 
-void rotate(double deg);
+void rotate(double deg, int direction);
 

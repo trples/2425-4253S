@@ -18,6 +18,8 @@ pros::MotorGroup driveRight({-10,19,20}); // 10 top
 
 pros::adi::DigitalOut grabber('A');
 
+pros::Imu inertial(14);
+
 // controller is declared in header class
 pros::Controller controller(pros::E_CONTROLLER_MASTER); 
 

@@ -14,6 +14,8 @@ extern pros::MotorGroup driveRight;
 
 extern pros::adi::DigitalOut grabber;
 
+extern pros::Imu inertial;
+
 // controller declaration
 extern pros::Controller controller;
 

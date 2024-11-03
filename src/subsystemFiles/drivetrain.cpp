@@ -41,47 +41,154 @@ void setDrive(){
 // autonomous
 int drivePID(int goal){
     // proportional, integral, derivative
-    double kP = 0.2345;
-    double kI = 0.3;
-    double kD = 0.374;
-    double error;
-    double prevError;
+    static double kP = 0.2345;
+    static double kI = 0.3;
+    static double kD = 0.374;
+
+    // for integral and deriv
+    static double accumulatedError = 0;
+    static double error = 0;
+    static double prevError = 0;
+
+    // proportional; based on distance to target position
+    prevError = error;
+    error = goal - getAverageEncoderVal();
+
+    // integral
+    accumulatedError += error*0.015;
+    if ((error == 0) || (error > goal) || (error > 50))
+		accumulatedError = 0;
+	
+    // deriv
+    double IROC = (error-prevError)/0.015;
+
+    // calculating
+    double power = error*kP + accumulatedError*kI + IROC*kD;
+
+    if (power > 127) power = 127;
+
+    //pros::delay(15);
+
+    return power;
+}
+
+int turnPID(int deg){ // abs val of deg
+    // proportional, integral, derivative
+    static double kP = 0.2345;
+    static double kI = 0.3;
+    static double kD = 0.374;
+
+    // for integral and deriv
+    static double accumulatedError = 0;
+    static double error = 0;
+    static double prevError = 0;
+    
+    // proportional; based on distance to target position
+    prevError = error;
+    error = deg - inertial.get_rotation();
+
+    // integral
+    accumulatedError += error*0.015;
+    if ((error == 0) || (error > deg) || (error > 45))
+		accumulatedError = 0;
+	
+    // deriv
+    double IROC = (error-prevError)/0.015;
+
+    // calculating
+    double power = error*kP + accumulatedError*kI + IROC*kD;
+
+    if (power > 127) power = 127;
+
+    //pros::delay(15);
+
+    return power;
+}
+
+void translate(double distance, int direction){
+    resetDriveEncoders();
+
+    //enableDrivePID = true;
+    // drive until robot has travelled distance
+    while(fabs(getAverageEncoderVal()) < fabs(distance)){
+        int power = drivePID(distance);
+        updateMotors(direction*power, direction*power);
+        pros::delay(15);
+    }
+    //enableDrivePID = false;
+    
+    updateMotors(-direction*10, -direction*10);
+    pros::delay(50);
+
+    updateMotors(0,0);
+}
+
+void rotate(double deg, int direction){ // -1 = left, 1 = right
+    
+    enableTurnPID = true;
+    // if x axis (on side)
+    // -> put direction in parameters
+    /*inertial.tare_heading();
+    while(fabs(inertial.get_heading()) < deg){
+
+    }*/
+
+
+
+    // if z axis (upright)
+    inertial.tare_rotation();
+    while(fabs(inertial.get_rotation()) < deg){
+        int power = turnPID(deg);
+        updateMotors(direction*power, -direction*power);
+        pros::delay(15);
+    }
+    enableTurnPID = false; 
+
+    updateMotors(direction*-10, direction*10);
+    pros::delay(50);
+
+    updateMotors(0,0);
+}
+
+
+
+/*
+int drivePID(int goal){
+    // proportional, integral, derivative
+    static double kP = 0.2345;
+    static double kI = 0.3;
+    static double kD = 0.374;
+
+    // for integral and deriv
+    static double accumulatedError = 0;
+    static double error = 0;
+    static double prevError = 0;
 
     while(enableDrivePID){
-        // proportional
+        // proportional; based on distance to target position
+        prevError = error;
         error = goal - getAverageEncoderVal();
 
         // integral
-        
+        accumulatedError += error*0.015;
+        if ((error == 0) || (error > goal))
+			accumulatedError = 0;
+		
+		if (error > 50)
+			accumulatedError = 0;
 
         // deriv
+        double IROC = (error-prevError)/0.015;
 
+        // calculating
+        double power = error*kP + accumulatedError*kI + IROC*kD;
 
+        if (power > 127) power = 127;
 
+        pros::delay(15);
+
+        return power;
     }
     return 0;
 }
-
-int turnPID(int deg){
-    return 0;
-}
-
-void translate(double distance, double deg){
-    resetDriveEncoders();
-
-    /*if(deg != 0){
-        rotate(deg);
-    }*/
-
-    enableDrivePID = true;
-    // drive until robot has travelled distance
-    while(getAverageEncoderVal() < fabs(distance)){
-        
-    }
-    enableDrivePID = false;
-
-}
-
-void rotate(double deg){
-
-}
+*/
