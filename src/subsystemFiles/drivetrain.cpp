@@ -106,7 +106,7 @@ int turnPID(int deg){ // abs val of deg
     return power;
 }
 
-void translate(double distance, int direction){ // -1 = left, 1 = right
+void translate(double distance, int direction){ // -1 = backward, 1 = forward
     resetDriveEncoders();
 
     //enableDrivePID = true;
