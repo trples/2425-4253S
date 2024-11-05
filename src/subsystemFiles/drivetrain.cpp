@@ -3,6 +3,7 @@
 
 bool enableDrivePID = false;
 bool enableTurnPID = false;
+static double accumulatedError = 0;
 
 // helper functions
 void resetDriveEncoders(){
@@ -46,7 +47,7 @@ int drivePID(int goal){
     static double kD = 0.374;
 
     // for integral and deriv
-    static double accumulatedError = 0;
+    //static double accumulatedError = 0;
     static double error = 0;
     static double prevError = 0;
 
@@ -105,7 +106,7 @@ int turnPID(int deg){ // abs val of deg
     return power;
 }
 
-void translate(double distance, int direction){
+void translate(double distance, int direction){ // -1 = left, 1 = right
     resetDriveEncoders();
 
     //enableDrivePID = true;

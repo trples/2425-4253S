@@ -2,6 +2,7 @@
 
 extern bool enableDrivePID;
 extern bool enableTurnPID;
+extern double accumulatedError;
 
 void resetDriveEncoders();
 
