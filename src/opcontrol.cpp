@@ -18,7 +18,7 @@ void opcontrol() {
 		// loop for taking in driver controls
 		setDrive();
 		setIntake();
-		toggleGrabber();
+		setGrabber();
 		pros::delay(10);
 	}
 }

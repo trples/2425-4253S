@@ -3,8 +3,8 @@
 
 bool extended = true;
 
-void toggleGrabber(){
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
+void setGrabber(){
+    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
         if(extended){
             grabber.set_value(HIGH);
         }else{
@@ -12,4 +12,8 @@ void toggleGrabber(){
         }
         extended = !extended;
     }
+}
+
+void toggleGrabber(bool status){
+    grabber.set_value(status);
 }

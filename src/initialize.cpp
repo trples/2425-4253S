@@ -25,7 +25,10 @@ void initialize() {
 	driveRight.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
 	
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	grabber.set_value(false);   
+	intakeBot.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	grabber.set_value(true);   
+
+	inertial.reset();
 
 	pros::lcd::set_text(1, "4253S bot is READY! :D");
 

@@ -8,6 +8,7 @@ extern pros::Motor driveRightBack;
 extern pros::Motor driveRightBot;
 extern pros::Motor driveRightTop;
 extern pros::Motor intake;
+extern pros::Motor intakeBot;
 
 extern pros::MotorGroup driveLeft;
 extern pros::MotorGroup driveRight;

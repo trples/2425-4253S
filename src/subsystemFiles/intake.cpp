@@ -8,29 +8,30 @@ bool intakeReversed = false;
 
 void setIntake(){
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-        intake.move(127);
+        intake.move(100);
     }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-        intake.move(-127);
+        intake.move(-100);
     }else{
         intake.brake();
     }
-    
-    /*if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
-        intakeOn = !intakeOn;
-        std::cout << "L1";
+
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+        intakeBot.move(100);
+    }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+        intakeBot.move(-100);
+    }else{
+        intakeBot.brake();
     }
-    if(intakeOn&&controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
-        intakeReversed = !intakeReversed;
-        std::cout << "L2";
+}
+
+void toggleIntake(bool status, int direction){
+    //intake.move(status*127*direction);
+    //intakeBot.move(status*127*direction);
+    if(status){
+        intake.move(127*direction);
+        intakeBot.move(127*direction);
+    }else{
+        intake.brake();
+        intakeBot.brake();
     }
-    if(intakeOn){
-            if(!intakeReversed){ // intake not reversed, run normally
-                intake.move(127);
-            }else{
-                intake.move(-127);
-            }
-        }
-    else{
-        intake.move(0);
-    }*/
 }

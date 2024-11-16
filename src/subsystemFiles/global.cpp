@@ -11,10 +11,13 @@ pros::Motor driveRightBot(19, pros::MotorGearset::blue, pros::MotorEncoderUnits:
 pros::Motor driveRightTop(10, pros::MotorGearset::blue, pros::MotorEncoderUnits::counts);
 
 pros::Motor intake(7, pros::MotorGearset::blue, pros::MotorEncoderUnits::counts);
+pros::Motor intakeBot(-13, pros::MotorGearset::blue, pros::MotorEncoderUnits::counts);
 
 // motor groups for drivetrain
 pros::MotorGroup driveLeft({-1,11,-12}); // 11 top
 pros::MotorGroup driveRight({-10,19,20}); // 10 top
+//pros::MotorGroup driveLeft({-1,11}); // 11 top
+//pros::MotorGroup driveRight({-10,20}); // 10 top
 
 pros::adi::DigitalOut grabber('A');
 

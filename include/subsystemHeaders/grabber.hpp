@@ -2,4 +2,6 @@
 
 extern bool extended;
 
-void toggleGrabber();
+void setGrabber();
+
+void toggleGrabber(bool status); //auton
