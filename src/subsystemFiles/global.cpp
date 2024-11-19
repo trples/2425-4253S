@@ -2,13 +2,13 @@
 #include "subsystemHeaders/global.hpp"
 
 // motor ports
-pros::Motor driveLeftBack(1, pros::MotorGearset::blue, pros::MotorEncoderUnits::counts); 
-pros::Motor driveLeftBot(12, pros::MotorGearset::blue, pros::MotorEncoderUnits::counts);
-pros::Motor driveLeftTop(11, pros::MotorGearset::blue, pros::MotorEncoderUnits::counts);
+pros::Motor driveLeftBack(1, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees); 
+pros::Motor driveLeftBot(12, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveLeftTop(11, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
  
-pros::Motor driveRightBack(20, pros::MotorGearset::blue, pros::MotorEncoderUnits::counts);
-pros::Motor driveRightBot(19, pros::MotorGearset::blue, pros::MotorEncoderUnits::counts);
-pros::Motor driveRightTop(10, pros::MotorGearset::blue, pros::MotorEncoderUnits::counts);
+pros::Motor driveRightBack(20, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveRightBot(19, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveRightTop(10, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 
 pros::Motor intake(7, pros::MotorGearset::blue, pros::MotorEncoderUnits::counts);
 pros::Motor intakeBot(-13, pros::MotorGearset::blue, pros::MotorEncoderUnits::counts);

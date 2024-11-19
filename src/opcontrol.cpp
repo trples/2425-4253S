@@ -19,6 +19,7 @@ void opcontrol() {
 		setDrive();
 		setIntake();
 		setGrabber();
+		pros::lcd::set_text(1,std::to_string(inertial.get_rotation()));
 		pros::delay(10);
 	}
 }

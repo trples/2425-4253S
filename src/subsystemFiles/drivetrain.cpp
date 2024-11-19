@@ -16,13 +16,13 @@ void resetDriveEncoders(){
 }
 
 double getAverageEncoderVal(){
-    /*return (fabs(driveLeftBot.get_position())+fabs(driveLeftTop.get_position())
-            +fabs(driveLeftBack.get_position())+fabs(driveRightBot.get_position())
-            +fabs(driveRightTop.get_position())+fabs(driveRightBack.get_position()))/6;*/
-            
     return (fabs(driveLeftBot.get_position())+fabs(driveLeftTop.get_position())
+            +fabs(driveLeftBack.get_position())+fabs(driveRightBot.get_position())
+            +fabs(driveRightTop.get_position())+fabs(driveRightBack.get_position()))/6;
+            
+    /*return (fabs(driveLeftBot.get_position())+fabs(driveLeftTop.get_position())
             +fabs(driveRightBot.get_position())
-            +fabs(driveRightTop.get_position())+fabs(driveRightBack.get_position()))/5;
+            +fabs(driveRightTop.get_position())+fabs(driveRightBack.get_position()))/5;*/
 }
 
 void updateMotors(double left, double right){
@@ -85,7 +85,7 @@ int drivePID(int goal){
 }
 
 int driveP(int goal){
-    static double kP = 0.2;
+    static double kP = 1;
 
     static double error = 0;
     static double prevError = 0;
@@ -98,7 +98,8 @@ int driveP(int goal){
     std::string before = std::to_string(power);
     pros::lcd::set_text(0, before);
 
-    if (power > 127) power = 127;
+    //if (power > 127) power = 127;
+    if (power > 100) power = 100;
 
     std::string after = std::to_string(power);
     pros::lcd::set_text(1, after);
@@ -107,7 +108,8 @@ int driveP(int goal){
 }
 
 int turnP(int deg){
-    static double kP = 1.3;
+    static double kP = 1;
+    static double kD = 1;
 
     static double error = 0;
     static double prevError = 0;
@@ -115,12 +117,14 @@ int turnP(int deg){
     prevError = error;
     error = deg - inertial.get_rotation();
 
-    double power = error*kP;
+    //double power = error*kP;
+    double power = error*kP + (prevError-error)*kD;
 
     std::string before = std::to_string(power);
     pros::lcd::set_text(0, before);
 
-    if (power > 127) power = 127;
+    //if (power > 127) power = 127;
+    if (power > 60) power = 60;
 
     std::string after = std::to_string(power);
     pros::lcd::set_text(1, after);
@@ -169,29 +173,26 @@ int turnPID(int deg){ // abs val of deg
 }
 
 void translate(double distance, int direction){ // -1 = backward, 1 = forward
+                                                // distance in centimeters
     resetDriveEncoders();
 
-    pros::lcd::set_text(0,std::to_string(getAverageEncoderVal()));
-    //enableDrivePID = true;
+    // 360 degrees = 3.25*3.14 inches, 8.255*3.14 cm
+    double distanceInUnits = (distance/(8.255*3.14))*360;
+    pros::lcd::set_text(5,std::to_string(distanceInUnits));
+
     // drive until robot has travelled distance
-    while(fabs(getAverageEncoderVal()) < fabs(distance)){
-        //int power = drivePID(distance);
-        int power = driveP(distance);
-        updateMotors(direction*power, 0.85*direction*power);
-        //pros::lcd::set_text(2,std::to_string(getAverageEncoderVal()));
-        pros::lcd::set_text(1,"DL"+std::to_string(driveLeft.get_position()));
-        pros::lcd::set_text(2,"DLBack"+std::to_string(driveLeftBack.get_position()));
-        pros::lcd::set_text(3,"DLBot"+std::to_string(driveLeftBot.get_position()));
-        pros::lcd::set_text(4,"DR"+std::to_string(driveRight.get_position()));
-        pros::lcd::set_text(5,"DRBack"+std::to_string(driveRightBack.get_position()));
-        pros::lcd::set_text(6,"DRBot"+std::to_string(driveRightBot.get_position()));
+    /*while(fabs(getAverageEncoderVal()) < fabs(distance)){*/
+    while(fabs(getAverageEncoderVal()) < fabs(distanceInUnits)){
+        int power = driveP(distanceInUnits);
+        updateMotors(0.9*direction*power, 1*direction*power);
+        pros::lcd::set_text(3,std::to_string(getAverageEncoderVal()));
         pros::delay(15);
 
     }
-    //enableDrivePID = false;
     
-    updateMotors(-direction*10, -direction*10);
-    pros::delay(50);
+    //updateMotors(-direction*50, -direction*50);
+    updateMotors(-direction*100, -direction*100);
+    pros::delay(150);
 
     updateMotors(0,0);
 }
@@ -207,15 +208,8 @@ void rotate(double deg, int direction){ // -1 = left, 1 = right
         pros::lcd::set_text(2,std::to_string(inertial.get_rotation()));
         pros::delay(15);
     }
-    //enableTurnPID = false; 
 
-    /*int timeToDelay = deg/90;
-
-    updateMotors(direction*127,-direction*127);
-
-    pros::delay(200);*/
-
-    updateMotors(direction*-10, direction*10);
+    updateMotors(direction*-100, direction*100);
     pros::delay(50);
 
     updateMotors(0,0);
