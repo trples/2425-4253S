@@ -17,3 +17,12 @@ void setGrabber(){
 void toggleGrabber(bool status){
     grabber.set_value(status);
 }
+
+void switchGrabber(){
+    if(extended){
+            grabber.set_value(HIGH);
+        }else{
+            grabber.set_value(LOW);
+        }
+    extended = !extended;
+}

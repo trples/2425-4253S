@@ -40,8 +40,8 @@ void setDrive(){
     int left = power + rotate;
     int right = power - rotate;
 
-    //updateMotors(left,0.85*right);
-    updateMotors(left,right);
+    updateMotors(left,0.85*right);
+    //updateMotors(left,right);
 }
 
 // autonomous
@@ -99,7 +99,8 @@ int driveP(int goal){
     pros::lcd::set_text(0, before);
 
     //if (power > 127) power = 127;
-    if (power > 100) power = 100;
+    //if (power > 100) power = 100;
+    if (power > 70) power = 70;
 
     std::string after = std::to_string(power);
     pros::lcd::set_text(1, after);
@@ -173,11 +174,12 @@ int turnPID(int deg){ // abs val of deg
 }
 
 void translate(double distance, int direction){ // -1 = backward, 1 = forward
-                                                // distance in centimeters
+                                                // distance in INCHES
     resetDriveEncoders();
 
     // 360 degrees = 3.25*3.14 inches, 8.255*3.14 cm
-    double distanceInUnits = (distance/(8.255*3.14))*360;
+    //double distanceInUnits = (distance/(3.25*3.14))*360;
+    double distanceInUnits = (distance/(3.25*3.14))*360*(30/26);
     pros::lcd::set_text(5,std::to_string(distanceInUnits));
 
     // drive until robot has travelled distance
@@ -190,9 +192,9 @@ void translate(double distance, int direction){ // -1 = backward, 1 = forward
 
     }
     
-    //updateMotors(-direction*50, -direction*50);
-    updateMotors(-direction*100, -direction*100);
-    pros::delay(150);
+    updateMotors(-direction*50, -direction*50);
+    //updateMotors(-direction*100, -direction*100);
+    pros::delay(75);
 
     updateMotors(0,0);
 }
@@ -209,7 +211,7 @@ void rotate(double deg, int direction){ // -1 = left, 1 = right
         pros::delay(15);
     }
 
-    updateMotors(direction*-100, direction*100);
+    updateMotors(direction*-50, direction*50);
     pros::delay(50);
 
     updateMotors(0,0);

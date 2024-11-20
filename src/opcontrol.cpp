@@ -20,6 +20,7 @@ void opcontrol() {
 		setIntake();
 		setGrabber();
 		pros::lcd::set_text(1,std::to_string(inertial.get_rotation()));
+		pros::lcd::set_text(2,std::to_string(getAverageEncoderVal()));
 		pros::delay(10);
 	}
 }

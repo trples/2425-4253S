@@ -5,3 +5,5 @@ extern bool extended;
 void setGrabber();
 
 void toggleGrabber(bool status); //auton
+
+void switchGrabber(); //auton
