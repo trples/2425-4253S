@@ -29,8 +29,8 @@ void toggleIntake(bool status, int direction){
     //intake.move(status*127*direction);
     //intakeBot.move(status*127*direction);
     if(status){
-        intake.move(power*direction*0.8);
-        intakeBot.move(power*direction*0.8);
+        intake.move(power*direction);
+        intakeBot.move(power*direction);
     }else{
         intake.brake();
         intakeBot.brake();

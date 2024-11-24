@@ -20,3 +20,19 @@ void translate(double distance, int direction);
 
 void rotate(double deg, int direction);
 
+void slowTranslate(double distance, int direction);
+
+void resetPosition();
+
+void resetRotation();
+
+void test();
+
+void skills();
+
+void redRight();
+
+void blueLeft();
+
+void blueRight();
+

@@ -203,6 +203,8 @@ void rotate(double deg, int direction){ // -1 = left, 1 = right
     
     // if z axis (upright)
     inertial.tare_rotation();
+    updateMotors(direction*70, direction*-70);
+    pros::delay(300);
     while(fabs(inertial.get_rotation()) < fabs(deg)){
         //int power = turnPID(deg);
         int power = turnP(deg);
@@ -217,6 +219,291 @@ void rotate(double deg, int direction){ // -1 = left, 1 = right
     updateMotors(0,0);
 }
 
+void slowTranslate(double distance, int direction){ // -1 = backward, 1 = forward
+                                                // distance in INCHES
+    resetDriveEncoders();
+
+    // 360 degrees = 3.25*3.14 inches, 8.255*3.14 cm
+    //double distanceInUnits = (distance/(3.25*3.14))*360;
+    double distanceInUnits = (distance/(3.25*3.14))*360*(4/3)*(5/4);
+    pros::lcd::set_text(5,std::to_string(distanceInUnits));
+
+    // drive until robot has travelled distance
+    /*while(fabs(getAverageEncoderVal()) < fabs(distance)){*/
+    while(fabs(getAverageEncoderVal()) < fabs(distanceInUnits)){
+        updateMotors(0.9*direction*50, 1*direction*50);
+        pros::delay(15);
+
+    }
+    
+    updateMotors(-direction*30, -direction*30);
+        //updateMotors(-direction*100, -direction*100);
+    pros::delay(50);
+
+    updateMotors(0,0);
+}
+
+/*void resetPosition(){
+    double encoderVal = getAverageEncoderVal();
+    double error = 0-encoderVal;
+    int direction;
+    if(encoderVal>0){ // encoder val is negative -> too far forward, go backwards
+        direction = -1;
+    }else{
+        direction = 1;
+    } 
+    pros::lcd::set_text(3,std::to_string(direction));
+
+    /*while(fabs(error)>720){
+        updateMotors(0.9*direction*50, 1*direction*50);
+        pros::delay(10);
+        encoderVal = getAverageEncoderVal();
+        error = 0-encoderVal;
+        pros::lcd::set_text(4,std::to_string(encoderVal));
+        pros::lcd::set_text(5,std::to_string(error));
+        pros::lcd::set_text(6,std::to_string(fabs(error)>45));
+    }
+
+    // degrees/360 * circumfrence of wheel * wheels to gear ratio
+    double distanceInInches = (encoderVal/360)*3.25*3.14*(3/4);
+    pros::lcd::set_text(0,std::to_string(direction));
+
+    translate(fabs(distanceInInches),direction);
+
+    //updateMotors(-direction*50, -direction*50);
+    //updateMotors(-direction*100, -direction*100);
+    //pros::delay(75);
+
+    //updateMotors(0,0);
+}*/
+
+void resetRotation(){
+    double currentAngle = inertial.get_rotation();
+    double error = 0-currentAngle;
+    int direction;
+    bool positionAdjusted = false;
+    if(error<0){ // encoder val is positive -> rotated right, go left
+        direction = -1;
+    }else{
+        direction = 1;
+    } 
+
+    while(fabs(error)>3){
+        updateMotors(0.9*direction*50, -1*direction*50);
+        pros::delay(10);
+        currentAngle = inertial.get_rotation();
+        error = 0-currentAngle;
+        positionAdjusted = true;
+        pros::lcd::set_text(4,std::to_string(inertial.get_rotation()));
+        pros::lcd::set_text(5,std::to_string(error));
+        pros::lcd::set_text(6,std::to_string(fabs(currentAngle<45)));
+    }
+    if(positionAdjusted){
+        updateMotors(-direction*50, direction*50);
+        //updateMotors(-direction*100, -direction*100);
+        pros::delay(75);
+
+        updateMotors(0,0);
+    }
+}
+
+void test(){
+    //resetRotation();
+    //resetPosition();
+    /*slowTranslate(20,1);
+    pros::delay(200);
+    toggleIntake(true,1);
+    pros::delay(1000);
+    resetRotation();
+    slowTranslate(20,-1);
+    pros::delay(400);
+    toggleIntake(false,1);*/
+
+    rotate(30,1);
+    while(true){
+        pros::lcd::set_text(4,std::to_string(inertial.get_rotation()));
+    }
+}
+
+void skills(){
+    toggleIntake(true,1);
+    pros::delay(700);
+    toggleIntake(false,0); // alliance stake
+
+    translate(24,1);
+    rotate(270,1);
+    pros::delay(700);
+    inertial.tare_rotation();
+    translate(20,-1);
+    pros::delay(500);
+    resetRotation();
+    pros::delay(500);
+    slowTranslate(12,-1);
+    grabber.set_value(HIGH);
+    pros::delay(500);
+    resetRotation(); // fix rotation after running into goal
+    pros::delay(500);
+    rotate(180,1);
+    pros::delay(500);
+    
+    toggleIntake(true,1);
+    slowTranslate(36,1); // grab two rings
+    pros::delay(1000);
+    toggleIntake(true,-1);
+    pros::delay(500);
+    toggleIntake(true,1);
+    pros::delay(1500);
+    translate(18,-1);
+    toggleIntake(true,-1);
+    pros::delay(500);
+    toggleIntake(false,0);
+    rotate(30,1); // to third ring
+    pros::delay(1000);
+    toggleIntake(true,1);
+    translate(12,1);
+    pros::delay(1000);
+    translate(12,-1); // to og position
+    toggleIntake(false,0);
+    pros::delay(500);
+
+    rotate(300,1); // turn to face wall (perpendicular)
+    pros::delay(1000);
+    translate(6,1);
+    pros::delay(500);
+    rotate(180,1); // face goal to corner
+    pros::delay(1000);
+    translate(4,-1); // go back into goal
+    pros::delay(500);
+    grabber.set_value(LOW);
+    pros::delay(200);
+    translate(4,1);
+    
+}
+
+void redRight(){
+    // red right side
+    translate(36,-1); // back (into goal)
+    pros::delay(500);
+    updateMotors(-50,-50);
+    pros::delay(500);
+    //switchGrabber(); // grab goal
+    grabber.set_value(HIGH);
+    pros::delay(300);
+    updateMotors(0,0);
+    pros::delay(50);
+    translate(14,1);
+    pros::delay(100);
+    translate(4,1);
+    pros::delay(300);
+    translate(4,-1);
+    pros::delay(400);
+    toggleIntake(true,1);
+    pros::delay(700);
+    toggleIntake(true,-1);
+    rotate(280,1);
+
+    pros::delay(100);
+    toggleIntake(false,1);
+    translate(12,1);
+    updateMotors(50,50);
+    toggleIntake(true,1);
+
+    pros::delay(370);
+    updateMotors(0,0);
+    pros::delay(500);
+    rotate(180,1);
+    pros::delay(400);
+
+    translate(36,1);
+    
+    toggleIntake(true,-1);
+    
+    pros::delay(100);
+    rotate(10,1);
+    pros::delay(200);
+    updateMotors(30,30);
+    toggleIntake(false,0); //*/
+    //pros::delay(1500);
+    //updateMotors(0,0);//
+}
+
+void blueLeft(){
+    // blue left
+    translate(36,-1); // back (into goal)
+    pros::delay(500);
+    updateMotors(-50,-50);
+    pros::delay(500);
+    //switchGrabber(); // grab goal
+    grabber.set_value(HIGH);
+    pros::delay(300);
+    updateMotors(0,0);
+    pros::delay(50);
+    translate(14,1);
+    pros::delay(100);
+    translate(4,1);
+    pros::delay(300);
+    translate(4,-1);
+    pros::delay(400);
+    toggleIntake(true,1);
+    pros::delay(700);
+    toggleIntake(true,-1);
+    rotate(80,1);
+
+    pros::delay(100);
+    toggleIntake(false,0);
+    translate(12,1);
+    updateMotors(50,50);
+    toggleIntake(true,1);
+
+    pros::delay(370);
+    updateMotors(0,0);
+    pros::delay(500);
+    rotate(180,1);
+    pros::delay(400);
+
+    translate(36,1);
+    
+    toggleIntake(true,-1);
+    
+    pros::delay(200);
+    updateMotors(30,30);
+    pros::delay(500);
+    toggleIntake(false,0); 
+    pros::delay(1000);
+    updateMotors(0,0);
+    //*/
+}
+
+void blueRight(){
+    translate(36,-1); // back (into goal)
+    pros::delay(500);
+    updateMotors(-70,-70);
+    pros::delay(300);
+    //switchGrabber(); // grab goal
+    grabber.set_value(HIGH);
+    pros::delay(400);
+    updateMotors(0,0);
+    pros::delay(50);
+    translate(14,1);
+    pros::delay(100);
+    translate(4,1);
+    pros::delay(300);
+    translate(4,-1);
+    pros::delay(400);
+    toggleIntake(true,1);
+    pros::delay(700);
+    toggleIntake(true,-1);
+    
+    rotate(100,1);
+    toggleIntake(false,0);
+
+    translate(36,1);
+    updateMotors(30,30);
+    pros::delay(500); 
+    
+    pros::delay(1000);
+    updateMotors(0,0);//*/
+}
 
 
 /*
