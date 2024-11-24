@@ -148,7 +148,7 @@ int turnPID(int deg){ // abs val of deg
     
     // proportional; based on distance to target position
     prevError = error;
-    error = deg - inertial.get_rotation();
+    error = deg - fabs(inertial.get_rotation()); // changed to fabs
 
     // integral
     accumulatedError += error*0.015;
@@ -203,8 +203,13 @@ void rotate(double deg, int direction){ // -1 = left, 1 = right
     
     // if z axis (upright)
     inertial.tare_rotation();
-    updateMotors(direction*70, direction*-70);
-    pros::delay(300);
+
+    /*updateMotors(direction*70, direction*-70);
+    pros::delay(300);*/
+    
+    updateMotors(direction*120, direction*-120);
+    pros::delay(100);
+
     while(fabs(inertial.get_rotation()) < fabs(deg)){
         //int power = turnPID(deg);
         int power = turnP(deg);
@@ -331,7 +336,8 @@ void skills(){
     toggleIntake(false,0); // alliance stake
 
     translate(24,1);
-    rotate(270,1);
+    //rotate(270,1);
+    rotate(90,-1);
     pros::delay(700);
     inertial.tare_rotation();
     translate(20,-1);
@@ -353,11 +359,13 @@ void skills(){
     pros::delay(500);
     toggleIntake(true,1);
     pros::delay(1500);
-    translate(18,-1);
+    //translate(18,-1);
+    translate(24,-1);
     toggleIntake(true,-1);
     pros::delay(500);
     toggleIntake(false,0);
-    rotate(30,1); // to third ring
+    //rotate(30,1); // to third ring (GOES WITH TRANSLATE 18,1)
+    rotate(45,1);
     pros::delay(1000);
     toggleIntake(true,1);
     translate(12,1);
@@ -366,18 +374,61 @@ void skills(){
     toggleIntake(false,0);
     pros::delay(500);
 
-    rotate(300,1); // turn to face wall (perpendicular)
+    //rotate(300,1); // turn to face wall (perpendicular)
+    rotate(45,-1); // turn to face wall
     pros::delay(1000);
     translate(6,1);
     pros::delay(500);
-    rotate(180,1); // face goal to corner
+    //rotate(180 + 45,1); // face goal to corner
+    rotate(135,-1); // face goal to corner
     pros::delay(1000);
+    inertial.tare_rotation();
     translate(4,-1); // go back into goal
     pros::delay(500);
-    grabber.set_value(LOW);
+    grabber.set_value(LOW); // drop goal
     pros::delay(200);
     translate(4,1);
-    
+
+    rotate(135,1); // face wall
+    pros::delay(500);
+    translate(28,1); // overshoot 24" so bot's against the wall
+    pros::delay(1000);
+    resetRotation();
+    pros::delay(500);
+
+    translate(6+24*2 + 20,-1); // traverse 3 tiles (6 in + 2 tiles + 20 inches to mirror right side)
+    pros::delay(1200);
+
+    resetRotation(); // fix rotation before goal
+    pros::delay(500);
+    slowTranslate(12,-1); // back into goal
+    grabber.set_value(HIGH);
+    pros::delay(500);
+    resetRotation(); // fix rotation after running into goal
+    pros::delay(500);
+    rotate(180,1); // face 2 rings
+    pros::delay(500);
+
+    toggleIntake(true,1);
+    slowTranslate(36,1); // grab two rings
+    pros::delay(1000);
+    toggleIntake(true,-1);
+    pros::delay(500);
+    toggleIntake(true,1);
+    pros::delay(1500);
+    translate(18,-1); // 1.5 tiles back (perfect 45 deg from 3rd ring)  //maybe change this
+    toggleIntake(true,-1);
+    pros::delay(500);
+    toggleIntake(false,0);
+    //
+    rotate(45,-1); // to third ring
+    pros::delay(1000);
+    toggleIntake(true,1);
+    translate(12,1);
+    pros::delay(1000);
+    translate(12,-1); // to og position
+    toggleIntake(false,0);
+    pros::delay(500);
 }
 
 void redRight(){
