@@ -11,10 +11,11 @@ void autonomous() {
     //pros::delay(5000);
 
     //test();
-    skills();
+    //skills();
     
+    //redLeft();
     //redRight();
-    //blueLeft();
+    blueLeft();
     //blueRight();
 }
 

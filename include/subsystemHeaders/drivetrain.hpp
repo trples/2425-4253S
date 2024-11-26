@@ -12,6 +12,7 @@ void updateMotors(double left, double right);
 
 void setDrive(); // use controller input
 
+// AUTON
 int drivePID(int goal);
 
 int rotatePID(int deg);
@@ -29,6 +30,8 @@ void resetRotation();
 void test();
 
 void skills();
+
+void redLeft();
 
 void redRight();
 

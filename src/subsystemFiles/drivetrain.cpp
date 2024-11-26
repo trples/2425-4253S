@@ -528,48 +528,112 @@ void skills(){
     //          = 23 pts
 }
 
-void redRight(){
-    // red right side
-    translate(36,-1); // back (into goal)
+void redLeft(){
+    translate(22,-1); // back (into goal)
     pros::delay(500);
-    updateMotors(-50,-50);
-    pros::delay(500);
+    //updateMotors(-70,-70);
+    resetRotation();
+    pros::delay(200);
+    slowTranslate(24,-1);
+    pros::delay(400);
     //switchGrabber(); // grab goal
     grabber.set_value(HIGH);
+    pros::delay(600);
+    resetRotation();
     pros::delay(300);
-    updateMotors(0,0);
-    pros::delay(50);
-    translate(14,1);
-    pros::delay(100);
+    translate(20,1);
+    pros::delay(500);
     translate(4,1);
     pros::delay(300);
     translate(4,-1);
     pros::delay(400);
     toggleIntake(true,1);
+    resetRotation();
     pros::delay(700);
     toggleIntake(true,-1);
-    rotate(280,1);
+    rotate(90,1); // face wall
+    inertial.tare_rotation();
 
-    pros::delay(100);
-    toggleIntake(false,1);
-    translate(12,1);
-    updateMotors(50,50);
+    toggleIntake(false,0);
+    pros::delay(500);
+    translate(12,1); // twds rings
     toggleIntake(true,1);
-
-    pros::delay(370);
-    updateMotors(0,0);
+    pros::delay(400);
+    resetRotation();
+    pros::delay(200);
+    slowTranslate(20,1); // into ring
+    
+    pros::delay(1000);
+    translate(20,-1);
     pros::delay(500);
     rotate(180,1);
     pros::delay(400);
 
     translate(36,1);
-    
     toggleIntake(true,-1);
-    
+    pros::delay(500);
+    updateMotors(50,50);
+    toggleIntake(false,0);//*/
+}
+
+void redRight(){
+    // red right side
+    //translate(36,-1); // back (into goal)
+    translate(22,-1);
+    pros::delay(500);
+    resetRotation();
+    pros::delay(200);
+    //updateMotors(-50,-50);
+    slowTranslate(30,-1);
+    pros::delay(500);
+    //switchGrabber(); // grab goal
+    grabber.set_value(HIGH);
+    pros::delay(500);
+    resetRotation();
+    pros::delay(300);
+    translate(12,1);
+    pros::delay(500);
+    //translate(14,1);
+    //pros::delay(100);
+    translate(4,1);
+    pros::delay(300);
+    translate(4,-1);
+    pros::delay(400);
+    toggleIntake(true,1);
+    resetRotation();
+    pros::delay(500);
+    toggleIntake(true,-1);
+    rotate(270,1); // face wall
+    inertial.tare_rotation();
+
     pros::delay(100);
+    toggleIntake(false,0);
+    pros::delay(400);
+    translate(12,1);
+    //updateMotors(50,50);
+    toggleIntake(true,1);
+    pros::delay(400);
+    resetRotation();
+    //pros::delay(200);
+    slowTranslate(16,1);
+
+    //pros::delay(370);
+    //updateMotors(0,0);
+    pros::delay(700);
+    toggleIntake(false,0);
+    translate(16,-1);
+    pros::delay(500);
+    rotate(180,1);
+    pros::delay(400);
+
+    translate(40,1);
+    
+    /*toggleIntake(true,-1);
+    
+    pros::delay(500);
     rotate(10,1);
     pros::delay(200);
-    updateMotors(30,30);
+    updateMotors(50,50);
     toggleIntake(false,0); //*/
     //pros::delay(1500);
     //updateMotors(0,0);//
@@ -577,45 +641,55 @@ void redRight(){
 
 void blueLeft(){
     // blue left
-    translate(36,-1); // back (into goal)
+    //translate(36,-1); // back (into goal)
+    translate(22,-1);
     pros::delay(500);
-    updateMotors(-50,-50);
+    resetRotation();
+    pros::delay(200);
+    //updateMotors(-50,-50);
+    slowTranslate(30,-1);
     pros::delay(500);
     //switchGrabber(); // grab goal
     grabber.set_value(HIGH);
+    pros::delay(500);
+    resetRotation();
     pros::delay(300);
-    updateMotors(0,0);
-    pros::delay(50);
-    translate(14,1);
-    pros::delay(100);
+    translate(16,1);
+    pros::delay(500);
     translate(4,1);
     pros::delay(300);
     translate(4,-1);
     pros::delay(400);
     toggleIntake(true,1);
+    resetRotation();
     pros::delay(700);
     toggleIntake(true,-1);
-    rotate(80,1);
+    rotate(90,1);
+    inertial.tare_rotation();
 
     pros::delay(100);
     toggleIntake(false,0);
+    pros::delay(400);
     translate(12,1);
-    updateMotors(50,50);
+    //updateMotors(50,50);
     toggleIntake(true,1);
+    slowTranslate(16,1);
 
-    pros::delay(370);
-    updateMotors(0,0);
-    pros::delay(500);
+    //pros::delay(370);
+    //updateMotors(0,0);
+    pros::delay(700);
+    translate(16,-1);
+    pros::delay(400);
     rotate(180,1);
     pros::delay(400);
 
-    translate(36,1);
+    translate(50,1);
     
-    toggleIntake(true,-1);
+    /*toggleIntake(true,-1);
     
-    pros::delay(200);
+    pros::delay(100);
     updateMotors(30,30);
-    pros::delay(500);
+    pros::delay(200);
     toggleIntake(false,0); 
     pros::delay(1000);
     updateMotors(0,0);
