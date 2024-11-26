@@ -12,6 +12,7 @@ void autonomous() {
 
     //test();
     skills();
+    
     //redRight();
     //blueLeft();
     //blueRight();
