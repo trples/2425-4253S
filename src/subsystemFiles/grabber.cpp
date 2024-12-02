@@ -4,7 +4,7 @@
 bool extended = true;
 
 void setGrabber(){
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
         if(extended){
             grabber.set_value(HIGH);
         }else{

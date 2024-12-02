@@ -3,6 +3,7 @@
 
 bool enableDrivePID = false;
 bool enableTurnPID = false;
+bool driveReversed = false;
 //static double accumulatedError = 0;
 
 // helper functions
@@ -32,6 +33,10 @@ void updateMotors(double left, double right){
 
 // driver control
 void setDrive(){
+    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+        driveReversed = !driveReversed;
+    }
+
     // arcade drive; left = turn, right = forwards/backwards
     int rotate = 0.8*controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
     int power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
@@ -40,7 +45,11 @@ void setDrive(){
     int left = power + rotate;
     int right = power - rotate;
 
-    updateMotors(left,0.85*right);
+    if(driveReversed){
+        updateMotors(-1*left,-0.85*right);
+    }else{
+        updateMotors(1*left,0.85*right);
+    }
     //updateMotors(left,right);
 }
 
