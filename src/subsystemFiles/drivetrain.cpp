@@ -46,7 +46,7 @@ void setDrive(){
     int right = power - rotate;
 
     if(driveReversed){
-        updateMotors(-1*left,-0.85*right);
+        updateMotors(-1*right,-0.85*left);
     }else{
         updateMotors(1*left,0.85*right);
     }
@@ -324,6 +324,9 @@ void resetRotation(){
         updateMotors(0,0);
     }
 }
+
+
+
 
 void test(){
     //resetRotation();
