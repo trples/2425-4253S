@@ -188,7 +188,7 @@ int turnP(int deg){
 
     //goalDeg = deg + startingDeg;
 
-    static double kP = 1.2;
+    static double kP = 1;
     static double kD = 2;
 
     static double error = 0;
@@ -798,50 +798,67 @@ void redLeftAWP(){
     isRed = true;
     armPID(100,1);
     translate(22,-1);
-    backIntoGoal(10,-1,8);
-
-    oldRotate(90,-1);
-    
-
-    /*resetRotation();
-    //translate(10,1);
-    translate(8-0.5,1);
+    backIntoGoal(10,-1,7);
     resetRotation();
-
-    rotate(90,1);
-    toggleIntake(true,1);
-    inertial.tare_rotation();
     translate(12,1);
-    resetRotation();
-    slowTranslate(12+2,1);
-    translate(6-2-1+2-1,-1); //back up
-    switchIntake();
-    rotate(90,1);
-    inertial.tare_rotation();
 
-    slowTranslate(16,1);  // border ring
+    /*oldRotate(90,-1);
 
-    pros::delay(1000);
-    
-    slowTranslate(16,-1);
-    //translate(16,-1);
-    resetRotation();
-    switchIntake();
-
-    rotate(270,1);
-    toggleIntake(false,0);
-    toggleIntake(true,-1);
-    translate(12+2+2,1);
-
-    rotate(90,1);
     toggleIntake(true,1);
-    slowTranslate(16+1,1);
-    pros::delay(1000);
-    translate(16,-1);
+    translate(20,1);
+    pros::delay(500);*/
+
+    oldRotate(135,-1);
+    toggleIntake(true,1);
+    translate(15,1);
+    toggleIntake(false,0);
+    slowTranslate(4+1,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+    translate(4+1,-1);
+    oldRotate(90,1);
+    toggleIntake(false,0);
+    slowTranslate(6,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+    oldRotate(135+15,1);
+    slowTranslate(30,1);
+    toggleIntake(false,0);
+    updateMotors(10,10);
+
+
 }
 
 void redLeftAB(){
+     isRed = true;
+    armPID(100,1);
+    translate(22,-1);
+    backIntoGoal(10,-1,7);
+    resetRotation();
+    translate(12,1);
 
+    /*oldRotate(90,-1);
+
+    toggleIntake(true,1);
+    translate(20,1);
+    pros::delay(500);*/
+
+    oldRotate(135,-1);
+    toggleIntake(true,1);
+    translate(15,1);
+    toggleIntake(false,0);
+    slowTranslate(4+1,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+    translate(4+1,-1);
+    oldRotate(90,1);
+    toggleIntake(false,0);
+    slowTranslate(6,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+    oldRotate(125,-1);
+    slowTranslate(18,1);
+    toggleIntake(true,1);
 }
 
 void redRightAWP(){
@@ -926,120 +943,36 @@ void blueLeftAB(){
 
 void blueRightAWP(){
     isBlue = true;
-    // blue right side
+    armPID(100,1);
     translate(22,-1);
-    slowTranslate(25,-1);
-    pros::delay(200);
-    grabber.set_value(HIGH);
+    backIntoGoal(10,-1,7);
     resetRotation();
-    //translate(10,1);
-    translate(8,1);
-    resetRotation();
-
-    rotate(270,1);
-    toggleIntake(true,1);
-    inertial.tare_rotation();
     translate(12,1);
-    resetRotation();
-    slowTranslate(12-1,1); // ring 1
-    pros::delay(500);
-    // NORMAL RING 1 
 
-    switchIntake();
-    translate(4-2,-1);
-    rotate(270,1);
-    inertial.tare_rotation();
+    /*oldRotate(90,-1);
 
-    slowTranslate(15,1); // get border ring 1
-    pros::delay(1250);
-    switchIntake();
-    
-    translate(16,-1); 
-    resetRotation(); 
-    switchIntake();
-
-
-    rotate(90,1);
-    toggleIntake(false,0);
-    toggleIntake(true,-1);
-    translate(12+2+2,1);
-
-    rotate(270,1);
     toggleIntake(true,1);
-    slowTranslate(16+1,1);
-    pros::delay(1000);
-    translate(16,-1);
+    translate(20,1);
+    pros::delay(500);*/
 
-    // CUTOFF LADDER TOUCH
-    /*pros::delay(250);
-
-    rotate(270,1);
-    translate(35,1);
-    slowTranslate(20,1);*/
-    /*rotate(90,1);
-    translate(7+3,1);
-    rotate(270,1);
-    slowTranslate(16,1);
-    pros::delay(1000);
-    translate(16,-1);*/
-
-
-    // TRY 2ND BORDER RING
-
-
-    /*translate(4+24,-1);
-    switchIntake();
-    rotate(270+45,1);
-    translate(12,1);
-    slowTranslate(6+2,1);
-    pros::delay(500);
-    translate(17,-1);
-    rotate(45,1);
-
-    translate(24+8,1);
-    rotate(270,1);
-    slowTranslate(16,1);
-
-    //*/
-
-
-
-    //
-    /*rotate(270,1);
-    
-    
-    translate(48,1);
-    toggleIntake(false,0);*/
-    //
-    
-    /*translate(36,-1); // back (into goal)
-    pros::delay(500);
-    updateMotors(-70,-70);
-    pros::delay(300);
-    //switchGrabber(); // grab goal
-    grabber.set_value(HIGH);
-    pros::delay(400);
-    updateMotors(0,0);
-    pros::delay(50);
-    translate(14,1);
-    pros::delay(100);
-    translate(4,1);
-    pros::delay(300);
-    translate(4,-1);
-    pros::delay(400);
+    oldRotate(135,-1);
     toggleIntake(true,1);
-    pros::delay(700);
-    toggleIntake(true,-1);
-    
-    rotate(100,1);
+    translate(15,1);
     toggleIntake(false,0);
+    slowTranslate(4+1,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+    translate(4+1,-1);
+    oldRotate(90,1);
+    toggleIntake(false,0);
+    slowTranslate(6,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+    oldRotate(135+15,1);
+    slowTranslate(30,1);
+    toggleIntake(false,0);
+    updateMotors(10,10);
 
-    translate(36,1);
-    updateMotors(30,30);
-    pros::delay(500); 
-    
-    pros::delay(1000);
-    updateMotors(0,0);//*/
 }
 
 void blueRightAB(){
