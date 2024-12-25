@@ -384,9 +384,13 @@ int HturnP(int deg){
 
     static double error = 0;
     static double prevError = 0;
+    static bool rightTurn = true;
 
     prevError = error;
     //error = goalDeg - fabs(inertial.get_rotation());
+
+    
+    
     error = fabs(deg - (inertial.get_heading()));
 
     double power = error*kP;
@@ -401,7 +405,12 @@ int HturnP(int deg){
     std::string after = std::to_string(power);
     pros::lcd::set_text(1, after);
 
-    return power;
+    if(deg-inertial.get_heading() < 0){
+        return power;
+    }else{
+        return power*-1;
+
+    
 }
 
 void rotate(double deg, int direction){ // -1 = left, 1 = right
@@ -416,7 +425,11 @@ void rotate(double deg, int direction){ // -1 = left, 1 = right
     while(error > 1){
         PIDed = true;
         int power = HturnP(targetHeading);
-        updateMotors(direction*power, -direction*power);
+        updateMotors(
+            //direction*
+            power, 
+            //-direction*
+            -power);
         timeElapsed+=15;
         pros::delay(15);
         error = fabs((inertial.get_heading()) - targetHeading);
