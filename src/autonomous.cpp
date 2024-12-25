@@ -14,11 +14,16 @@ void autonomous() {
 
     //test();
     
-    //skills();
+    skills();
     
-    redLeftAWP();
-    //redRight();
+    //redLeftAWP();
+    //redRightAWP();
+    //redLeftAB();
+
     //blueLeft();
-    //blueRight();
+
+    //blueRightAWP();
+    //blueLeftAWP();
+    //blueLeftAB();
 }
 

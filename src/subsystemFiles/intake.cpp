@@ -34,7 +34,7 @@ void setIntake(){
     }
 }
 
-void toggleIntake(bool status, int direction){
+void toggleIntake(bool status, double direction){
     if(status){
         intake.move(int(power*direction));
     }else{

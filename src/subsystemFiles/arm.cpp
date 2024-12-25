@@ -123,7 +123,7 @@ void armPID(double deg, int direction){
 
         pros::lcd::set_text(4, std::to_string(rotation.get_position()/100));
         timeElapsed+=15;
-        if(timeElapsed > 2000){
+        if(timeElapsed > 750){
             break;
         }
         pros::delay(15);
@@ -142,7 +142,7 @@ void armUp(){
 
 void armNeutral(){
     //armPID(140);
-    armPID(70,0);
+    armPID(80,0);
     armIsUp = false;
     armIsDown = false;
 }

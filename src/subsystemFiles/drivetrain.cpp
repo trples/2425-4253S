@@ -409,7 +409,7 @@ int HturnP(int deg){
         return power;
     }else{
         return power*-1;
-
+    }
     
 }
 
@@ -450,31 +450,24 @@ void rotate(double deg, int direction){ // -1 = left, 1 = right
 
 void rotateSmall(double deg, int direction){
     int timeElapsed = 0;
-    bool PIDed = false;
-    startingDeg = inertial.get_heading();
-    
-    
-    double targetHeading = fixHeading(deg*direction + startingDeg);
-    double error = fabs((inertial.get_heading()) - targetHeading);
+    // if z axis (upright)
+    inertial.tare_rotation();
 
-    while(error > 1){
+    while(fabs(inertial.get_rotation()) < fabs(deg)){
+        //int power = turnPID(deg);
         updateMotors(direction*50, -direction*50);
+        pros::lcd::set_text(2,std::to_string(inertial.get_rotation()));
         timeElapsed+=15;
         pros::delay(15);
-        error = fabs((inertial.get_heading()) - targetHeading);
         if(timeElapsed > 1500){
-            PIDed = false;
             break;
         }
     }
-    if(PIDed){
-        updateMotors(direction*-50, direction*50);
-        pros::delay(100);
-    }
+
+    updateMotors(direction*-50, direction*50);
+    pros::delay(50);
 
     updateMotors(0,0);
-    
-    pros::delay(100);
 }
 
 void threadTranslate(double distance, int direction){
@@ -672,6 +665,19 @@ void backIntoGoal(double distance, int direction, double grabTime){
     pros::delay(100);
 }
 
+void pickRingUp(){
+    updateMotors(50,50);
+    toggleIntake(true,1);
+    int timeElapsed = 0;
+    while(optical.get_proximity() < 150){
+        timeElapsed += 15;
+        if(timeElapsed > 1500){
+            break;
+        }
+    }
+    toggleIntake(false,0);
+    updateMotors(0,0);
+}
 
 
 
@@ -689,7 +695,70 @@ void test(){
 // bot = 15.5in lengthwise
 void skills(){
     isRed = true;
+
+    
+    
     toggleIntake(true,1);
+    pros::delay(700);
+    toggleIntake(false,0);
+
+    translate(12,1);
+    armPID(100,1);
+    oldRotate(90,1);
+    translate(20,-1);
+    backIntoGoal(8,-1,4);
+    slowTranslate(6,1);
+
+    oldRotate(90,-1);
+
+    toggleIntake(true,1);
+
+    translate(24,1);
+
+    oldRotate(90,-1);
+
+    translate(24,1);
+
+    oldRotate(90,-1);
+
+    translate(24,1);
+    slowTranslate(12,1);
+    pros::delay(500);
+
+    translate(6,-1);
+
+    oldRotate(180,1);
+    oldRotate(45,1);
+    
+    translate(15,-1);
+    grabber.set_value(LOW);
+    translate(15-2,1);
+
+    oldRotate(135,-1);
+
+    translate(24,-1);
+
+    translate(24,-1);
+
+    /*translate(12,-1);
+
+    oldRotate(180,1);
+    oldRotate(45,1);
+    pros::delay(2000);
+    translate(20,-1);
+    grabber.set_value(LOW);
+    translate(20-2,1);
+    inertial.tare_rotation();
+
+    oldRotate(135,-1);
+    pickRingUp();
+    oldRotate(180,1);
+    updateMotors(-50,-50);
+    pros::delay(1000);
+    slowTranslate(24+24+15,1);*/
+
+
+    /*toggleIntake(true,1);
     pros::delay(700);
     toggleIntake(false,0); // alliance stake
 
@@ -801,7 +870,7 @@ void skills(){
     pros::delay(500);
     grabber.set_value(LOW); // drop goal
     pros::delay(500);
-    translate(20,1);
+    translate(20,1);*/
 
     // max pts: 3 (alliance top) + 6 (2 top stake) + 4 (4 normal rings) + 10 (2 corner stakes)
     //          = 23 pts
@@ -815,13 +884,8 @@ void redLeftAWP(){
     resetRotation();
     translate(12,1);
 
-    /*oldRotate(90,-1);
 
-    toggleIntake(true,1);
-    translate(20,1);
-    pros::delay(500);*/
-
-    oldRotate(135,-1);
+    oldRotate(135,1);
     toggleIntake(true,1);
     translate(15,1);
     toggleIntake(false,0);
@@ -829,132 +893,79 @@ void redLeftAWP(){
     toggleIntake(true,1);
     pros::delay(500);
     translate(4+1,-1);
-    oldRotate(90,1);
+    oldRotate(90,-1);
     toggleIntake(false,0);
-    slowTranslate(6,1);
+
+    slowTranslate(8,1);
     toggleIntake(true,1);
     pros::delay(500);
-    oldRotate(135+15,1);
+    slowTranslate(2,1);
+    oldRotate(135+15,-1);
     slowTranslate(30,1);
     toggleIntake(false,0);
     updateMotors(10,10);
-
-
 }
 
 void redLeftAB(){
-     isRed = true;
-    armPID(100,1);
-    translate(22,-1);
-    backIntoGoal(10,-1,7);
-    resetRotation();
-    translate(12,1);
-
-    /*oldRotate(90,-1);
-
-    toggleIntake(true,1);
-    translate(20,1);
-    pros::delay(500);*/
-
+    isRed = true;
+    slowTranslate(8,1);
+    armPID(180,1);
+    armNeutral();
+    translate(18,-1);
     oldRotate(135,-1);
-    toggleIntake(true,1);
-    translate(15,1);
-    toggleIntake(false,0);
+    oldRotate(90,1);
+
+    translate(22,-1);
+    backIntoGoal(7,-1,5);
+    //resetRotation();
+    inertial.tare_rotation();
+    translate(10-3,1);
+
+    oldRotate(75,-1);
+    //toggleIntake(true,1);
+    translate(18,1);
     slowTranslate(4+1,1);
     toggleIntake(true,1);
+    slowTranslate(2,1);
     pros::delay(500);
-    translate(4+1,-1);
-    oldRotate(90,1);
     toggleIntake(false,0);
-    slowTranslate(6,1);
+    oldRotate(170,-1);
     toggleIntake(true,1);
-    pros::delay(500);
-    oldRotate(125,-1);
-    slowTranslate(18,1);
-    toggleIntake(true,1);
+
+    translate(24,1);
+    toggleIntake(false,0);
+    updateMotors(30,30);
 }
 
 void redRightAWP(){
     // red right side
     isRed = true;
+    armPID(100,1);
     translate(22,-1);
-    slowTranslate(25,-1);
-    pros::delay(200);
-    grabber.set_value(HIGH);
+    backIntoGoal(10,-1,7);
     resetRotation();
-    translate(10,1);
-    resetRotation();
-
-    rotate(270,1);
-    toggleIntake(true,1);
-    inertial.tare_rotation();
     translate(12,1);
-    resetRotation();
-    slowTranslate(14,1);
-    //pros::delay(500);
-    
-    translate(4,-1);
-    //toggleIntake(false,0);
-    resetRotation();
-    pros::delay(250);
 
-    //
-    rotate(180,1);
-    /*toggleIntake(true,1);
+    oldRotate(90,-1);
+
+    translate(20,1);
+    slowTranslate(4+1,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+    
+
+    oldRotate(170,-1);
     translate(24,1);
-    rotate(45,1);
-    translate(20-5,1);
-    rotate(45,1);*/
-    translate(37,1);
     toggleIntake(false,0);
-    slowTranslate(10,1);
-    //
+    updateMotors(30,30);
 }
 
 void redRightAB(){
-
+    
 }
 
 void blueLeftAWP(){
     // blue left
-    isBlue = true;
-    translate(22,-1);
-    slowTranslate(25,-1);
-    pros::delay(200);
-    grabber.set_value(HIGH);
-    resetRotation();
-    //translate(10,1);
-    translate(7,1);
-    resetRotation();
-
-    rotate(90,1);
-    toggleIntake(true,1);
-    inertial.tare_rotation();
-    translate(12,1);
-    resetRotation();
-    slowTranslate(14-2,1);
-    //pros::delay(500);
-    
-    translate(4,-1);
-    
-    resetRotation();
-    pros::delay(250);
-
-    //
-    rotate(180,1);
-    toggleIntake(false,0);
-    translate(24,1);
-    rotate(360-45,1);
-    translate(18,1);
-    rotate(45,1);
-    //
-}
-
-void blueLeftAB(){
-
-}
-
-void blueRightAWP(){
     isBlue = true;
     armPID(100,1);
     translate(22,-1);
@@ -962,11 +973,122 @@ void blueRightAWP(){
     resetRotation();
     translate(12,1);
 
-    /*oldRotate(90,-1);
+    oldRotate(90,1);
 
-    toggleIntake(true,1);
     translate(20,1);
-    pros::delay(500);*/
+    slowTranslate(4+1,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+
+    oldRotate(170,1);
+    translate(24,1);
+    toggleIntake(false,0);
+    updateMotors(30,30);
+}
+
+void blueLeftAB(){
+    isBlue = true;
+    slowTranslate(8,1);
+    armPID(180,1);
+    armNeutral();
+    translate(18,-1);
+    oldRotate(135,1);
+    oldRotate(90,-1);
+
+    translate(22,-1);
+    backIntoGoal(7,-1,5);
+    //resetRotation();
+    inertial.tare_rotation();
+    translate(10-3,1);
+
+    oldRotate(90,1);
+    //toggleIntake(true,1);
+    translate(18,1);
+    slowTranslate(4+1,1);
+    toggleIntake(true,1);
+    slowTranslate(2,1);
+    pros::delay(500);
+    toggleIntake(false,0);
+    oldRotate(170,1);
+    toggleIntake(true,1);
+
+    translate(18,1);
+    toggleIntake(false,0);
+    updateMotors(30,30);
+
+
+
+
+    /*armNeutral();
+    translate(22,-1);
+    backIntoGoal(10,-1,7);
+    resetRotation();
+    translate(10,1);
+
+    oldRotate(90,1);
+    toggleIntake(true,1);
+    translate(18,1);
+    toggleIntake(false,1);
+    slowTranslate(4+1,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+    toggleIntake(false,0);
+    translate(23,-1);
+
+    oldRotate(115,-1); //
+    grabber.set_value(LOW);
+    translate(30+2+0.5,1);
+    
+    armPID(40,1);
+    toggleIntake(true,0.5);
+    pros::delay(1000);
+    toggleIntake(true,-1);
+    pros::delay(200);
+    toggleIntake(false,0);
+    pros::delay(500);
+    //armPID(180,1);
+    armPID(180,1);
+    
+    translate(36,-1);
+    armPID(80,1);
+    oldRotate(90,-1);
+    translate(16,1);
+    updateMotors(30,30);*/
+}
+
+void blueRightAWP(){
+    isBlue = true;
+    /*armPID(100,1);
+    translate(22,-1);
+    backIntoGoal(10,-1,7);
+    resetRotation();
+    translate(12,1);
+
+    rotate(135,-1);
+    toggleIntake(true,1);
+    translate(15,1);
+    toggleIntake(false,0);
+    slowTranslate(4+1,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+    translate(4+1,-1);
+    rotate(90,1);
+    toggleIntake(false,0);
+    slowTranslate(6,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+    rotate(135+15,1);
+    slowTranslate(30,1);
+    toggleIntake(false,0);
+    updateMotors(10,10);*/
+
+    isBlue = true;
+    armPID(100,1);
+    translate(22,-1);
+    backIntoGoal(10,-1,7);
+    resetRotation();
+    translate(12,1);
+
 
     oldRotate(135,-1);
     toggleIntake(true,1);
@@ -978,17 +1100,42 @@ void blueRightAWP(){
     translate(4+1,-1);
     oldRotate(90,1);
     toggleIntake(false,0);
-    slowTranslate(6,1);
+
+    slowTranslate(8,1);
     toggleIntake(true,1);
     pros::delay(500);
     oldRotate(135+15,1);
     slowTranslate(30,1);
     toggleIntake(false,0);
     updateMotors(10,10);
-
 }
 
 void blueRightAB(){
+    isBlue = true;
+    armPID(100,1);
+    translate(22,-1);
+    backIntoGoal(10,-1,7);
+    resetRotation();
+    translate(12,1);
 
+
+    oldRotate(135,-1);
+    toggleIntake(true,1);
+    translate(15,1);
+    toggleIntake(false,0);
+    slowTranslate(4+1,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+    translate(4+1,-1);
+    oldRotate(90,1);
+    toggleIntake(false,0);
+
+    slowTranslate(8,1);
+    toggleIntake(true,1);
+    pros::delay(500);
+    oldRotate(135+15,1);
+    slowTranslate(30,1);
+    toggleIntake(false,0);
+    updateMotors(10,10);
 }
 
