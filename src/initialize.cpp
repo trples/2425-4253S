@@ -31,6 +31,7 @@ void initialize() {
 	//arm.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 
 	inertial.reset();
+	inertial.tare_heading();
 	resetDriveEncoders();
 
 	rotation.reset_position();

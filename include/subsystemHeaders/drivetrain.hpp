@@ -31,11 +31,18 @@ void test();
 
 void skills();
 
-void redLeft();
+void redLeftAWP();
 
-void redRight();
+void redLeftAB();
 
-void blueLeft();
+void redRightAWP();
 
-void blueRight();
+void redRightAB();
 
+void blueLeftAWP();
+
+void blueLeftAB();
+
+void blueRightAWP();
+
+void blueRightAB();

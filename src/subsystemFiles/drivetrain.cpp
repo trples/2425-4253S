@@ -189,7 +189,7 @@ int turnP(int deg){
     //goalDeg = deg + startingDeg;
 
     static double kP = 1.2;
-    static double kD = 8;
+    static double kD = 2;
 
     static double error = 0;
     static double prevError = 0;
@@ -339,32 +339,95 @@ void controlledTranslate(double distance, int direction){ // -1 = backward, 1 = 
     pros::delay(100);
 }
 
+void oldRotate(double deg, int direction){ // -1 = left, 1 = right
+    int timeElapsed = 0;
+    // if z axis (upright)
+    inertial.tare_rotation();
+
+    while(fabs(inertial.get_rotation()) < fabs(deg)){
+        //int power = turnPID(deg);
+        int power = turnP(deg);
+        updateMotors(direction*power, -direction*power);
+        pros::lcd::set_text(2,std::to_string(inertial.get_rotation()));
+        timeElapsed+=15;
+        pros::delay(15);
+        if(timeElapsed > 1500){
+            break;
+        }
+    }
+
+    updateMotors(direction*-50, direction*50);
+    pros::delay(50);
+
+    updateMotors(0,0);
+}
+
+int fixHeading(double deg){
+    /*if(deg > 360){
+        deg = deg-360;
+        return deg;
+    }
+    if(deg < 0){
+        deg = deg + 360;
+        return deg;
+    }*/
+    return fmod((deg + 360), 360);
+}
+
+int HturnP(int deg){
+    //goalDeg =  
+
+    //goalDeg = deg + startingDeg;
+
+    static double kP = 1.2;
+    static double kD = 2;
+
+    static double error = 0;
+    static double prevError = 0;
+
+    prevError = error;
+    //error = goalDeg - fabs(inertial.get_rotation());
+    error = fabs(deg - (inertial.get_heading()));
+
+    double power = error*kP;
+    //double power = error*kP + (prevError-error)*kD;
+
+    std::string before = std::to_string(power);
+    pros::lcd::set_text(0, before);
+
+    //if (power > 127) power = 127;
+    if (power > 60) power = 60;
+
+    std::string after = std::to_string(power);
+    pros::lcd::set_text(1, after);
+
+    return power;
+}
+
 void rotate(double deg, int direction){ // -1 = left, 1 = right
     int timeElapsed = 0;
     bool PIDed = false;
-    startingDeg = inertial.get_rotation();
-    //inertial.tare_rotation();
+    startingDeg = inertial.get_heading();
+    
+    
+    double targetHeading = fixHeading(deg*direction + startingDeg);
+    double error = fabs((inertial.get_heading()) - targetHeading);
 
-    /*updateMotors(direction*120, direction*-120); // **** this might need adjustments
-    pros::delay(150);*/
-    double error = fabs(fabs(inertial.get_rotation()) - fabs(deg*direction + startingDeg));
-
-    while(error > 1){//fabs(inertial.get_rotation()) < fabs(normalizeAngle(deg + startingDeg))){
+    while(error > 1){
         PIDed = true;
-        int power = turnP(deg);
+        int power = HturnP(targetHeading);
         updateMotors(direction*power, -direction*power);
-        //pros::lcd::set_text(2,std::to_string(inertial.get_rotation()));
         timeElapsed+=15;
         pros::delay(15);
-        error = fabs((inertial.get_rotation()) - (deg*direction + startingDeg));
-        if(timeElapsed > 1500 /*|| deg <=45*/){
+        error = fabs((inertial.get_heading()) - targetHeading);
+        if(timeElapsed > 1500){
             PIDed = false;
             break;
         }
     }
     if(PIDed){
         updateMotors(direction*-50, direction*50);
-        pros::delay(50);
+        pros::delay(100);
     }
 
     updateMotors(0,0);
@@ -374,28 +437,31 @@ void rotate(double deg, int direction){ // -1 = left, 1 = right
 
 void rotateSmall(double deg, int direction){
     int timeElapsed = 0;
-    startingDeg = inertial.get_rotation();
-    //inertial.tare_rotation();
+    bool PIDed = false;
+    startingDeg = inertial.get_heading();
+    
+    
+    double targetHeading = fixHeading(deg*direction + startingDeg);
+    double error = fabs((inertial.get_heading()) - targetHeading);
 
-    /*updateMotors(direction*120, direction*-120); // **** this might need adjustments
-    pros::delay(150);*/
-    int error = fabs(inertial.get_rotation() - (deg*direction+startingDeg));
     while(error > 1){
         updateMotors(direction*50, -direction*50);
-        //pros::lcd::set_text(2,std::to_string(inertial.get_rotation()));
         timeElapsed+=15;
         pros::delay(15);
-        error = fabs(inertial.get_rotation() - normalizeAngle(deg+startingDeg));
-        pros::lcd::set_text(2,std::to_string(error));
-        if(timeElapsed > 1500 /*|| deg <=45*/){
+        error = fabs((inertial.get_heading()) - targetHeading);
+        if(timeElapsed > 1500){
+            PIDed = false;
             break;
         }
     }
-    
-    updateMotors(direction*-50, direction*50);
-    pros::delay(100);
+    if(PIDed){
+        updateMotors(direction*-50, direction*50);
+        pros::delay(100);
+    }
 
     updateMotors(0,0);
+    
+    pros::delay(100);
 }
 
 void threadTranslate(double distance, int direction){
@@ -598,9 +664,8 @@ void backIntoGoal(double distance, int direction, double grabTime){
 
 
 void test(){
-    rotate(45,1);
     rotate(90,-1);
-    //rotateSmall(45,1);
+    rotateSmall(45,1);
     //rotateSmall(45,-1);
     while(true){
         pros::lcd::set_text(1,std::to_string(inertial.get_rotation()));
@@ -729,12 +794,10 @@ void skills(){
     //          = 23 pts
 }
 
-void redLeft(){
+void redLeftAWP(){
     isRed = true;
+    armPID(100,1);
     translate(22,-1);
-    /*slowTranslate(25,-1);
-    pros::delay(200);
-    grabber.set_value(HIGH);*/
     backIntoGoal(25,-1,24);
 
 
@@ -773,72 +836,13 @@ void redLeft(){
     slowTranslate(16+1,1);
     pros::delay(1000);
     translate(16,-1);
-
-
-    //ladder
-    /*rotate(90,1);
-    
-    translate(22+6+2,1);
-    toggleIntake(false,0);
-    
-    slowTranslate(18,1);*/
-
-
-    //rotate(360-45,1);
-    //translate(18-3,1);
-    //rotate(45,1);
-    //translate(3,1);
-    //
-    
-    
-    /*translate(22,-1); // back (into goal)
-    pros::delay(500);
-    //updateMotors(-70,-70);
-    resetRotation();
-    pros::delay(200);
-    slowTranslate(24,-1);
-    pros::delay(400);
-    //switchGrabber(); // grab goal
-    grabber.set_value(HIGH);
-    pros::delay(600);
-    resetRotation();
-    pros::delay(300);
-    translate(20,1);
-    pros::delay(500);
-    translate(4,1);
-    pros::delay(300);
-    translate(4,-1);
-    pros::delay(400);
-    toggleIntake(true,1);
-    resetRotation();
-    pros::delay(700);
-    toggleIntake(true,-1);
-    rotate(90,1); // face wall
-    inertial.tare_rotation();
-
-    toggleIntake(false,0);
-    pros::delay(500);
-    translate(12,1); // twds rings
-    toggleIntake(true,1);
-    pros::delay(400);
-    resetRotation();
-    pros::delay(200);
-    slowTranslate(20,1); // into ring
-    
-    pros::delay(1000);
-    translate(20,-1);
-    pros::delay(500);
-    rotate(180,1);
-    pros::delay(400);
-
-    translate(36,1);
-    toggleIntake(true,-1);
-    pros::delay(500);
-    updateMotors(50,50);
-    toggleIntake(false,0);//*/
 }
 
-void redRight(){
+void redLeftAB(){
+
+}
+
+void redRightAWP(){
     // red right side
     isRed = true;
     translate(22,-1);
@@ -875,7 +879,11 @@ void redRight(){
     //
 }
 
-void blueLeft(){
+void redRightAB(){
+
+}
+
+void blueLeftAWP(){
     // blue left
     isBlue = true;
     translate(22,-1);
@@ -910,7 +918,11 @@ void blueLeft(){
     //
 }
 
-void blueRight(){
+void blueLeftAB(){
+
+}
+
+void blueRightAWP(){
     isBlue = true;
     // blue right side
     translate(22,-1);
@@ -1028,44 +1040,7 @@ void blueRight(){
     updateMotors(0,0);//*/
 }
 
+void blueRightAB(){
 
-/*
-int drivePID(int goal){
-    // proportional, integral, derivative
-    static double kP = 0.2345;
-    static double kI = 0.3;
-    static double kD = 0.374;
-
-    // for integral and deriv
-    static double accumulatedError = 0;
-    static double error = 0;
-    static double prevError = 0;
-
-    while(enableDrivePID){
-        // proportional; based on distance to target position
-        prevError = error;
-        error = goal - getAverageEncoderVal();
-
-        // integral
-        accumulatedError += error*0.015;
-        if ((error == 0) || (error > goal))
-			accumulatedError = 0;
-		
-		if (error > 50)
-			accumulatedError = 0;
-
-        // deriv
-        double IROC = (error-prevError)/0.015;
-
-        // calculating
-        double power = error*kP + accumulatedError*kI + IROC*kD;
-
-        if (power > 127) power = 127;
-
-        pros::delay(15);
-
-        return power;
-    }
-    return 0;
 }
-*/
+
