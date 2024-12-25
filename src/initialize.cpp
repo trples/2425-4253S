@@ -25,13 +25,26 @@ void initialize() {
 	driveRight.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
 	
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	intakeBot.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	grabber.set_value(false);   
+
+	arm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	//arm.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 
 	inertial.reset();
 	resetDriveEncoders();
 
-	pros::lcd::set_text(1, "4253S bot is READY! :D");
+	rotation.reset_position();
+	rotation.set_data_rate(15);
+	rotation.set_reversed(true);
+
+	yPod.reset_position();
+	yPod.set_data_rate(15);
+	yPod.set_reversed(true);
+	xPod.reset_position();
+	xPod.set_data_rate(15);
+	xPod.set_reversed(true);
+
+	pros::lcd::set_text(0, "4253S bot is READY! :D");
 
 	pros::delay(100);
 }

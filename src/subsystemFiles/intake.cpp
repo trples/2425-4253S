@@ -1,38 +1,68 @@
 #include "main.h"
 #include "subsystemHeaders/global.hpp"
 
-// motor 7
-
 bool intakeOn = false;
 bool intakeReversed = false;
-int power = 100;
+int power = 127;
+int weakener = 1;
 
 void setIntake(){
+    /*if(isBlue){
+        if(optical.get_proximity() > 150){
+            if(optical.get_hue() < 30){ // red ring
+                weakener = 3;
+            }
+        }else{
+            weakener = 1;
+        }
+    }else{
+        if(optical.get_proximity() > 150){
+            if(optical.get_hue() > 50){
+                weakener = 3;
+            }
+        }else{
+            weakener = 1;
+        }
+    }*/
+    
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-        intake.move(power);
+        intake.move(power/weakener);
     }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
         intake.move(-1*power);
     }else{
         intake.brake();
     }
-
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-        intakeBot.move(power);
-    }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
-        intakeBot.move(-1*power);
-    }else{
-        intakeBot.brake();
-    }
 }
 
 void toggleIntake(bool status, int direction){
-    //intake.move(status*127*direction);
-    //intakeBot.move(status*127*direction);
     if(status){
-        intake.move(power*direction);
-        intakeBot.move(power*direction);
+        intake.move(int(power*direction));
     }else{
         intake.brake();
-        intakeBot.brake();
     }
+}
+
+void toggleWeak(int direction){
+    intake.move(127/3*direction);
+}
+
+// proximity > 150 or 200 = in front of sensor; max 255
+// HUE:
+// red [0,~20]
+// blue [180,210]
+void score(){
+    toggleIntake(true,1);
+    while(optical.get_proximity() < 150){}
+    if(isBlue){ // blue alliance
+        if(optical.get_hue() < 30){
+            toggleWeak(1);
+            pros::lcd::set_text(3,"blah");
+        }
+    }else{ // red alliance
+        if(optical.get_hue() > 50){
+            toggleWeak(1);
+            pros::lcd::set_text(3,"halb");
+        }
+    }
+    pros::delay(1500);
 }

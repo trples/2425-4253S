@@ -9,9 +9,12 @@ void autonomous() {
     pros::delay(1000);
     toggleIntake(false,0);*/
     //pros::delay(5000);
+    
+    //armPID(100,1);
 
-    //test();
-    skills();
+    test();
+    
+    //skills();
     
     //redLeft();
     //redRight();

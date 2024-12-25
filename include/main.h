@@ -77,6 +77,7 @@ void opcontrol(void);
 #include "subsystemHeaders/drivetrain.hpp"
 #include "subsystemHeaders/grabber.hpp"
 #include "subsystemHeaders/intake.hpp"
+#include "subsystemHeaders/arm.hpp"
 
 
 
