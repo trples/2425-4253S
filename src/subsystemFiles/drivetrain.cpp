@@ -627,8 +627,8 @@ void backIntoGoal(double distance, int direction, double grabTime){
     bool goalClamped = false;
     // 360 degrees = 3.25*3.14 inches, 8.255*3.14 cm
     //double distanceInUnits = (distance/(3.25*3.14))*360;
-    double distanceInUnits = (distance/(3.25*3.14))*360*(4/3)*(5/4);
-    double distanceToClamp = (grabTime/(3.25*3.14))*360*(4/3)*(5/4);
+    double distanceInUnits = (distance/(3.25*3.14))*360*(48.0/36.0);
+    double distanceToClamp = (grabTime/(3.25*3.14))*360*(48.0/36.0);
     pros::lcd::set_text(5,std::to_string(distanceInUnits));
 
     // drive until robot has travelled distance
@@ -798,10 +798,12 @@ void redLeftAWP(){
     isRed = true;
     armPID(100,1);
     translate(22,-1);
-    backIntoGoal(25,-1,24);
+    backIntoGoal(10,-1,8);
 
+    oldRotate(90,-1);
+    
 
-    resetRotation();
+    /*resetRotation();
     //translate(10,1);
     translate(8-0.5,1);
     resetRotation();
