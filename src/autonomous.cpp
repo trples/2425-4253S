@@ -12,9 +12,9 @@ void autonomous() {
     
     //armPID(100,1);
 
-    //test();
+    test();
     
-    skills();
+    //skills();
     
     //redLeftAWP();
     //redRightAWP();

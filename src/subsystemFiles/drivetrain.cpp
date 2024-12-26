@@ -186,20 +186,18 @@ double normalizeAngle(double angle) {
 int turnP(int deg){
     goalDeg = fabs(normalizeAngle(deg + startingDeg));
 
-    //goalDeg = deg + startingDeg;
-
-    static double kP = 1;
-    static double kD = 2;
+    static double kP = 0.5;
+    static double kD = 0.5;
 
     static double error = 0;
     static double prevError = 0;
 
     prevError = error;
     //error = goalDeg - fabs(inertial.get_rotation());
-    error = goalDeg - fabs(normalizeAngle(inertial.get_rotation()));
+    error = deg - fabs(normalizeAngle(inertial.get_rotation()));
 
-    double power = error*kP;
-    //double power = error*kP + (prevError-error)*kD;
+    //double power = error*kP;
+    double power = error*kP + (prevError-error)*kD;
 
     std::string before = std::to_string(power);
     pros::lcd::set_text(0, before);
@@ -362,6 +360,66 @@ void oldRotate(double deg, int direction){ // -1 = left, 1 = right
     updateMotors(0,0);
 }
 
+int smallTurnP(int deg){
+    goalDeg = fabs(normalizeAngle(deg + startingDeg));
+
+    //goalDeg = deg + startingDeg;
+
+    static double kP = 1;
+    static double kD = 0.5;
+
+    /*
+    static double kP = 0.8;
+    static double kD = 0//.4;
+    */
+
+    static double error = 0;
+    static double prevError = 0;
+
+    prevError = error;
+    //error = goalDeg - fabs(inertial.get_rotation());
+    error = deg - fabs(normalizeAngle(inertial.get_rotation()));
+
+    //double power = error*kP;
+    double power = error*kP + (prevError-error)*kD;
+
+    std::string before = std::to_string(power);
+    pros::lcd::set_text(0, before);
+
+    //if (power > 127) power = 127;
+    if (power > 60) power = 60;
+
+    std::string after = std::to_string(power);
+    pros::lcd::set_text(1, after);
+
+    return power;
+
+}
+
+void oldRotateSmall(double deg, int direction){ // -1 = left, 1 = right
+    int timeElapsed = 0;
+    // if z axis (upright)
+    inertial.tare_rotation();
+
+    while(fabs(inertial.get_rotation()) < fabs(deg)){
+        //int power = turnPID(deg);
+        int power = smallTurnP(deg);
+        updateMotors(direction*power, -direction*power);
+        pros::lcd::set_text(2,std::to_string(inertial.get_rotation()));
+        timeElapsed+=15;
+        pros::delay(15);
+        if(timeElapsed > 1500){
+            break;
+        }
+    }
+
+    updateMotors(direction*-50, direction*50);
+    pros::delay(50);
+
+    updateMotors(0,0);
+}
+
+
 int fixHeading(double deg){
     /*if(deg > 360){
         deg = deg-360;
@@ -379,8 +437,8 @@ int HturnP(int deg){
 
     //goalDeg = deg + startingDeg;
 
-    static double kP = 1.2;
-    static double kD = 2;
+    static double kP = 0.9;
+    static double kD = 0.5;
 
     static double error = 0;
     static double prevError = 0;
@@ -402,8 +460,8 @@ int HturnP(int deg){
 
     //error = fabs(error);
 
-    double power = fabs(error)*kP;
-    //double power = error*kP + (prevError-error)*kD;
+    //double power = fabs(error)*kP;
+    double power = error*kP + (prevError-error)*kD;
 
     std::string before = std::to_string(power);
     pros::lcd::set_text(0, before);
@@ -447,10 +505,12 @@ void rotate(double deg, int direction){ // -1 = left, 1 = right
             break;
         }
     }
+    
     if(PIDed){
-        updateMotors(direction*-50, direction*50);
-        pros::delay(100);
+        updateMotors(50*-1, 50*1);
+        pros::delay(50);
     }
+
 
     updateMotors(0,0);
     
@@ -692,13 +752,60 @@ void pickRingUp(){
 
 
 void test(){
+    isRed = true;
+    
+    toggleIntake(true,1);
+    pros::delay(700);
+    toggleIntake(false,0);
+
+    translate(12,1);
+    armPID(100,1);
+    rotate(90,1);
+    translate(20,-1);
+    backIntoGoal(8,-1,4);
+    slowTranslate(6,1);
+
+
+    //
+    oldRotate(180,-1);
+
+    toggleIntake(true,1);
+
+    slowTranslate(30,1);
+    pros::delay(500);
+
+    translate(30,-1);
+
+    rotate(90,1);
+
+    /*toggleIntake(true,1);
+
+    translate(24,1);
+
+    oldRotate(90,-1);
+
+    translate(24,1);
+
     rotate(90,-1);
-    rotateSmall(45,1);
-    //rotateSmall(45,-1);
-    while(true){
-        pros::lcd::set_text(1,std::to_string(inertial.get_rotation()));
-        pros::delay(15);
-    }
+
+    translate(24,1);
+    slowTranslate(12,1);
+    pros::delay(500);
+
+    translate(6,-1);
+
+    rotate(180+45,1);
+    //rotate(45,1);
+    
+    translate(12,-1);
+    grabber.set_value(LOW);
+    translate(12,1);
+
+    rotate(135,-1);
+
+    translate(24,-1);
+
+    translate(24,-1);*/
 }
 
 // bot = 15.5in lengthwise
