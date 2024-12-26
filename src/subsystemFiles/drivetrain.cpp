@@ -391,9 +391,18 @@ int HturnP(int deg){
 
     
     
-    error = fabs(deg - (inertial.get_heading()));
+    //error = fabs(deg - (inertial.get_heading()));
+    error = fixHeading(deg - (inertial.get_heading())); // [0,360]
 
-    double power = error*kP;
+    if (error > 180) {
+            error -= 360; 
+    } else if (error < -180) {
+        error += 360;
+    }
+
+    //error = fabs(error);
+
+    double power = fabs(error)*kP;
     //double power = error*kP + (prevError-error)*kD;
 
     std::string before = std::to_string(power);
@@ -405,7 +414,7 @@ int HturnP(int deg){
     std::string after = std::to_string(power);
     pros::lcd::set_text(1, after);
 
-    if(deg-inertial.get_heading() < 0){
+    if(error /*deg-inertial.get_heading() <*/ > 0){
         return power;
     }else{
         return power*-1;
