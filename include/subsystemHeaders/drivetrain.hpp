@@ -31,18 +31,30 @@ void test();
 
 void skills();
 
+//
 void redLeftAWP();
+
+void redLeftRingRush();
+
+void redLeftDoubleStake();
 
 void redLeftAB();
 
+//
 void redRightAWP();
 
 void redRightAB();
 
+//
 void blueLeftAWP();
 
 void blueLeftAB();
 
+//
 void blueRightAWP();
+
+void blueRightRingRush(); 
+
+void blueRightDoubleStake();
 
 void blueRightAB();

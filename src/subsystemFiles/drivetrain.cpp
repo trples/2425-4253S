@@ -1294,16 +1294,14 @@ void skills(){
     turnToHeading(180); // 
     turnToHeading(270);
 
-    //inertial.tare_rotation();
     toggleIntake(true,1);
 
     slowTranslate(20,1);
     pros::delay(500);
-    //resetRotation();
+
     slowTranslate(10 + 6,1); // 10 @ 24 here
 
     translate(28+2 + 6 - 2,-1);
-    //resetRotation();
 
     // side rings
 
@@ -1313,19 +1311,17 @@ void skills(){
     translate(24-4,1);
     // 
     turnToHeading(270);
-    //rotate(90,-1);
 
     translate(24,1);
 
 
     // go back
-    turnToHeading(180);//
+    turnToHeading(180);
 
     translate(24-4,1);
     
     slowTranslate(12,1);
     translate(12-4,-1);
-    //resetRotation();
     
     // corner 
 
@@ -1347,7 +1343,6 @@ void skills(){
     translate(6,-1);
 
 
-
     //reset
 
     turnToHeading(90);
@@ -1362,10 +1357,7 @@ void skills(){
 
     // traverse
 
-    
-
-    translate(24 + 24 + 15,1);//+8,1);
-
+    translate(24 + 24 + 15,1);
 
 
     turnToHeading(270);
@@ -1377,11 +1369,9 @@ void skills(){
     backIntoGoal(12,-1,8);
     grabber.set_value(HIGH);
     turnToHeading(270);
-    //resetRotation();
     slowTranslate(10,1);
 
     turnToHeading(90);
-    //rotate(180,1);
     toggleIntake(true,1);
 
     slowTranslate(20,1); //
@@ -1406,10 +1396,6 @@ void skills(){
 
 
     //reset
-    /*turnToHeading(180);
-    toggleIntake(true,1);
-    slowTranslate(11,1);
-    toggleIntake(false,0);*/
     turnToHeading(90);
 
     turnToHeading(0);
@@ -1418,14 +1404,11 @@ void skills(){
     updateMotors(0,0);
     inertial.set_heading(0);
 
-
-
     // 2nd sector
 
     translate(15,1);
     toggleIntake(true,1);
     translate(48,1);
-    //toggleIntake(false,0);
     oldRotateSlow(45,-1);
 
     translate(34+3,1);
@@ -1454,14 +1437,6 @@ void skills(){
     turnToHeading(360-45);
 
     turnToHeading(135);
-
-    /*oldRotateSlow(45,-1);
-
-    translate(48,-1);
-
-    turnToHeading(0);
-    turnToHeading(270);
-    turnToHeading(135);*/
 
     translate(18+5,-1);
     grabber.set_value(LOW);
@@ -1741,7 +1716,7 @@ void blueLeftAB(){
 void blueRightAWP(){
     isBlue = true;
     //blueRightRingRush(); // on line
-    blueRightTwoStakes(); // facing alliance
+    blueRightDoubleStake(); // facing alliance
 }
 
 // on line
@@ -1776,7 +1751,7 @@ void blueRightRingRush(){
 }
 
 // facing alliance
-void blueRightTwoStakes(){
+void blueRightDoubleStake(){
     inertial.set_heading(45);
     slowTranslate(9+1,1);
     armPID(180,-1);
