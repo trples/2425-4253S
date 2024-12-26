@@ -4,7 +4,7 @@
 bool intakeOn = false;
 bool intakeReversed = false;
 int power = 127;
-int weakener = 1;
+double multiplier = 1;
 
 void setIntake(){
     /*if(isBlue){
@@ -24,11 +24,17 @@ void setIntake(){
             weakener = 1;
         }
     }*/
-    
+    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+        if(multiplier == 1){
+            multiplier = 0.75;
+        }else{
+            multiplier = 1;
+        }
+    }
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-        intake.move(power/weakener);
+        intake.move(int(power*multiplier));
     }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-        intake.move(-1*power);
+        intake.move(int(-1*power*multiplier));
     }else{
         intake.brake();
     }

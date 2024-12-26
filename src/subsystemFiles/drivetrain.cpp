@@ -33,9 +33,9 @@ void updateMotors(double left, double right){
 
 // driver control
 void setDrive(){
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+    /*if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
         driveReversed = !driveReversed;
-    }
+    }*/
 
     // arcade drive; left = turn, right = forwards/backwards
     int rotate = 0.8*controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
@@ -45,11 +45,11 @@ void setDrive(){
     int left = power + rotate;
     int right = power - rotate;
 
-    if(driveReversed){
+    /*if(driveReversed){
         updateMotors(-1*right,-1*left);
-    }else{
+    }else{*/
         updateMotors(1*left,1*right);
-    }
+    //}
     //updateMotors(left,right);
 }
 
@@ -186,7 +186,7 @@ double normalizeAngle(double angle) {
 int turnP(int deg){
     goalDeg = fabs(normalizeAngle(deg + startingDeg));
 
-    static double kP = 0.5;
+    static double kP = 0.6;
     static double kD = 0.5;
 
     static double error = 0;
@@ -398,6 +398,7 @@ int smallTurnP(int deg){
 
 void oldRotateSmall(double deg, int direction){ // -1 = left, 1 = right
     int timeElapsed = 0;
+    bool PIDed = true;
     // if z axis (upright)
     inertial.tare_rotation();
 
@@ -409,12 +410,39 @@ void oldRotateSmall(double deg, int direction){ // -1 = left, 1 = right
         timeElapsed+=15;
         pros::delay(15);
         if(timeElapsed > 1500){
+            PIDed = false;
             break;
         }
     }
+    if(PIDed){
+        updateMotors(direction*-50, direction*50);
+        pros::delay(50);
+    }
 
-    updateMotors(direction*-50, direction*50);
-    pros::delay(50);
+    updateMotors(0,0);
+}
+
+void oldRotateSlow(double deg, int direction){ // -1 = left, 1 = right
+    int timeElapsed = 0;
+    bool PIDed = true;
+    // if z axis (upright)
+    inertial.tare_rotation();
+
+    while(fabs(inertial.get_rotation()) < fabs(deg)){
+        //int power = turnPID(deg);
+        updateMotors(direction*30, -direction*30);
+        pros::lcd::set_text(2,std::to_string(inertial.get_rotation()));
+        timeElapsed+=15;
+        pros::delay(15);
+        /*if(timeElapsed > 1500){
+            PIDed = false;
+            break;
+        }*/
+    }
+    if(PIDed){
+        updateMotors(direction*-50, direction*50);
+        pros::delay(30);
+    }
 
     updateMotors(0,0);
 }
@@ -753,57 +781,175 @@ void pickRingUp(){
 
 void test(){
     isRed = true;
-    
+
     toggleIntake(true,1);
     pros::delay(700);
     toggleIntake(false,0);
 
-    translate(12,1);
+    translate(12/*+2*/,1);
     armPID(100,1);
+
+    // 
+
     rotate(90,1);
     translate(20,-1);
-    backIntoGoal(8,-1,4);
-    slowTranslate(6,1);
+    backIntoGoal(8+2,-1,6+2);
+    grabber.set_value(HIGH);
+    slowTranslate(6+2,1);
 
 
     //
     oldRotate(180,-1);
-
+    inertial.tare_rotation();
     toggleIntake(true,1);
 
-    slowTranslate(30,1);
+    slowTranslate(20,1);
     pros::delay(500);
+    resetRotation();
+    slowTranslate(10 + 6,1); // 10
 
-    translate(30,-1);
+    translate(28+2 + 6 - 2,-1);
+    //resetRotation();
 
     rotate(90,1);
 
-    /*toggleIntake(true,1);
 
+    translate(24-2 -2,1);
+    // 
+    oldRotateSmall(90,-1);
+    //rotate(90,-1);
+
+    translate(24+2-2/*-2*/,1);
+
+    oldRotateSmall(90,-1);//
+    inertial.tare_rotation();
+
+    translate(20+4,1);
+    
+    slowTranslate(6,1);
+    slowTranslate(6,-1);
+    //resetRotation();
+    
+    // corner 
+
+    oldRotate(135,-1);
+    inertial.tare_rotation();
+
+    translate(10+5-3/*+3*/,-1);
+    grabber.set_value(LOW);
+    toggleIntake(false,0);
+    translate(10-2-3/*+3*/,1); // 12
+    resetRotation();
+
+
+    oldRotateSlow(45,1);
+
+    updateMotors(-50,-50);
+
+    pros::delay(1500);
+
+    updateMotors(0,0); 
+
+    // traverse
+
+    inertial.tare_rotation();
+
+    translate(24 + 24 + 8,1);
+    /*translate(24,1);
+    resetRotation();
     translate(24,1);
+    resetRotation();
+    translate(8,1);*/
 
-    oldRotate(90,-1);
+    resetRotation();
 
-    translate(24,1);
+    //oldRotate(180,1);
+    //rotate(180,1);
+    oldRotateSlow(180,1);
 
-    rotate(90,-1);
+    inertial.tare_rotation();
 
-    translate(24,1);
-    slowTranslate(12,1);
+    // mirror
+
+    translate(20,-1);
+    backIntoGoal(12,-1,10);
+    //resetRotation();
+    slowTranslate(10,1);
+
+    oldRotate(180,1);
+    //rotate(180,1);
+    //
+    inertial.tare_rotation();
+    toggleIntake(true,1);
+
+    translate(20,1); //
+    pros::delay(500);
+    resetRotation();
+    slowTranslate(10 + 4,1); // 10
+
+    slowTranslate(6,1);
+
+    oldRotateSmall(90,-1);
+
+    translate(6,-1);
+
+    grabber.set_value(LOW);
+
+    translate(6,1);
+
+    oldRotateSmall(90,-1);
+    /*slowTranslate(6 + 6,-1);
+    
+    // corner
+
+    oldRotateSlow(135+90,1);
+
+    inertial.tare_rotation();
+    translate(10+5+3,-1);
+    grabber.set_value(LOW);
+    translate(10-2+3,1); // 12
+    resetRotation();
+
+    oldRotateSmall(45,1);*/
+
+
+
+    /*translate(12,-1);
+
+    oldRotateSmall(135,-1);
+
+    inertial.tare_rotation();
+    translate(10+5,-1);
+    grabber.set_value(LOW);
+    translate(10-2,1); // 12
+    resetRotation();
+
+    oldRotateSmall(45,1);*/
+
+    
+
+    
+
+    /*slowTranslate(16,1);
     pros::delay(500);
 
     translate(6,-1);
 
-    rotate(180+45,1);
+    oldRotate(180+45,1);
     //rotate(45,1);
     
-    translate(12,-1);
+    translate(10,-1);
     grabber.set_value(LOW);
-    translate(12,1);
+    translate(10+8,1);
 
-    rotate(135,-1);
+    oldRotateSlow(30,1); // 45?
 
-    translate(24,-1);
+    /*updateMotors(-50,-50);
+    pros::delay(1000);
+    updateMotors(0,0);*/
+    //rotate(135,-1); // not working 
+
+    /*translate(24,-1);
 
     translate(24,-1);*/
 }

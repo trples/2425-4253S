@@ -5,12 +5,12 @@ bool armIsUp = false;
 bool armIsDown = true;
 
 void oldSetArm(){
-    int power = 75;
+    int power = 100;
     pros::lcd::set_text(4,"angle" + std::to_string(rotation.get_angle()/100));
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
         arm.move(-1*power);
         pros::lcd::set_text(6,"motor reversed");
-    }else if((rotation.get_position()/100 > 30)&&controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+    }else if((rotation.get_position()/100 > 45)&&controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
         arm.move(1*power);
         pros::lcd::set_text(6,"motor forwarded");
     }else{
