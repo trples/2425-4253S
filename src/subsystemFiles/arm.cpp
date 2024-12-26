@@ -3,14 +3,18 @@
 
 bool armIsUp = false;
 bool armIsDown = true;
+bool override = false;
 
 void oldSetArm(){
     int power = 100;
-    pros::lcd::set_text(4,"angle" + std::to_string(rotation.get_angle()/100));
+    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+        override = !override;
+    }
+
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
         arm.move(-1*power);
         pros::lcd::set_text(6,"motor reversed");
-    }else if((rotation.get_position()/100 > 45)&&controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+    }else if(((rotation.get_position()/100 > 45)||override)&&controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
         arm.move(1*power);
         pros::lcd::set_text(6,"motor forwarded");
     }else{
@@ -92,13 +96,13 @@ void armPID(double deg, int direction){
     //int direction;
     //if(deg<0) deg = deg + 180;
 
-    if(deg < rotation.get_position()/100.0){ // degree < current position = go down
+    /*if(deg < rotation.get_position()/100.0){ // degree < current position = go down
         direction = 1; // reverse
         pros::lcd::set_text(6,"motor reversed");
     }else{
         direction = -1; // forward
         pros::lcd::set_text(6,"motor forwarded");
-    }
+    }*/
 
     double error = fabs(rotation.get_position()/100.0 - deg);
     double prevError = 0;

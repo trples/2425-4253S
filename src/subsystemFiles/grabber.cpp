@@ -27,6 +27,10 @@ void toggleGrabber(bool status){
     grabber.set_value(status);
 }
 
+void toggleSweeper(bool status){
+    sweeper.set_value(status);
+}
+
 void switchGrabber(){
     if(extended){
             grabber.set_value(HIGH);
