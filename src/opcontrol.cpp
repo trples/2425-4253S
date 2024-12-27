@@ -28,7 +28,10 @@ void opcontrol() {
 		pros::lcd::set_text(5,std::to_string(driveRightMid.get_position()));
 		pros::lcd::set_text(6,std::to_string(driveRightBack.get_position()));*/
 		
-		pros::lcd::set_text(3, "heading" + std::to_string(inertial.get_heading()));
+		pros::lcd::set_text(4,std::to_string(optical.get_proximity()));
+		pros::lcd::set_text(5,std::to_string(optical.get_hue()));
+
+		//pros::lcd::set_text(3, "heading" + std::to_string(inertial.get_heading()));
 		//pros::lcd::set_text(3,std::to_string(rotation.get_position()/100));
 		//pros::lcd::set_text(4,std::to_string(xPod.get_position()/100));
 		//pros::lcd::set_text(5,std::to_string(arm.get_position()));

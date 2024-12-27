@@ -14,16 +14,19 @@ void autonomous() {
 
     //test();
     
+    
     //skills();
     
-    redLeftAWP();
+    
+    //redLeftAWP(); // switch autos
+    redLeftAB();
+
     //redRightAWP();
-    //redLeftAB();
     //redRightAB();
+    
+    //blueRightAWP(); // switch autos
+    //blueRightAB();
 
-    //blueLeft();
-
-    //blueRightAWP();
     //blueLeftAWP();
     //blueLeftAB();
 
