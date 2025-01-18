@@ -659,56 +659,6 @@ void turnToHeadingSmall(double deg, int direction){
     pros::delay(100);
 }
 
-void threadTranslate(double distance, int direction){
-    resetDriveEncoders();
-    resetDriveVaris();
-    bool PIDed = false;
-    int timeElapsed = 0;
-    // 360 degrees = 3.25*3.14 inches, 8.255*3.14 cm
-    //double distanceInUnits = (distance/(3.25*3.14))*360;
-    double distanceInUnits = (distance/(3.25*3.14))*360*(48.0/36.0); // need to fix gear ratio
-    //pros::lcd::set_text(5,std::to_string(distanceInUnits));
-    //pros::lcd::set_text(6,std::to_string(getAverageEncoderVal()));
-
-    // drive until robot has travelled distance
-    /*while(fabs(getAverageEncoderVal()) < fabs(distance)){*/
-    while(fabs(getAverageEncoderVal()) < fabs(distanceInUnits)){
-        int power = driveP(distanceInUnits);
-        updateMotors(1*direction*power, 1*direction*power);
-        pros::lcd::set_text(4,std::to_string(getAverageEncoderVal()));
-        pros::delay(15);
-        PIDed = true;
-        timeElapsed += 15;
-        if(timeElapsed > 2000){
-            PIDed = false;
-            break;
-        }
-    }
-}
-
-void threadRotate(double deg, int direction){ // -1 = left, 1 = right
-    int timeElapsed = 0;
-    bool PIDed = false;
-    startingDeg = inertial.get_rotation();
-    //inertial.tare_rotation();
-
-    /*updateMotors(direction*120, direction*-120); // **** this might need adjustments
-    pros::delay(150);*/
-
-    while(fabs(inertial.get_rotation()) < fabs(normalizeAngle(deg + startingDeg))){
-        PIDed = true;
-        int power = turnP(deg);
-        updateMotors(direction*power, -direction*power);
-        //pros::lcd::set_text(2,std::to_string(inertial.get_rotation()));
-        timeElapsed+=15;
-        pros::delay(15);
-        if(timeElapsed > 1500 /*|| deg <=45*/){
-            PIDed = false;
-            break;
-        }
-    }
-}
-
 void slowTranslate(double distance, int direction){ // -1 = backward, 1 = forward
                                                 // distance in INCHES
     resetDriveEncoders();
