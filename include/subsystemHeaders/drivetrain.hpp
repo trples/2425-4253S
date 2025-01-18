@@ -56,6 +56,10 @@ void redRightAB();
 //
 void blueLeftAWP();
 
+void blueLeftLine();
+
+void blueLeftAlliance();
+
 void blueLeftAB();
 
 //

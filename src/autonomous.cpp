@@ -22,10 +22,10 @@ void autonomous() {
     //redLeftAB();
 
     //redRightAWP();
-    //redRightAB(); // **********************************
+    redRightAB(); // **********************************
     
     //blueRightAWP(); // switch autos
-    blueRightAB();
+    //blueRightAB();
 
     //blueLeftAWP();
     //blueLeftAB(); // ***********************************

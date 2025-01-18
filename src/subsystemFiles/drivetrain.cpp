@@ -250,41 +250,6 @@ int turnP(int deg){
     return power;
 }*/
 
-/*void translate(double distance, int direction){ // -1 = backward, 1 = forward
-                                                // distance in INCHES
-    resetDriveEncoders();
-    resetDriveVaris();
-    bool PIDed = false;
-    int timeElapsed = 0;
-    // 360 degrees = 3.25*3.14 inches, 8.255*3.14 cm
-    //double distanceInUnits = (distance/(3.25*3.14))*360;
-    double distanceInUnits = (distance/(3.25*3.14))*360*(48.0/36.0); // need to fix gear ratio
-
-    // drive until robot has travelled distance
-    
-    while(fabs(getAverageEncoderVal()) < fabs(distanceInUnits)){
-        int power = driveP(distanceInUnits);
-        updateMotors(1*direction*power, 1*direction*power);
-        pros::lcd::set_text(4,std::to_string(getAverageEncoderVal()));
-        pros::delay(15);
-        PIDed = true;
-        timeElapsed += 15;
-        if(timeElapsed > 2000){
-            PIDed = false;
-            break;
-        }
-    }
-    
-    if(PIDed){
-        updateMotors(-direction*50, -direction*50);
-        pros::delay(75);
-    }
-
-    updateMotors(0,0);
-
-    pros::delay(100);
-}*/
-
 void translate(double distance, int direction, int maxPower, int breakoutTime){
                                                     // distance in INCHES
     resetDriveEncoders();
@@ -1331,17 +1296,15 @@ void redLeftAB(){
     backIntoGoal(6,-1,4);
     translate(12+2-4,1);
 
-
-
     turnToHeading(90);
 
-    translate(20,1);
-    moveAndScore(7,1250);
+    translate(24,1);
+    //translate(20,1);
     pros::delay(500);
 
     toggleIntake(false,0);
 
-    translate(4,-1);
+    translate(6,-1);
 
     score(2000);
 
@@ -1371,9 +1334,12 @@ void redRightAWP(){
     isRed = true;
     isBlue = false;
     
-    //redRightAlliance();
+    redRightAlliance();
+    //redRightGoalSlow();
+    
+    
+    
     //redRightLine();
-    redRightGoalSlow();
 }
 
 void redRightAlliance(){
@@ -1388,11 +1354,11 @@ void redRightAlliance(){
 
     translate(22,-1);
     backIntoGoal(7,-1,5);
-    //resetRotation();
+
     translate(10-3+2,1);
 
     turnToHeading(270);
-    //toggleIntake(true,1);
+
     translate(18,1);
     slowTranslate(4+1,1);
     toggleIntake(true,1);
@@ -1527,32 +1493,24 @@ void redRightAB(){
     toggleIntake(true,1);
     translate(4+1+2,1);
     
-    
     score();
     toggleIntake(false,0);
     
-    turnToHeading(270+60);
+    grabber.set_value(LOW);
+
+    turnToHeading(0);
+
+    translate(14,-1);
+
+    // clear corner
+    /*turnToHeading(270+60);
     
     sweeper.set_value(true);
 
     translate(24+16-4,1);
     
     turnToHeading(90);
-    turnToHeading(160);
-
-    //turnToHeading(0);
-
-    // for 3rd neutral
-    //translate(40,1);
-
-    //grabber.set_value(LOW);
-    /*translate(12,-1);
-    updateMotors(-127,-127);
-
-    pros::delay(400);
-    grabber.set_value(LOW);
-    
-    translate(10,1);*/
+    turnToHeading(160);*/
 }
 
 
@@ -1562,42 +1520,54 @@ void blueLeftAWP(){
     isRed = false;
     isBlue = true;
 
+    //blueLeftLine();
+    //blueLeftAlliance();
+}
+
+void blueLeftLine(){
     // ON LINE
     inertial.set_heading(0);
 
     armPID(90,-1);
-
     translate(22,-1);
-    backIntoGoal(7,-1,5);
-
-    translate(10-3,1);
-
-    turnToHeading(90); // turn to ring
-
-    translate(18,1);
-    //slowTranslate(4+1,1);
-    translate(5,1);
+    backIntoGoal(10,-1,7);
     toggleIntake(true,1);
-    /*slowTranslate(2,1);
-    score();*/
-    moveAndScore(4,1500);
-    pros::delay(500);
+    translate(12-2,1);
+
+    turnToHeading(90);
+    grabber.set_value(LOW);
+    
+    //toggleIntake(true,1);
+    translate(24-2-1-0.5,1);
     toggleIntake(false,0);
 
-    // turn to ladder
-    turnToHeading(270+10);
+    turnToHeading(0);
+    // total 15
+    //translate(16-1,-1,50);
+    translate(8,-1,50);
+    //translate(7,-1,30);
+    slowTranslate(7,-1,30);
+
+    grabber.set_value(HIGH);
+    pros::delay(100);
+    translate(15,1);
+    grabber.set_value(LOW);
+    backIntoGoal(3,-1,2);
+
+    turnToHeading(360-85);
     //toggleIntake(true,1);
+    armPID(130,-1);
+    translate(30+15,1,60,1700);
+    updateMotors(30,30);
 
-    translate(20+2,1);
-    //toggleIntake(false,0);
-    //slowTranslate(15,1);
+    score(2000);
+    switchIntake();
+    score(2000);
+    toggleIntake(false,0);
+}
 
-    updateMotors(50,50);
-    armPID(160,-1);
-
-
-    //ALLIANCE
-    /*inertial.set_heading(360-45);
+void blueLeftAlliance(){
+    inertial.set_heading(360-45);
 
     slowTranslate(9+1,1);
     armPID(180,-1);
@@ -1632,7 +1602,7 @@ void blueLeftAWP(){
     //slowTranslate(15,1);
 
     updateMotors(50,50);
-    armPID(160,-1);*/
+    armPID(160,-1);
 }
 
 void blueLeftAB(){
@@ -1663,12 +1633,13 @@ void blueLeftAB(){
     pros::delay(300);
     toggleIntake(false,0);
     
-    //turnToHeading(0);
-    
-    turnToHeading(20);
-    
+    grabber.set_value(LOW);
 
-    translate(33,1);
+    turnToHeading(0);
+    
+    translate(14,-1);
+
+
     /*updateMotors(30,30);
     score();
     score();
