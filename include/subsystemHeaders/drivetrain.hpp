@@ -17,7 +17,9 @@ int drivePID(int goal);
 
 int rotatePID(int deg);
 
-void translate(double distance, int direction); 
+//void translate(double distance, int direction); 
+
+void translate(double distance, int direction, int maxPower = 60, int breakoutTime = 2000); 
 
 void rotate(double deg, int direction);
 
@@ -42,6 +44,10 @@ void redLeftAB();
 
 //
 void redRightAWP();
+
+void redRightLine();
+
+void redRightAlliance();
 
 void redRightAB();
 

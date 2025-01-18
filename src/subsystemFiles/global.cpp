@@ -4,6 +4,9 @@
 bool isBlue = false;
 bool isRed = false;
 
+int intakeTimer = 0;
+bool intakeSlowed = false;
+
 // motor ports + radio port 11
 pros::Motor driveLeftBack(-3, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 pros::Motor driveLeftMid(-12, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);

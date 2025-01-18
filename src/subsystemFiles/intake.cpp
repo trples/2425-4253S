@@ -27,6 +27,8 @@ void setIntake(){
     if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
         if(multiplier == 1){
             multiplier = 0.75;
+            intakeSlowed = true;
+            intakeTimer = 0;
         }else{
             multiplier = 1;
         }
@@ -37,6 +39,11 @@ void setIntake(){
         intake.move(int(-1*power*multiplier));
     }else{
         intake.brake();
+    }
+
+    if(intakeSlowed && intakeTimer > 4000){
+        intakeSlowed = false;
+        multiplier = 1;
     }
 }
 
@@ -94,6 +101,7 @@ void moveAndScore(double distance, int timeout){
     int timeElapsed = 0;
     bool running = true;
     bool broken = false;
+    bool scored = false;
 
     double distanceInUnits = (distance/(3.25*3.14))*360*(4/3)*(5/4);
 
@@ -106,18 +114,21 @@ void moveAndScore(double distance, int timeout){
 
             running = false;
         }*/
+        toggleIntake(true,1);
 
         if(optical.get_proximity() > 150){ // within distance detected
             broken = true;
             if(isBlue){ // blue alliance
-            if(optical.get_hue() < 30){
-                toggleWeak(1);
-                pros::lcd::set_text(3,"blah");
-            }
+                if(optical.get_hue() < 30){
+                    toggleWeak(1);
+                    pros::lcd::set_text(3,"blah");
+                    scored = true;
+                }
             }else if(isRed){ // red alliance
                 if(optical.get_hue() > 50){
                     toggleWeak(1);
                     pros::lcd::set_text(3,"halb");
+                    scored = true;
                 }
             }
         }
@@ -132,20 +143,28 @@ void moveAndScore(double distance, int timeout){
     if(PIDed){
         updateMotors(-1*30, -1*30);
         pros::delay(50);
+        updateMotors(0,0);
+
     }
 
-    if(!broken){
-        if(isBlue){ // blue alliance
-            if(optical.get_hue() < 30){
-                toggleWeak(1);
-            }
-        }else if(isRed){ // red alliance
-            if(optical.get_hue() > 50){
-                toggleWeak(1);
+    while(timeElapsed < timeout){
+        toggleIntake(true,1);
+        if(!broken&&!scored){
+            if(isBlue){ // blue alliance
+                if(optical.get_hue() < 30){
+                    toggleWeak(1);
+                    scored = true;
+                    break;
+                }
+            }else if(isRed){ // red alliance
+                if(optical.get_hue() > 50){
+                    toggleWeak(1);
+                    scored = true;
+                    break;
+                }
             }
         }
+        timeElapsed += 15;
+        pros::delay(15);
     }
-
-    updateMotors(0,0);
-    pros::delay(100);
 }

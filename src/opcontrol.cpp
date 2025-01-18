@@ -21,6 +21,8 @@ void opcontrol() {
 		setGrabber();
 		oldSetArm();
 
+		intakeTimer += 10;
+
 		/*pros::lcd::set_text(1,std::to_string(driveLeftFront.get_position()));
 		pros::lcd::set_text(2,std::to_string(driveLeftMid.get_position()));
 		pros::lcd::set_text(3,std::to_string(driveLeftBack.get_position()));
@@ -28,8 +30,8 @@ void opcontrol() {
 		pros::lcd::set_text(5,std::to_string(driveRightMid.get_position()));
 		pros::lcd::set_text(6,std::to_string(driveRightBack.get_position()));*/
 		
-		pros::lcd::set_text(4,std::to_string(optical.get_proximity()));
-		pros::lcd::set_text(5,std::to_string(optical.get_hue()));
+		//pros::lcd::set_text(4,std::to_string(optical.get_proximity()));
+		//pros::lcd::set_text(5,std::to_string(optical.get_hue()));
 
 		//pros::lcd::set_text(3, "heading" + std::to_string(inertial.get_heading()));
 		//pros::lcd::set_text(3,std::to_string(rotation.get_position()/100));

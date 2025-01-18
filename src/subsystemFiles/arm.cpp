@@ -14,7 +14,7 @@ void oldSetArm(){
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
         arm.move(-1*power);
         pros::lcd::set_text(6,"motor reversed");
-    }else if(((rotation.get_position()/100 > 45)||override)&&controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+    }else if(((rotation.get_position()/100 > 30)||override)&&controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
         arm.move(1*power);
         pros::lcd::set_text(6,"motor forwarded");
     }else{
@@ -127,7 +127,7 @@ void armPID(double deg, int direction){
 
         pros::lcd::set_text(4, std::to_string(rotation.get_position()/100));
         timeElapsed+=15;
-        if(timeElapsed > 750){
+        if(timeElapsed > 700){
             break;
         }
         pros::delay(15);

@@ -3,6 +3,9 @@
 extern bool isBlue;
 extern bool isRed;
 
+extern int intakeTimer;
+extern bool intakeSlowed;
+
 // motors declaration
 extern pros::Motor driveLeftBack;
 extern pros::Motor driveLeftMid;

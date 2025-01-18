@@ -12,23 +12,23 @@ void autonomous() {
     
     //armPID(100,1);
 
-    //test();
+    test();
     
     
     //skills();
     
     
     //redLeftAWP(); // switch autos
-    redLeftAB();
+    //redLeftAB();
 
     //redRightAWP();
-    //redRightAB();
+    //redRightAB(); // **********************************
     
     //blueRightAWP(); // switch autos
     //blueRightAB();
 
     //blueLeftAWP();
-    //blueLeftAB();
+    //blueLeftAB(); // ***********************************
 
     /* 
               blue left and red right AWP/AB are synonymous
