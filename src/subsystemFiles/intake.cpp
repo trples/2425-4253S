@@ -63,14 +63,14 @@ void toggleWeak(int direction){
 // HUE:
 // red [0,~20]
 // blue [180,210]
-void score(){
+void score(int breakoutTime){
     toggleIntake(true,1);
     int timeElapsed = 0;
     bool broken = false;
     while(optical.get_proximity() < 150){
         pros::delay(15);
         timeElapsed += 15;
-        if(timeElapsed > 1000){
+        if(timeElapsed > breakoutTime){
             broken = true; 
             break;
         }

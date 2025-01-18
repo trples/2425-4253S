@@ -588,6 +588,13 @@ void turnToHeading(double deg){ // -1 = left, 1 = right
     error = fixHeading(deg - (inertial.get_heading()));
     int direction;
     int power;
+    
+    power = HturnP(targetHeading);
+    if(power > 0){
+        direction = 1;
+    }else{
+        direction = -1;
+    }
 
     while(error > 1){
         PIDed = true;
@@ -606,11 +613,11 @@ void turnToHeading(double deg){ // -1 = left, 1 = right
         }
     }
 
-    if(power > 0){
+    /*if(power > 0){
         direction = 1;
     }else{
         direction = -1;
-    }
+    }*/
     
     if(PIDed){
         updateMotors(-50*direction, 50*direction);
@@ -659,7 +666,7 @@ void turnToHeadingSmall(double deg, int direction){
     pros::delay(100);
 }
 
-void slowTranslate(double distance, int direction){ // -1 = backward, 1 = forward
+void slowTranslate(double distance, int direction, int maxPower, int breakoutTime){ // -1 = backward, 1 = forward
                                                 // distance in INCHES
     resetDriveEncoders();
 
@@ -674,18 +681,18 @@ void slowTranslate(double distance, int direction){ // -1 = backward, 1 = forwar
     // drive until robot has travelled distance
     /*while(fabs(getAverageEncoderVal()) < fabs(distance)){*/
     while(fabs(getAverageEncoderVal()) < fabs(distanceInUnits)){
-        updateMotors(0.9*direction*50, 1*direction*50);
+        updateMotors(0.9*direction*maxPower, 1*direction*maxPower);
         pros::delay(15);
         PIDed = true;
         timeElapsed += 15;
-        if(timeElapsed > 2000){
+        if(timeElapsed > breakoutTime){
             PIDed = false;
             break;
         }
     }
     
     if(PIDed){
-        updateMotors(-direction*30, -direction*30);
+        updateMotors(-direction*maxPower, -direction*maxPower);
         pros::delay(50);
     }
 
@@ -824,14 +831,229 @@ void pickRingUp(){
 // USE     rotate(180,1);
 
 void test(){
-    turnToHeading(300);
-    translate(24*5,1,120,5000);
-    translate(36,-1, 120);
+    //isRed = true;
+    inertial.set_heading(0);
+
+    armPID(90,-1);
+    translate(22,-1);
+    backIntoGoal(10,-1,7);
+    toggleIntake(true,1);
+    translate(12-2,1);
+
+    turnToHeading(270);
+    grabber.set_value(LOW);
+    
+    //toggleIntake(true,1);
+    translate(24-2-1-0.5,1);
+    toggleIntake(false,1);
+
+    turnToHeading(0);
+    // total 15
+    //translate(16-1,-1,50);
+    translate(8,-1,50);
+    //translate(7,-1,30);
+    slowTranslate(7,-1,30);
+
+    grabber.set_value(HIGH);
+    pros::delay(100);
+    translate(15,1);
+    grabber.set_value(LOW);
+    backIntoGoal(3,-1,2);
+
+    turnToHeading(85);
+    //toggleIntake(true,1);
+    armPID(130,-1);
+    translate(30+15,1,60,1700);
+    updateMotors(30,30);
+
+    score(2000);
+    switchIntake();
+    score(2000);
+    toggleIntake(false,0);
+}
+
+
+void skillsTest(){
+    isRed = true;
+    
+    toggleIntake(true,1);
+    pros::delay(700);
+    toggleIntake(false,0);
+
+    translate(12+1,1);
+    armPID(80,-1);
+
+    // 
+
+    turnToHeading(90); 
+    translate(20,-1,80);
+    backIntoGoal(8+2,-1,6);
+    grabber.set_value(HIGH);
+    //turnToHeading(90);
+    slowTranslate(6+2,1);
+
+    /*turnToHeading(180); // 
+    turnToHeading(270);*/
+    turnToHeading(180);
+    turnToHeading(270-5);
+
+    toggleIntake(true,1);
+
+    /*slowTranslate(20,1);*/
+    translate(20,1);
+    pros::delay(500);
+
+    //slowTranslate(10 + 6,1); // 10 @ 24 here
+    translate(12,1,50);
+
+    translate(28+2 + 4-4,-1,90);
+
+    // side rings
+
+    turnToHeading(0);
+
+    translate(24-4,1,80);
+    // 
+    turnToHeading(270);
+
+    translate(24-3,1,80);
+
+
+    // go back
+    turnToHeading(180);
+
+    translate(24-4,1,80);
+    
+    //slowTranslate(12,1);
+    translate(12+4,1);
+    translate(12-4-4,-1);
+    
+    // corner 
+
+    turnToHeading(45);
+
+    translate(15+3,-1,80,1250);
+    grabber.set_value(LOW);
+    toggleIntake(true,-1);
+    translate(12,1); // 12
+    toggleIntake(false,0);
+    
+    // pick up "ring"
+    /*turnToHeading(270);
+
+    toggleIntake(true,1);
+    translate(18,1);
+    pros::delay(500);
+    toggleIntake(false,0);
+    translate(6,-1,60,1000);*/
+
+
+    //reset
+
+    oldRotateSlow(45,1);
+    //turnToHeading(90);
+
+    updateMotors(-60,-60);
+
+    pros::delay(1000);
+
+    updateMotors(0,0); 
+
+    inertial.set_heading(90);
+    pros::delay(500);
+    // traverse
+    toggleIntake(true,1);
+    translate(24 + 24 + 15,1,80);
+
+    turnToHeading(270);
+    //turnToHeading(270);
+
+    // mirror
+
+    translate(20,-1);
+    backIntoGoal(12,-1,10);
+    grabber.set_value(HIGH);
+    //turnToHeading(270);
+    translate(10,1,80);
+    switchIntake();
+
+//
+    turnToHeading(180);
+    turnToHeading(90);
+
+    toggleIntake(true,1);
+
+    translate(20,1,80);
+    pros::delay(500);
+
+    translate(16,1);
+
+    translate(28+2 + 4,-1,80);
+
+    // side rings
+
+    turnToHeading(0);
+
+
+    translate(24-4,1,80);
+    // 
+    turnToHeading(90);
+
+    translate(24,1,80);
+
+
+    // go back
+    turnToHeading(180);
+
+    translate(24-4,1,80);
+    
+    //slowTranslate(12,1);
+    translate(12+3,1); // get last ring
+    translate(12-4+3,-1);
+    
+    // corner 
+
+//
+    turnToHeading(270+45);
+
+    translate(16+5,-1);
+
+    grabber.set_value(LOW);
+    toggleIntake(true,-1);
+    translate(14+5,1);
+    toggleIntake(false,0);
+
+    //reset
+    /*turnToHeading(180);
+
+    turnToHeading(0);*/
+    turnToHeading(90);
+    turnToHeading(0);
+    translate(20,-1,60,750);
+    inertial.set_heading(0);
+
+    translate(24,-1,80,500);
+
+    /*updateMotors(-50,-50);
+    pros::delay(750);
+    updateMotors(0,0);
+    inertial.set_heading(0);*/
+
+
+
+    translate(24*3+14-4,1,70,5000);
+    
+    
+    // at 2nd tile for skills 
+    
+    turnToHeading(300-15);
+    translate(24*5,1,100,5000);
+    translate(36,-1, 100);
     turnToHeading(315);
     translate(24,-1);
-    turnToHeading(315-45);
-    translate(24*5,120,5000);
-
+    turnToHeading(315-90);
+    translate(24*5,-1,100,3000);
+    translate(10,1,80);
 }   
 
 void skills(){
@@ -1119,9 +1341,16 @@ void redLeftAB(){
 
     toggleIntake(false,0);
 
-    translate(2,-1);
+    translate(4,-1);
 
-    turnToHeading(180);
+    score(2000);
+
+    turnToHeading(270+25);
+
+    translate(24*3,1,80,3000);
+    turnToHeading(180+30);
+
+    /*turnToHeading(180);
     score();
 
 
@@ -1133,40 +1362,7 @@ void redLeftAB(){
     pros::delay(500);
     toggleIntake(false,0);
     translate(8,-1);
-    score();
-
-    /*oldRotateSlow(20,1);
-
-    translate(10,1);
-    moveAndScore(7,1500);*/
-    
-
-    /*turnToHeading(135);
-    toggleIntake(true,1);
-    translate(20,1);
-
-    toggleIntake(false,0);
-    oldRotateSlow(15,-1);
-    toggleIntake(true,1);
-    moveAndScore(5,1500); //1st
-
-    oldRotateSlow(15,-1); // 2nd
-
-    moveAndScore(5,1500);
-
-    translate(24,-1);
-
-    oldRotateSlow(20,-1);
-
-    moveAndScore(30,3000);
-
-    pros::delay(500);
-    
-
-    toggleIntake(false,0);*/
-
-
-
+    score();*/
 }
 
 
@@ -1176,7 +1372,8 @@ void redRightAWP(){
     isBlue = false;
     
     //redRightAlliance();
-    redRightLine();
+    //redRightLine();
+    redRightGoalSlow();
 }
 
 void redRightAlliance(){
@@ -1258,6 +1455,50 @@ void redRightLine(){
     armPID(140,-1);
     //toggleIntake(false,0);
     updateMotors(40,40);
+}
+
+// goal "rush"
+void redRightGoalSlow(){
+    isRed = true;
+    isBlue = false;
+    inertial.set_heading(0);
+
+    armPID(90,-1);
+    translate(22,-1);
+    backIntoGoal(10,-1,7);
+    toggleIntake(true,1);
+    translate(12-2,1);
+
+    turnToHeading(270);
+    grabber.set_value(LOW);
+    
+    //toggleIntake(true,1);
+    translate(24-2-1-0.5,1);
+    toggleIntake(false,1);
+
+    turnToHeading(0);
+    // total 15
+    //translate(16-1,-1,50);
+    translate(8,-1,50);
+    //translate(7,-1,30);
+    slowTranslate(7,-1,30);
+
+    grabber.set_value(HIGH);
+    pros::delay(100);
+    translate(15,1);
+    grabber.set_value(LOW);
+    backIntoGoal(3,-1,2);
+
+    turnToHeading(85);
+    //toggleIntake(true,1);
+    armPID(130,-1);
+    translate(30+15,1,60,1700);
+    updateMotors(30,30);
+
+    score(2000);
+    switchIntake();
+    score(2000);
+    toggleIntake(false,0);
 }
 
 void redRightAB(){

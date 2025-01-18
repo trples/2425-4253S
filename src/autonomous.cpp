@@ -12,14 +12,14 @@ void autonomous() {
     
     //armPID(100,1);
 
-    test();
+    //test();
     
     
     //skills();
     
     
     //redLeftAWP(); // switch autos
-    //redLeftAB();
+    redLeftAB();
 
     //redRightAWP();
     //redRightAB(); // **********************************

@@ -9,6 +9,6 @@ void toggleIntake(bool status, double direction); //auton
 
 void toggleWeak(double direction);
 
-void score();
+void score(int breakoutTime = 1000);
 
 void moveAndScore(double distance, int timeout);
