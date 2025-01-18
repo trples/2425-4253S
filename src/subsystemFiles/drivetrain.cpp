@@ -1816,67 +1816,27 @@ void blueRightAB(){
     backIntoGoal(6,-1,4);
     translate(12+2-4,1);
 
+    //armPID(90,1);
+
 
 
     turnToHeading(270);
 
     translate(20,1);
-    moveAndScore(7,1250);
+    toggleIntake(true,1);
+    translate(6,1);
+    //moveAndScore(7,1250);
     pros::delay(500);
 
     toggleIntake(false,0);
 
-    translate(2,-1);
+    translate(6,-1);
 
-    turnToHeading(180);
-    score();
+    score(2000);
 
+    turnToHeading(90-25);
 
-    //translate(5,1);
-    toggleIntake(true,1);
-    slowTranslate(6+5,1);
-    score();
-    //moveAndScore(6,2500);
-    pros::delay(500);
-    toggleIntake(false,0);
-    translate(8,-1);
-    score();
-
-    // ON LINE
-    /*inertial.set_heading(0);
-
-    armPID(100,-1);
-    translate(22,-1);
-    backIntoGoal(10,-1,7);
-    translate(12,1);
-
-
-    turnToHeading(360-135);
-    toggleIntake(true,1);
-    // border 1
-    translate(15,1);
-    toggleIntake(false,0);
-    slowTranslate(4+1+2,1);
-    toggleIntake(true,1);
-    pros::delay(500);
-    score();
-    
-    translate(4+1+1,-1);
-    turnToHeading(360-45);
-    toggleIntake(false,0);
-
-    slowTranslate(8,1);
-    toggleIntake(true,1);
-    slowTranslate(2+2+2,1);
-
-    // 2nd border ring
-    turnToHeading(200);
-    //toggleIntake(false,0);
-    slowTranslate(13,1);
-    slowTranslate(4+2,1);
-    pros::delay(500);
-    score();
-
-    slowTranslate(5,-1);*/
+    translate(24*3,1,80,3000);
+    turnToHeading(180-30);
 }
 
