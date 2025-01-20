@@ -8,8 +8,8 @@ void autonomous() {
     //redLeftAWP(); // switch autos
     //redLeftAB();
 
-    //redRightAWP();
-    redRightAB(); // **********************************
+    redRightAWP();
+    //redRightAB(); // **********************************
     
     //blueRightAWP(); // switch autos
     //blueRightAB();

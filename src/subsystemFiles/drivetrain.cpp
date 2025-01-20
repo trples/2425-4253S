@@ -796,6 +796,12 @@ void pickRingUp(){
 // USE     rotate(180,1);
 
 void test(){
+    toggleIntake(true,1);
+    score(2000);
+    //toggleIntake(false,0);
+}
+
+void test1(){
     //isRed = true;
     inertial.set_heading(0);
 
@@ -1263,17 +1269,23 @@ void redLeftDoubleStake(){
 
     turnToHeading(90);
     toggleIntake(true,1);
-    translate(12,1);
-    toggleIntake(false,0);
-    slowTranslate(4,1);
-    toggleIntake(true,1);
-    pros::delay(200);
-    score();
-    // ladder
-    translate(4+1,-1);
-    turnToHeading(270);
 
-    slowTranslate(30,1);
+    //translate(12,1);
+    //toggleIntake(false,0);
+    //slowTranslate(4,1);
+    translate(11,1);
+    translate(6,1,40);
+
+    //toggleIntake(true,1);
+    //pros::delay(200);
+    score(1500);
+    score(200);
+    toggleIntake(false,0);
+    // ladder
+    //translate(4+1,-1);
+    turnToHeading(260);
+
+    translate(24,1,80);
     armPID(130,-1);
     toggleIntake(false,0);
     updateMotors(30,30);
@@ -1298,6 +1310,7 @@ void redLeftAB(){
 
     turnToHeading(90);
 
+    toggleIntake(true,1);
     translate(24,1);
     //translate(20,1);
     pros::delay(500);
@@ -1334,8 +1347,8 @@ void redRightAWP(){
     isRed = true;
     isBlue = false;
     
-    redRightAlliance();
-    //redRightGoalSlow();
+    //redRightAlliance();
+    redRightGoalSlow();
     
     
     
@@ -1439,7 +1452,7 @@ void redRightGoalSlow(){
     grabber.set_value(LOW);
     
     //toggleIntake(true,1);
-    translate(24-2-1-0.5,1);
+    translate(24-2-1-0.5+0.5,1);
     toggleIntake(false,1);
 
     turnToHeading(0);
@@ -1447,7 +1460,7 @@ void redRightGoalSlow(){
     //translate(16-1,-1,50);
     translate(8,-1,50);
     //translate(7,-1,30);
-    slowTranslate(7,-1,30);
+    slowTranslate(7+3,-1,30);
 
     grabber.set_value(HIGH);
     pros::delay(100);
@@ -1457,11 +1470,12 @@ void redRightGoalSlow(){
 
     turnToHeading(85);
     //toggleIntake(true,1);
-    armPID(130,-1);
-    translate(30+15,1,60,1700);
+    armPID(120,-1);
+    translate(30,1,60,1300);
     updateMotors(30,30);
 
     score(2000);
+    pros::delay(500);
     switchIntake();
     score(2000);
     toggleIntake(false,0);
