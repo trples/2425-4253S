@@ -796,54 +796,215 @@ void pickRingUp(){
 // USE     rotate(180,1);
 
 void test(){
-    toggleIntake(true,1);
-    score(2000);
-    //toggleIntake(false,0);
-}
+    /*updateMotors(50,50);
+    pros::delay(300);
+    updateMotors(0,0);
+    pros::delay(100);
 
-void test1(){
-    //isRed = true;
+    translate(5,-1);
+    turnToHeading(270);*/
+
+    toggleIntake(true,1);
+  // deleted LONG translate for testing
+  translate(24*4+12-24,1,80,3000);
+    translate(24,1,40,1500);
+
+    updateMotors(70,70);
+    switchIntake();
+    pros::delay(500);
+    updateMotors(0,0);
+    inertial.set_heading(0); ///////
+    pros::delay(100);
+    //toggleIntake(false,0);
     inertial.set_heading(0);
 
-    armPID(90,-1);
-    translate(22,-1);
-    backIntoGoal(10,-1,7);
-    toggleIntake(true,1);
-    translate(12-2,1);
-
+    translate(5,-1);
     turnToHeading(270);
-    grabber.set_value(LOW);
+
+
+    translate(24*4-12+16,1,100,4000);
+
+    /*turnToHeading(270+45);
+
+    translate(20,1,60,1000);*/
+    toggleIntake(true,-1);
     
-    //toggleIntake(true,1);
-    translate(24-2-1-0.5,1);
-    toggleIntake(false,1);
-
+    translate(20,-1,80,1000);
+    //oldRotateSlow(45,1);
     turnToHeading(0);
-    // total 15
-    //translate(16-1,-1,50);
-    translate(8,-1,50);
-    //translate(7,-1,30);
-    slowTranslate(7,-1,30);
-
-    grabber.set_value(HIGH);
+    updateMotors(50,50);
+    pros::delay(500);
+    updateMotors(0,0);
+    inertial.set_heading(0);
     pros::delay(100);
-    translate(15,1);
-    grabber.set_value(LOW);
-    backIntoGoal(3,-1,2);
+    
+    translate(5+12+5,-1);
+    turnToHeading(90);
 
-    turnToHeading(85);
-    //toggleIntake(true,1);
-    armPID(130,-1);
-    translate(30+15,1,60,1700);
-    updateMotors(30,30);
+    translate(24*4,1,80,2000);
+    turnToHeading(45);
 
-    score(2000);
-    switchIntake();
-    score(2000);
-    toggleIntake(false,0);
+    translate(20,1,120,1000);
+    translate(20,-1);
 }
 
 
+void test1(){
+    isRed = true;
+    
+    toggleIntake(true,1);
+    pros::delay(700);
+    toggleIntake(false,0);
+
+    translate(12+1,1);
+    armPID(80,-1);
+
+    // 
+
+    turnToHeading(90); 
+    translate(20,-1,80);
+    backIntoGoal(8+2,-1,6);
+    grabber.set_value(HIGH);
+    //turnToHeading(90);
+    slowTranslate(6+2,1);
+
+    /*turnToHeading(180); // 
+    turnToHeading(270);*/
+    turnToHeading(180);
+    turnToHeading(270-5);
+
+    toggleIntake(true,1);
+
+    translate(20,1);
+    pros::delay(500);
+
+    translate(12,1,50);
+
+    translate(28+2 + 4-4,-1,90);
+
+    // side rings
+
+    turnToHeading(0);
+
+    translate(24-4,1,80);
+    // 
+    turnToHeading(270);
+
+    translate(24-3,1,80);
+
+
+    // go back
+    turnToHeading(180);
+
+    translate(24-4,1,80);
+    
+    translate(12+4,1);
+    translate(12-4-4,-1);
+    
+    // corner 
+
+    turnToHeading(45);
+
+    translate(15+3,-1,80,1250);
+    grabber.set_value(LOW);
+    toggleIntake(true,-1);
+    translate(12,1); // 12
+    toggleIntake(false,0);
+    
+    //reset
+
+    oldRotateSlow(45,1);
+    //turnToHeading(90);
+
+    updateMotors(-60,-60);
+
+    pros::delay(1000);
+
+    updateMotors(0,0); 
+
+    inertial.set_heading(90);
+    pros::delay(500);
+    // traverse
+    toggleIntake(true,1);
+    translate(24 + 24 + 15,1,80);
+
+    turnToHeading(270);
+
+    // mirror
+
+    translate(20,-1);
+    backIntoGoal(12,-1,10);
+    grabber.set_value(HIGH);
+    translate(10,1,80);
+    switchIntake();
+
+//
+    turnToHeading(180);
+    turnToHeading(90);
+
+    toggleIntake(true,1);
+
+    translate(20,1,80);
+    pros::delay(500);
+
+    translate(16,1);
+
+    translate(28+2 + 4,-1,80);
+
+    // side rings
+
+    turnToHeading(0);
+
+
+    translate(24-4,1,80);
+    // 
+    turnToHeading(90);
+
+    translate(24,1,80);
+
+
+    // go back
+    turnToHeading(180);
+
+    translate(24-4,1,80);
+    
+    translate(12+3,1); // get last ring
+    translate(12-4+3,-1);
+    
+    // corner 
+
+//
+    turnToHeading(270+45);
+
+    translate(16+5,-1);
+
+    grabber.set_value(LOW);
+    toggleIntake(true,-1);
+    translate(14+5,1);
+    toggleIntake(false,0);
+
+    //reset
+    turnToHeading(90);
+    turnToHeading(0);
+    
+    // vvvvv
+    toggleIntake(true,1);
+    translate(24*4+12-24,1,80,3000);
+    translate(24,1,80,1500);
+
+    updateMotors(50,50);
+    pros::delay(300);
+    updateMotors(0,0);
+    pros::delay(100);
+    toggleIntake(false,0);
+
+    translate(5,-1);
+    turnToHeading(270);
+
+    
+}
+
+// compiled skills is this one...
 void skillsTest(){
     isRed = true;
     
@@ -1000,10 +1161,10 @@ void skillsTest(){
     turnToHeading(0);*/
     turnToHeading(90);
     turnToHeading(0);
-    translate(20,-1,60,750);
+    /*translate(20,-1,60,750);
     inertial.set_heading(0);
 
-    translate(24,-1,80,500);
+    translate(24,-1,80,500);*/
 
     /*updateMotors(-50,-50);
     pros::delay(750);
@@ -1011,20 +1172,49 @@ void skillsTest(){
     inertial.set_heading(0);*/
 
 
+    // blue side
+    toggleIntake(true,1);
+ 
+    translate(24*4+12-24,1,80,3000);
+    translate(24,1,40,1500);
 
-    translate(24*3+14-4,1,70,5000);
+    updateMotors(70,70);
+    switchIntake();
+    pros::delay(500);
+    updateMotors(0,0);
+    inertial.set_heading(0); ///////
+    pros::delay(100);
+    //toggleIntake(false,0);
+    inertial.set_heading(0);
+
+    translate(5,-1);
+    turnToHeading(270);
+
+
+    translate(24*4-12+16,1,100,4000);
+
+    /*turnToHeading(270+45);
+
+    translate(20,1,60,1000);*/
+    toggleIntake(true,-1);
     
+    translate(20,-1,80,1000);
+    //oldRotateSlow(45,1);
+    turnToHeading(0);
+    updateMotors(50,50);
+    pros::delay(500);
+    updateMotors(0,0);
+    inertial.set_heading(0);
+    pros::delay(100);
     
-    // at 2nd tile for skills 
-    
-    turnToHeading(300-15);
-    translate(24*5,1,100,5000);
-    translate(36,-1, 100);
-    turnToHeading(315);
-    translate(24,-1);
-    turnToHeading(315-90);
-    translate(24*5,-1,100,3000);
-    translate(10,1,80);
+    translate(5+12+5,-1);
+    turnToHeading(90);
+
+    translate(24*4,1,80,2000);
+    turnToHeading(45);
+
+    translate(20,1,120,1000);
+    translate(20,-1);
 }   
 
 void skills(){
@@ -1446,7 +1636,7 @@ void redRightGoalSlow(){
     translate(22,-1);
     backIntoGoal(10,-1,7);
     toggleIntake(true,1);
-    translate(12-2,1);
+    translate(12-2-2,1);
 
     turnToHeading(270);
     grabber.set_value(LOW);
@@ -1486,36 +1676,37 @@ void redRightAB(){
 
     isRed = true;
     isBlue = false;
+    inertial.set_heading(0);
 
-    inertial.set_heading(45);
-    slowTranslate(9+1,1);
-    armPID(180,-1);
-    armNeutral();
-    translate(18,-1);
-    oldRotateSlow(45,-1);
-
-    armPID(90,1);
-
+    armPID(90,-1);
     translate(22,-1);
-    backIntoGoal(7,-1,5);
-
-    translate(10-2,1);
+    backIntoGoal(10,-1,7);
+    toggleIntake(true,1);
+    translate(12-2-2,1);
 
     turnToHeading(270);
-
-    translate(18,1);
-    toggleIntake(true,1);
-    translate(4+1+2,1);
-    
-    score();
-    toggleIntake(false,0);
-    
     grabber.set_value(LOW);
+    
+    //toggleIntake(true,1);
+    translate(24-2-1-0.5+0.5,1);
+    toggleIntake(false,1);
 
     turnToHeading(0);
+    // total 15
+    //translate(16-1,-1,50);
+    translate(8,-1,50);
+    //translate(7,-1,30);
+    slowTranslate(7+3,-1,30);
 
-    translate(14,-1);
+    grabber.set_value(HIGH);
+    pros::delay(100);
+    translate(15,1);
+    grabber.set_value(LOW);
+    backIntoGoal(3,-1,2);
 
+    score(2000);
+    score(2000);
+    toggleIntake(false,0);
     // clear corner
     /*turnToHeading(270+60);
     
@@ -1536,6 +1727,7 @@ void blueLeftAWP(){
 
     //blueLeftLine();
     //blueLeftAlliance();
+    blueLeftGoalSlow();
 }
 
 void blueLeftLine(){
@@ -1619,9 +1811,53 @@ void blueLeftAlliance(){
     armPID(160,-1);
 }
 
+void blueLeftGoalSlow(){
+    inertial.set_heading(0);
+
+    armPID(90,-1);
+    translate(22,-1);
+    backIntoGoal(10,-1,7);
+    toggleIntake(true,1);
+    translate(12-2-2,1);
+
+    turnToHeading(90);
+    grabber.set_value(LOW);
+    
+    //toggleIntake(true,1);
+    translate(24-2-1-0.5+0.5,1);
+    toggleIntake(false,1);
+
+    turnToHeading(0);
+    // total 15
+    //translate(16-1,-1,50);
+    translate(8,-1,50);
+    //translate(7,-1,30);
+    slowTranslate(7+3,-1,30);
+
+    grabber.set_value(HIGH);
+    pros::delay(100);
+    translate(15,1);
+    grabber.set_value(LOW);
+    backIntoGoal(3,-1,2);
+
+    turnToHeading(360-85);
+    //toggleIntake(true,1);
+    armPID(120,-1);
+    translate(30,1,60,1300);
+    updateMotors(30,30);
+
+    score(2500);
+    pros::delay(500);
+    switchIntake();
+    score(2000);
+    toggleIntake(false,0);
+}
+
 void blueLeftAB(){
     isRed = false;
     isBlue = true;
+    
+    // ALLIANCE + 1 MOGO, wait at neutral goal
     inertial.set_heading(360-45);
     slowTranslate(9+1,1);
     armPID(180,-1);
@@ -1651,62 +1887,49 @@ void blueLeftAB(){
 
     turnToHeading(0);
     
-    translate(14,-1);
+    translate(14,-1);//*/
 
-
-    /*updateMotors(30,30);
-    score();
-    score();
-    score();*/
     
+    // 2 goals no alliance (goal slow code)
+    /*inertial.set_heading(0);
 
-    /*translate(37,1);
-    
-    turnToHeading(65);
-    sweeper.set_value(true);
-
-    translate(15,1);
-    
-    turnToHeading(180);*/
-
-
-
-
-    /*armNeutral();
+    armPID(90,-1);
     translate(22,-1);
     backIntoGoal(10,-1,7);
-    resetRotation();
-    translate(10,1);
-
-    oldRotate(90,1);
     toggleIntake(true,1);
-    translate(18,1);
-    toggleIntake(false,1);
-    slowTranslate(4+1,1);
-    toggleIntake(true,1);
-    pros::delay(500);
-    toggleIntake(false,0);
-    translate(23,-1);
+    translate(12-2-2,1);
 
-    oldRotate(115,-1); //
+    turnToHeading(90);
     grabber.set_value(LOW);
-    translate(30+2+0.5,1);
     
-    armPID(40,1);
-    toggleIntake(true,0.5);
-    pros::delay(1000);
-    toggleIntake(true,-1);
-    pros::delay(200);
-    toggleIntake(false,0);
+    //toggleIntake(true,1);
+    translate(24-2-1-0.5+0.5,1);
+    toggleIntake(false,1);
+
+    turnToHeading(0);
+    // total 15
+    //translate(16-1,-1,50);
+    translate(8,-1,50);
+    //translate(7,-1,30);
+    slowTranslate(7+3,-1,30);
+
+    grabber.set_value(HIGH);
+    pros::delay(100);
+    translate(15,1);
+    grabber.set_value(LOW);
+    backIntoGoal(3,-1,2);
+
+    turnToHeading(360-85);
+    //toggleIntake(true,1);
+    armPID(120,-1);
+    translate(30,1,60,1300);
+    updateMotors(30,30);
+
+    score(2500);
     pros::delay(500);
-    //armPID(180,1);
-    armPID(180,1);
-    
-    translate(36,-1);
-    armPID(80,1);
-    oldRotate(90,-1);
-    translate(16,1);
-    updateMotors(30,30);*/
+    switchIntake();
+    score(2000);
+    toggleIntake(false,0);*/
 }
 
 
@@ -1717,7 +1940,7 @@ void blueRightAWP(){
     blueRightDoubleStake(); // facing alliance
 }
 
-// on line
+// on line THIS ONE WORKS
 void blueRightRingRush(){
     inertial.set_heading(0);
     armPID(100,-1);
@@ -1725,7 +1948,7 @@ void blueRightRingRush(){
     backIntoGoal(10,-1,7);
     translate(12-2,1);
 
-    turnToHeading(360-135);
+    /*turnToHeading(360-135);
     toggleIntake(true,1);
     translate(15,1);
     toggleIntake(false,0);
@@ -1740,7 +1963,20 @@ void blueRightRingRush(){
 
     slowTranslate(8,1);
     toggleIntake(true,1);
-    slowTranslate(2,1);
+    slowTranslate(2,1);*/
+
+    turnToHeading(270);
+    toggleIntake(true,1);
+    translate(20,1);
+    score(1000);
+
+    turnToHeading(180);
+    translate(10,1);
+    translate(4,1,30);
+    score(2000);
+    toggleIntake(false,0);
+    translate(8,-1);
+
 
     //ladder 
     turnToHeading(90);
@@ -1761,25 +1997,26 @@ void blueRightDoubleStake(){
     armPID(90,1);
     oldRotateSlow(45,-1);
     
-    translate(22,-1);
+    translate(20,-1);
     backIntoGoal(10,-1,7);
-    translate(12,1);
+    translate(10,1);
 
     turnToHeading(270);
-    toggleIntake(true,1);
+    //toggleIntake(true,1);
     translate(12,1);
-    toggleIntake(false,0);
-    slowTranslate(4,1);
     toggleIntake(true,1);
-    pros::delay(200);
-    score();
+    translate(4,1,30);
+    //toggleIntake(true,1);
+    //pros::delay(200);
+    score(1500);
+    toggleIntake(false,0);
 
     // ladder
-    translate(4+1,-1);
+    //translate(4+1,-1);
     turnToHeading(110);
 
-    slowTranslate(30,1);
-    toggleIntake(false,0);
+    translate(30,1);
+    //toggleIntake(false,0);
     updateMotors(30,30);
 }
 

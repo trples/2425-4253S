@@ -60,6 +60,8 @@ void blueLeftLine();
 
 void blueLeftAlliance();
 
+void blueLeftGoalSlow();
+
 void blueLeftAB();
 
 //
