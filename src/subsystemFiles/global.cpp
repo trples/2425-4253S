@@ -1,4 +1,6 @@
 #include "main.h"
+#include "pros/abstract_motor.hpp"
+#include "pros/motors.hpp"
 #include "subsystemHeaders/global.hpp"
 
 bool isBlue = false;
@@ -15,7 +17,9 @@ pros::Motor driveLeftFront(-14, pros::MotorGearset::blue, pros::MotorEncoderUnit
 pros::Motor driveRightBack(10, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 pros::Motor driveRightMid(2, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 pros::Motor driveRightFront(15, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor intake(-1, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+
+pros::Motor intake(-1, pros::MotorGearset::green, pros::MotorEncoderUnits::degrees);
+pros::Motor intakeUpper(-2,pros::MotorGearset::green,pros::MotorEncoderUnits::degrees);
 
 pros::Motor arm(-4, pros::MotorGearset::red, pros::MotorEncoderUnits::degrees);
 

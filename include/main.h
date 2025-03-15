@@ -79,6 +79,7 @@ void opcontrol(void);
 #include "subsystemHeaders/intake.hpp"
 #include "subsystemHeaders/arm.hpp"
 
+#include "lemlib/api.hpp" // IWYU pragma: keep
 
 
 //#include <iostream>

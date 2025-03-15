@@ -1,4 +1,11 @@
-#include "main.h"
+//#include "main.h"
+
+#include "pros/adi.hpp"
+#include "pros/imu.hpp"
+#include "pros/motor_group.hpp"
+#include "pros/motors.hpp"
+#include "pros/optical.hpp"
+#include "pros/rotation.hpp"
 
 extern bool isBlue;
 extern bool isRed;
@@ -14,6 +21,7 @@ extern pros::Motor driveRightBack;
 extern pros::Motor driveRightMid;
 extern pros::Motor driveRightFront;
 extern pros::Motor intake;
+extern pros::Motor intakeUpper;
 extern pros::Motor arm;
 
 extern pros::MotorGroup driveLeft;

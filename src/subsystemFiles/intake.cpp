@@ -7,23 +7,6 @@ int power = 127;
 double multiplier = 1;
 
 void setIntake(){
-    /*if(isBlue){
-        if(optical.get_proximity() > 150){
-            if(optical.get_hue() < 30){ // red ring
-                weakener = 3;
-            }
-        }else{
-            weakener = 1;
-        }
-    }else{
-        if(optical.get_proximity() > 150){
-            if(optical.get_hue() > 50){
-                weakener = 3;
-            }
-        }else{
-            weakener = 1;
-        }
-    }*/
     if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
         if(multiplier == 1){
             multiplier = 0.75;
@@ -35,6 +18,7 @@ void setIntake(){
     }
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
         intake.move(int(power*multiplier));
+        intakeUpper.move(int(power*multiplier));
     }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
         intake.move(int(-1*power*multiplier));
     }else{
