@@ -8,18 +8,18 @@ bool driveReversed = false;
 
 // helper functions
 void resetDriveEncoders(){
-    driveLeftFront.tare_position();
-    driveLeftMid.tare_position();
+    driveLeftTop.tare_position();
+    driveLeftBot.tare_position();
     driveLeftBack.tare_position();
-    driveRightFront.tare_position();
-    driveRightMid.tare_position();
+    driveRightTop.tare_position();
+    driveRightBot.tare_position();
     driveRightBack.tare_position();
 }
 
 double getAverageEncoderVal(){
-    return (fabs(driveLeftFront.get_position())+fabs(driveLeftMid.get_position())
-            +fabs(driveLeftBack.get_position())+fabs(driveRightFront.get_position())
-            +fabs(driveRightMid.get_position())/*+fabs(driveRightBack.get_position())*/)/5;//6;
+    return (fabs(driveLeftTop.get_position())+fabs(driveLeftBot.get_position())
+            +fabs(driveLeftBack.get_position())+fabs(driveRightTop.get_position())
+            +fabs(driveRightBot.get_position())/*+fabs(driveRightBack.get_position())*/)/5;//6;
             
     /*return (fabs(driveLeftBot.get_position())+fabs(driveLeftTop.get_position())
             +fabs(driveRightBot.get_position())
@@ -33,24 +33,16 @@ void updateMotors(double left, double right){
 
 // driver control
 void setDrive(){
-    /*if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
-        driveReversed = !driveReversed;
-    }*/
-
     // arcade drive; left = turn, right = forwards/backwards
-    int rotate = 0.8*controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-    int power = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+    int power = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    int rotate = 0.8*controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
     
     // rotate and power variables for arcade drive
     int left = power + rotate;
     int right = power - rotate;
 
-    /*if(driveReversed){
-        updateMotors(-1*right,-1*left);
-    }else{*/
-        updateMotors(1*left,1*right);
-    //}
-    //updateMotors(left,right);
+    
+    updateMotors(1*left,1*right);
 }
 
 // autonomous
@@ -857,7 +849,7 @@ void test1(){
     toggleIntake(false,0);
 
     translate(12+1,1);
-    armPID(80,-1);
+    //(80,-1);
 
     // 
 
@@ -1013,7 +1005,7 @@ void skillsTest(){
     toggleIntake(false,0);
 
     translate(12+1,1);
-    armPID(80,-1);
+    //(80,-1);
 
     // 
 
@@ -1225,7 +1217,7 @@ void skills(){
     toggleIntake(false,0);
 
     translate(12+1,1);
-    armPID(80,-1);
+    //(80,-1);
 
     // 
 
@@ -1413,7 +1405,7 @@ void redLeftAWP(){
 void redLeftRingRush(){
     inertial.set_heading(0);
 
-    armPID(90,-1);
+    //(90,-1);
     translate(22,-1);
     backIntoGoal(10,-1,7);
     translate(12-2,1);
@@ -1445,10 +1437,10 @@ void redLeftRingRush(){
 void redLeftDoubleStake(){
     inertial.set_heading(360-45);
     slowTranslate(9+1,1);
-    armPID(180,-1);
-    //armPID(100,1);
+    //(180,-1);
+    ////(100,1);
     translate(18,-1);
-    armPID(100,1);
+    //(100,1);
     oldRotateSlow(45,1);
     
     translate(22,-1);
@@ -1476,7 +1468,7 @@ void redLeftDoubleStake(){
     turnToHeading(260);
 
     translate(24,1,80);
-    armPID(130,-1);
+    //(130,-1);
     toggleIntake(false,0);
     updateMotors(30,30);
 }
@@ -1489,8 +1481,7 @@ void redLeftAB(){
     inertial.set_heading(360-45);
 
     slowTranslate(9+1,1);
-    armPID(180,-1);
-    armNeutral();
+    
     translate(18+2,-1);
     oldRotateSlow(45,1);
 
@@ -1548,12 +1539,11 @@ void redRightAWP(){
 void redRightAlliance(){
     inertial.set_heading(45);
     slowTranslate(9+1,1);
-    armPID(180,-1);
-    armNeutral();
+  
     translate(18+2,-1);
     oldRotateSlow(45,-1);
 
-    armPID(90,1);
+    //(90,1);
 
     translate(22,-1);
     backIntoGoal(7,-1,5);
@@ -1572,11 +1562,11 @@ void redRightAlliance(){
     toggleIntake(true,1);
 
     translate(20,1);
-    armPID(130,-1);
+    //(130,-1);
     toggleIntake(false,0);
     updateMotors(40,40);
     /*isRed = true;
-    armPID(100,1);
+    //(100,1);
     translate(22,-1);
     backIntoGoal(10,-1,7);
     resetRotation();
@@ -1599,7 +1589,7 @@ void redRightAlliance(){
 void redRightLine(){
     inertial.set_heading(0);
 
-    armPID(90,-1);
+    //(90,-1);
 
     translate(22,-1);
     backIntoGoal(7,-1,5);
@@ -1621,7 +1611,7 @@ void redRightLine(){
     //toggleIntake(true,1);
 
     translate(20,1);
-    armPID(140,-1);
+    //(140,-1);
     //toggleIntake(false,0);
     updateMotors(40,40);
 }
@@ -1632,7 +1622,7 @@ void redRightGoalSlow(){
     isBlue = false;
     inertial.set_heading(0);
 
-    armPID(90,-1);
+    //(90,-1);
     translate(22,-1);
     backIntoGoal(10,-1,7);
     toggleIntake(true,1);
@@ -1660,7 +1650,7 @@ void redRightGoalSlow(){
 
     turnToHeading(85);
     //toggleIntake(true,1);
-    armPID(120,-1);
+    //(120,-1);
     translate(30,1,60,1300);
     updateMotors(30,30);
 
@@ -1678,7 +1668,7 @@ void redRightAB(){
     isBlue = false;
     inertial.set_heading(0);
 
-    armPID(90,-1);
+    //(90,-1);
     translate(22,-1);
     backIntoGoal(10,-1,7);
     toggleIntake(true,1);
@@ -1734,7 +1724,7 @@ void blueLeftLine(){
     // ON LINE
     inertial.set_heading(0);
 
-    armPID(90,-1);
+    //(90,-1);
     translate(22,-1);
     backIntoGoal(10,-1,7);
     toggleIntake(true,1);
@@ -1762,7 +1752,7 @@ void blueLeftLine(){
 
     turnToHeading(360-85);
     //toggleIntake(true,1);
-    armPID(130,-1);
+    //(130,-1);
     translate(30+15,1,60,1700);
     updateMotors(30,30);
 
@@ -1776,12 +1766,11 @@ void blueLeftAlliance(){
     inertial.set_heading(360-45);
 
     slowTranslate(9+1,1);
-    armPID(180,-1);
-    armNeutral();
+
     translate(18,-1);
     oldRotateSlow(45,1);
 
-    armPID(90,1);
+    //(90,1);
 
     translate(22,-1);
     backIntoGoal(7,-1,5);
@@ -1808,13 +1797,13 @@ void blueLeftAlliance(){
     //slowTranslate(15,1);
 
     updateMotors(50,50);
-    armPID(160,-1);
+    //(160,-1);
 }
 
 void blueLeftGoalSlow(){
     inertial.set_heading(0);
 
-    armPID(90,-1);
+    //(90,-1);
     translate(22,-1);
     backIntoGoal(10,-1,7);
     toggleIntake(true,1);
@@ -1842,7 +1831,7 @@ void blueLeftGoalSlow(){
 
     turnToHeading(360-85);
     //toggleIntake(true,1);
-    armPID(120,-1);
+    //(120,-1);
     translate(30,1,60,1300);
     updateMotors(30,30);
 
@@ -1860,12 +1849,11 @@ void blueLeftAB(){
     // ALLIANCE + 1 MOGO, wait at neutral goal
     inertial.set_heading(360-45);
     slowTranslate(9+1,1);
-    armPID(180,-1);
-    armNeutral();
+   
     translate(18,-1);
     oldRotateSlow(45,1);
 
-    armPID(90,1);
+    //(90,1);
 
     translate(22,-1);
     backIntoGoal(7,-1,5);
@@ -1893,7 +1881,7 @@ void blueLeftAB(){
     // 2 goals no alliance (goal slow code)
     /*inertial.set_heading(0);
 
-    armPID(90,-1);
+    //(90,-1);
     translate(22,-1);
     backIntoGoal(10,-1,7);
     toggleIntake(true,1);
@@ -1921,7 +1909,7 @@ void blueLeftAB(){
 
     turnToHeading(360-85);
     //toggleIntake(true,1);
-    armPID(120,-1);
+    //(120,-1);
     translate(30,1,60,1300);
     updateMotors(30,30);
 
@@ -1943,7 +1931,7 @@ void blueRightAWP(){
 // on line THIS ONE WORKS
 void blueRightRingRush(){
     inertial.set_heading(0);
-    armPID(100,-1);
+    //(100,-1);
     translate(22,-1);
     backIntoGoal(10,-1,7);
     translate(12-2,1);
@@ -1989,12 +1977,11 @@ void blueRightRingRush(){
 void blueRightDoubleStake(){
     inertial.set_heading(45);
     slowTranslate(9+1,1);
-    armPID(180,-1);
+    //(180,-1);
     
     
-    //armNeutral();
     translate(18,-1);
-    armPID(90,1);
+    //(90,1);
     oldRotateSlow(45,-1);
     
     translate(20,-1);
@@ -2029,8 +2016,7 @@ void blueRightAB(){
     inertial.set_heading(45);
 
     slowTranslate(9+1,1);
-    armPID(180,-1);
-    armNeutral();
+    
     translate(18+2,-1);
     oldRotateSlow(45,-1);
 
@@ -2038,7 +2024,7 @@ void blueRightAB(){
     backIntoGoal(6,-1,4);
     translate(12+2-4,1);
 
-    //armPID(90,1);
+    ////(90,1);
 
 
 

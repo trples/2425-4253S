@@ -3,11 +3,11 @@
 
 bool intakeOn = false;
 bool intakeReversed = false;
-int power = 127;
+int power = 80;
 double multiplier = 1;
 
 void setIntake(){
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+    /*if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
         if(multiplier == 1){
             multiplier = 0.75;
             intakeSlowed = true;
@@ -15,20 +15,22 @@ void setIntake(){
         }else{
             multiplier = 1;
         }
-    }
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-        intake.move(int(power*multiplier));
+    }*/
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+        intakeLower.move(int(power*multiplier));
         intakeUpper.move(int(power*multiplier));
-    }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-        intake.move(int(-1*power*multiplier));
+    }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+        intakeLower.move(int(-1*power*multiplier));
+        intakeUpper.move(int(-1*power*multiplier));
     }else{
-        intake.brake();
+        intakeLower.brake();
+        intakeUpper.brake();
     }
 
-    if(intakeSlowed && intakeTimer > 4000){
+    /*if(intakeSlowed && intakeTimer > 4000){
         intakeSlowed = false;
         multiplier = 1;
-    }
+    }*/
 }
 
 void toggleIntake(bool status, double direction){

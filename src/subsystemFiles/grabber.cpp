@@ -5,21 +5,19 @@ bool extended = true;
 bool sweeping = false;
 
 void setGrabber(){
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+    /*if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
         if(extended){
             grabber.set_value(HIGH);
         }else{
             grabber.set_value(LOW);
         }
         extended = !extended;
-    }
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
-        if(!sweeping){
-            sweeper.set_value(HIGH);
-        }else{
-            sweeper.set_value(LOW);
-        }
-        sweeping = !sweeping;
+    }*/
+    
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+        grabber.set_value(false);
+    }else{
+        grabber.set_value(true);
     }
 }
 

@@ -10,24 +10,27 @@ int intakeTimer = 0;
 bool intakeSlowed = false;
 
 // motor ports + radio port 11
-pros::Motor driveLeftBack(-3, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor driveLeftMid(-12, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor driveLeftFront(-14, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveLeftBack(-15, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveLeftBot(-14, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveLeftTop(16, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 
-pros::Motor driveRightBack(10, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor driveRightMid(2, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor driveRightFront(15, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveRightBack(2, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveRightBot(-20, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveRightTop(3, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 
-pros::Motor intake(-1, pros::MotorGearset::green, pros::MotorEncoderUnits::degrees);
-pros::Motor intakeUpper(-2,pros::MotorGearset::green,pros::MotorEncoderUnits::degrees);
+pros::Motor intakeLower(-11, pros::MotorGearset::green, pros::MotorEncoderUnits::degrees);
+pros::Motor intakeUpper(-4,pros::MotorGearset::green,pros::MotorEncoderUnits::degrees);
 
-pros::Motor arm(-4, pros::MotorGearset::red, pros::MotorEncoderUnits::degrees);
+//pros::Motor arm(-4, pros::MotorGearset::red, pros::MotorEncoderUnits::degrees);
 
-pros::MotorGroup driveLeft({-14,-12,-3}); 
-pros::MotorGroup driveRight({15,2,10}); 
 
-pros::adi::DigitalOut grabber('H');
-pros::adi::DigitalOut sweeper('B');
+pros::MotorGroup driveLeft({-14,-15,16}); 
+pros::MotorGroup driveRight({3,-20,2}); 
+pros::MotorGroup intake({-4,-11});
+
+pros::adi::DigitalOut grabber('B');
+//pros::adi::DigitalOut sweeper('B');
+pros::adi::DigitalOut arm('A');
 
 pros::Imu inertial(21);
 
@@ -40,24 +43,6 @@ pros::Rotation yPod(8); // front/back
 // controller is declared in header class
 pros::Controller controller(pros::E_CONTROLLER_MASTER); 
 
-/*pros::Motor driveLeftBack(10, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees); 
-pros::Motor driveLeftBot(19, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor driveLeftTop(20, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
- 
-pros::Motor driveRightBack(1, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor driveRightBot(11, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor driveRightTop(2, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-
-pros::Motor intake(18, pros::MotorGearset::blue, pros::MotorEncoderUnits::counts);*/
-
-// motor groups for drivetrain
-
-
-
-
-
-
-//pros::Motor driveLeftBack(1, pros::E_MOTOR_GEARSET_06, pros::E_MOTOR_ENCODER_ROTATIONS);
 
 
 

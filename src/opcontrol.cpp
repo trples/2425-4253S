@@ -19,7 +19,7 @@ void opcontrol() {
 		setDrive();
 		setIntake();
 		setGrabber();
-		oldSetArm();
+		setArm();
 
 		intakeTimer += 10;
 

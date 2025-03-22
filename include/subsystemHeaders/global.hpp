@@ -15,20 +15,22 @@ extern bool intakeSlowed;
 
 // motors declaration
 extern pros::Motor driveLeftBack;
-extern pros::Motor driveLeftMid;
-extern pros::Motor driveLeftFront;
+extern pros::Motor driveLeftBot;
+extern pros::Motor driveLeftTop;
 extern pros::Motor driveRightBack;
-extern pros::Motor driveRightMid;
-extern pros::Motor driveRightFront;
-extern pros::Motor intake;
+extern pros::Motor driveRightBot;
+extern pros::Motor driveRightTop;
+extern pros::Motor intakeLower;
 extern pros::Motor intakeUpper;
-extern pros::Motor arm;
+//extern pros::Motor arm;
 
 extern pros::MotorGroup driveLeft;
 extern pros::MotorGroup driveRight;
+extern pros::MotorGroup intake;
 
 extern pros::adi::DigitalOut grabber;
 extern pros::adi::DigitalOut sweeper;
+extern pros::adi::DigitalOut arm;
 
 extern pros::Imu inertial;
 
