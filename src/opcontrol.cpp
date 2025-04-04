@@ -21,7 +21,6 @@ void opcontrol() {
 		setGrabber();
 		setArm();
 
-		intakeTimer += 10;
 
 		/*pros::lcd::set_text(1,std::to_string(driveLeftFront.get_position()));
 		pros::lcd::set_text(2,std::to_string(driveLeftMid.get_position()));

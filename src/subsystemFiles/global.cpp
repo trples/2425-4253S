@@ -18,19 +18,19 @@ pros::Motor driveRightBack(2, pros::MotorGearset::blue, pros::MotorEncoderUnits:
 pros::Motor driveRightBot(-20, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 pros::Motor driveRightTop(3, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 
-pros::Motor intakeLower(-11, pros::MotorGearset::green, pros::MotorEncoderUnits::degrees);
-pros::Motor intakeUpper(-4,pros::MotorGearset::green,pros::MotorEncoderUnits::degrees);
+//pros::Motor intakeLower(-11, pros::MotorGearset::green, pros::MotorEncoderUnits::degrees);
+//pros::Motor intakeUpper(4,pros::MotorGearset::green,pros::MotorEncoderUnits::degrees);
 
 //pros::Motor arm(-4, pros::MotorGearset::red, pros::MotorEncoderUnits::degrees);
 
 
 pros::MotorGroup driveLeft({-14,-15,16}); 
 pros::MotorGroup driveRight({3,-20,2}); 
-pros::MotorGroup intake({-4,-11});
+pros::MotorGroup intake({4,-11});
 
-pros::adi::DigitalOut grabber('B');
+pros::adi::DigitalOut grabber('A');
 //pros::adi::DigitalOut sweeper('B');
-pros::adi::DigitalOut arm('A');
+pros::adi::DigitalOut arm('B');
 
 pros::Imu inertial(21);
 

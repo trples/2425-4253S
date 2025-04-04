@@ -3,7 +3,7 @@
 
 bool intakeOn = false;
 bool intakeReversed = false;
-int power = 80;
+int power = 127;
 double multiplier = 1;
 
 void setIntake(){
@@ -17,14 +17,11 @@ void setIntake(){
         }
     }*/
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-        intakeLower.move(int(power*multiplier));
-        intakeUpper.move(int(power*multiplier));
+        intake.move(int(power*multiplier));
     }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
-        intakeLower.move(int(-1*power*multiplier));
-        intakeUpper.move(int(-1*power*multiplier));
+        intake.move(int(-1*power*multiplier));
     }else{
-        intakeLower.brake();
-        intakeUpper.brake();
+        intake.brake();
     }
 
     /*if(intakeSlowed && intakeTimer > 4000){
@@ -89,7 +86,7 @@ void moveAndScore(double distance, int timeout){
     bool broken = false;
     bool scored = false;
 
-    double distanceInUnits = (distance/(3.25*3.14))*360*(4/3)*(5/4);
+    double distanceInUnits = (distance/(3.25*3.14))*360*(4.0/3)*(5.0/4);
 
     // drive until robot has travelled distance
     while(fabs(getAverageEncoderVal()) < fabs(distanceInUnits)){

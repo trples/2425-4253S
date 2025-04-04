@@ -277,55 +277,6 @@ void translate(double distance, int direction, int maxPower, int breakoutTime){
     pros::delay(100);
 }
 
-void controlledTranslate(double distance, int direction){ // -1 = backward, 1 = forward
-                                                          // distance in INCHES
-    resetDriveEncoders();
-    resetDriveVaris();
-    bool PIDed = false;
-    int timeElapsed = 0;
-    int power;
-    // 360 degrees = 3.25*3.14 inches, 8.255*3.14 cm
-    double distanceInUnits = (distance/(3.25*3.14))*360*(30/26); // need to fix gear ratio
-    pros::lcd::set_text(5,std::to_string(distanceInUnits));
-
-    // drive until robot has travelled halfway distance
-    while(fabs(getAverageEncoderVal()) < fabs(0.5*distanceInUnits)){
-        power = controlledSpeed(distanceInUnits);
-        updateMotors(1*direction*power, 1*direction*power);
-        pros::lcd::set_text(3,std::to_string(getAverageEncoderVal()));
-        pros::delay(15);
-        PIDed = true;
-        timeElapsed += 15;
-        if(timeElapsed > 2000){
-            PIDed = false;
-            break;
-        }
-    }
-    
-    while(fabs(getAverageEncoderVal()) < fabs(distanceInUnits)){
-        int power = controlledSlow(distanceInUnits);
-        updateMotors(1*direction*power, 1*direction*power);
-        pros::lcd::set_text(3,std::to_string(getAverageEncoderVal()));
-        pros::delay(15);
-        PIDed = true;
-        timeElapsed += 15;
-        if(timeElapsed > 2000){
-            PIDed = false;
-            break;
-        }
-    }
-
-    if(PIDed){
-        updateMotors(-direction*50, -direction*50);
-        //updateMotors(-direction*100, -direction*100);
-        pros::delay(75);
-    }
-
-    updateMotors(0,0);
-
-    pros::delay(100);
-}
-
 void oldRotate(double deg, int direction){ // -1 = left, 1 = right
     int timeElapsed = 0;
     // if z axis (upright)
@@ -632,11 +583,10 @@ void slowTranslate(double distance, int direction, int maxPower, int breakoutTim
 
     // 360 degrees = 3.25*3.14 inches, 8.255*3.14 cm
     //double distanceInUnits = (distance/(3.25*3.14))*360;
-    double distanceInUnits = (distance/(3.25*3.14))*360*(4/3)*(5/4);
+    double distanceInUnits = (distance/(3.25*3.14))*360*(48.0/36.0);
     pros::lcd::set_text(5,std::to_string(distanceInUnits));
 
     // drive until robot has travelled distance
-    /*while(fabs(getAverageEncoderVal()) < fabs(distance)){*/
     while(fabs(getAverageEncoderVal()) < fabs(distanceInUnits)){
         updateMotors(0.9*direction*maxPower, 1*direction*maxPower);
         pros::delay(15);
@@ -657,40 +607,6 @@ void slowTranslate(double distance, int direction, int maxPower, int breakoutTim
     pros::delay(100);
 }
 
-/*void resetPosition(){
-    double encoderVal = getAverageEncoderVal();
-    double error = 0-encoderVal;
-    int direction;
-    if(encoderVal>0){ // encoder val is negative -> too far forward, go backwards
-        direction = -1;
-    }else{
-        direction = 1;
-    } 
-    pros::lcd::set_text(3,std::to_string(direction));
-
-    /*while(fabs(error)>720){
-        updateMotors(0.9*direction*50, 1*direction*50);
-        pros::delay(10);
-        encoderVal = getAverageEncoderVal();
-        error = 0-encoderVal;
-        pros::lcd::set_text(4,std::to_string(encoderVal));
-        pros::lcd::set_text(5,std::to_string(error));
-        pros::lcd::set_text(6,std::to_string(fabs(error)>45));
-    }
-
-    // degrees/360 * circumfrence of wheel * wheels to gear ratio
-    double distanceInInches = (encoderVal/360)*3.25*3.14*(3/4);
-    pros::lcd::set_text(0,std::to_string(direction));
-
-    translate(fabs(distanceInInches),direction);
-
-    //updateMotors(-direction*50, -direction*50);
-    //updateMotors(-direction*100, -direction*100);
-    //pros::delay(75);
-
-    //updateMotors(0,0);
-}*/
-
 void resetRotation(){
     double currentAngle = inertial.get_rotation();
     double error = 0-currentAngle;
@@ -710,7 +626,7 @@ void resetRotation(){
         positionAdjusted = true;
         pros::lcd::set_text(4,std::to_string(inertial.get_rotation()));
         pros::lcd::set_text(5,std::to_string(error));
-        pros::lcd::set_text(6,std::to_string(fabs(currentAngle<45)));
+        pros::lcd::set_text(6,std::to_string(currentAngle<45));
     }
     if(positionAdjusted){
         updateMotors(-direction*50, direction*50);
