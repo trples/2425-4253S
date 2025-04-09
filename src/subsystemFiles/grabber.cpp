@@ -18,9 +18,9 @@ void setGrabber(){
     pros::lcd::set_text(2, "set grabber");
 
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-        grabber.set_value(true);
-    }else{
         grabber.set_value(false);
+    }else{
+        grabber.set_value(true);
     }
 }
 

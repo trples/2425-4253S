@@ -9,14 +9,14 @@ bool isRed = false;
 int intakeTimer = 0;
 bool intakeSlowed = false;
 
-// motor ports + radio port 11
-pros::Motor driveLeftBack(-15, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor driveLeftBot(-14, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor driveLeftTop(16, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+// motor ports + radio port 21
+pros::Motor driveLeftBack(-11, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveLeftBot(-3, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveLeftTop(17, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 
-pros::Motor driveRightBack(2, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor driveRightBot(-20, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor driveRightTop(3, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveRightBack(9, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveRightBot(8, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveRightTop(-4, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 
 //pros::Motor intakeLower(-11, pros::MotorGearset::green, pros::MotorEncoderUnits::degrees);
 //pros::Motor intakeUpper(4,pros::MotorGearset::green,pros::MotorEncoderUnits::degrees);
@@ -24,9 +24,9 @@ pros::Motor driveRightTop(3, pros::MotorGearset::blue, pros::MotorEncoderUnits::
 //pros::Motor arm(-4, pros::MotorGearset::red, pros::MotorEncoderUnits::degrees);
 
 
-pros::MotorGroup driveLeft({-14,-15,16}); 
-pros::MotorGroup driveRight({3,-20,2}); 
-pros::MotorGroup intake({4,-11});
+pros::MotorGroup driveLeft({-11,-3,17}); 
+pros::MotorGroup driveRight({9,8,-4}); 
+pros::MotorGroup intake({20 /*upper intake*/,-2 /*lower intake reversed*/});
 
 pros::adi::DigitalOut grabber('A');
 //pros::adi::DigitalOut sweeper('B');
