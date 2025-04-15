@@ -15,7 +15,7 @@ bool intakeSlowed = false;
 // motor ports + radio port 21
 pros::Motor driveLeftBack(-11, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 pros::Motor driveLeftBot(-3, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-pros::Motor driveLeftTop(17, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
+pros::Motor driveLeftTop(16, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 
 pros::Motor driveRightBack(9, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
 pros::Motor driveRightBot(8, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
@@ -26,8 +26,7 @@ pros::Motor driveRightTop(-4, pros::MotorGearset::blue, pros::MotorEncoderUnits:
 
 //pros::Motor arm(-4, pros::MotorGearset::red, pros::MotorEncoderUnits::degrees);
 
-
-pros::MotorGroup driveLeft({-11,-3,17}, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees); 
+pros::MotorGroup driveLeft({-11,-3,16}, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees); 
 pros::MotorGroup driveRight({9,8,-4}, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees); 
 pros::MotorGroup intake({20 /*upper intake*/,-2 /*lower intake reversed*/});
 
@@ -35,16 +34,16 @@ pros::adi::DigitalOut grabber('A');
 //pros::adi::DigitalOut sweeper('B');
 pros::adi::DigitalOut arm('B');
 
-pros::Imu inertial(21);
+pros::Imu inertial(19);
 
-pros::Optical optical(18);
+pros::Optical optical(1);
 
-pros::Rotation rotation(9);
+pros::Rotation rotation(9); // 
 pros::Rotation xPod(16); // horiz tracking
 
 lemlib::TrackingWheel horizontalEncoder(&xPod, lemlib::Omniwheel::NEW_2,-4);
 
-lemlib::OdomSensors sensors(nullptr,nullptr,&horizontalEncoder,nullptr, &inertial);
+lemlib::OdomSensors sensors(nullptr,nullptr,/*&horizontalEncoder*/ nullptr,nullptr, &inertial);
 
 // lateral PID controller
 lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
@@ -59,22 +58,22 @@ lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
 );
 
 // angular PID controller
-lemlib::ControllerSettings angular_controller(2, // proportional gain (kP)
+lemlib::ControllerSettings angular_controller(1.8, // proportional gain (kP)
                                               0, // integral gain (kI)
                                               10, // derivative gain (kD)
-                                              3, // anti windup
-                                              1, // small error range, in degrees
+                                              10, // anti windup
+                                              0, // small error range, in degrees
                                               100, // small error range timeout, in milliseconds
-                                              3, // large error range, in degrees
+                                              0, // large error range, in degrees
                                               500, // large error range timeout, in milliseconds
                                               0 // maximum acceleration (slew)
 );
 
 lemlib::Drivetrain drivetrain(&driveLeft, // left motor group
     &driveRight, // right motor group
-    10, // track width
-    lemlib::Omniwheel::NEW_275, // using new 4" omnis
-    480, // drivetrain rpm is 360
+    11, // track width
+    lemlib::Omniwheel::NEW_325,
+    450, // drivetrain rpm
     2 // horizontal drift is 2 (for now)
 );
 

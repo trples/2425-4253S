@@ -1,7 +1,7 @@
 #include "main.h"
 
 void autonomous() {
-    //test();
+    test();
     
     //skills();
     
@@ -12,7 +12,7 @@ void autonomous() {
     //redRightAB(); // **********************************
     
     //blueRightAWP(); // switch autos
-    blueRightAB();
+    //blueRightAB();
 
     //blueLeftAWP();
     //blueLeftAB(); // ***********************************
