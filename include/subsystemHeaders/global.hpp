@@ -1,11 +1,13 @@
 //#include "main.h"
 
+#include "lemlib/chassis/chassis.hpp"
 #include "pros/adi.hpp"
 #include "pros/imu.hpp"
 #include "pros/motor_group.hpp"
 #include "pros/motors.hpp"
 #include "pros/optical.hpp"
 #include "pros/rotation.hpp"
+#include <cstddef>
 
 extern bool isBlue;
 extern bool isRed;
@@ -38,7 +40,8 @@ extern pros::Optical optical;
 
 extern pros::Rotation rotation;
 extern pros::Rotation xPod;
-extern pros::Rotation yPod;
+
+extern lemlib::Chassis chassis;
 
 // controller declaration
 extern pros::Controller controller;

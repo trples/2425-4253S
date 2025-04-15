@@ -39,14 +39,24 @@ void initialize() {
 	rotation.set_data_rate(15);
 	rotation.set_reversed(true);
 
-	yPod.reset_position();
-	yPod.set_data_rate(15);
-	yPod.set_reversed(true);
-	xPod.reset_position();
+	chassis.calibrate();
+
+	/*xPod.reset_position();
 	xPod.set_data_rate(15);
-	xPod.set_reversed(true);
+	xPod.set_reversed(true);*/
 
 	pros::lcd::set_text(0, "4253S bot is READY! :D");
+	
+	pros::Task screen_task([&]() {
+        while (true) {
+            // print robot location to the brain screen
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // delay to save resources
+            pros::delay(20);
+        }
+    });
 
-	pros::delay(100);
+	//pros::delay(100);
 }
