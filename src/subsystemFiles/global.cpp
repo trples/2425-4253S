@@ -26,8 +26,8 @@ pros::Motor driveRightTop(-4, pros::MotorGearset::blue, pros::MotorEncoderUnits:
 
 //pros::Motor arm(-4, pros::MotorGearset::red, pros::MotorEncoderUnits::degrees);
 
-pros::MotorGroup driveLeft({-11,-3,16}, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees); 
-pros::MotorGroup driveRight({9,8,-4}, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees); 
+pros::MotorGroup driveLeft({-11,-3,16}, pros::MotorGearset::blue); 
+pros::MotorGroup driveRight({9,8,-4}, pros::MotorGearset::blue); 
 pros::MotorGroup intake({20 /*upper intake*/,-2 /*lower intake reversed*/});
 
 pros::adi::DigitalOut grabber('A');
@@ -46,15 +46,15 @@ lemlib::TrackingWheel horizontalEncoder(&xPod, lemlib::Omniwheel::NEW_2,-4);
 lemlib::OdomSensors sensors(nullptr,nullptr,/*&horizontalEncoder*/ nullptr,nullptr, &inertial);
 
 // lateral PID controller
-lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
+lemlib::ControllerSettings lateral_controller(4.8, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              3, // derivative gain (kD)
+                                              10, // derivative gain (kD)
                                               3, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
                                               3, // large error range, in inches
                                               500, // large error range timeout, in milliseconds
-                                              20 // maximum acceleration (slew)
+                                              25 // maximum acceleration (slew)
 );
 
 // angular PID controller
@@ -71,7 +71,7 @@ lemlib::ControllerSettings angular_controller(1.8, // proportional gain (kP)
 
 lemlib::Drivetrain drivetrain(&driveLeft, // left motor group
     &driveRight, // right motor group
-    11, // track width
+    11, // track width  ; length = 10.5 in
     lemlib::Omniwheel::NEW_325,
     450, // drivetrain rpm
     2 // horizontal drift is 2 (for now)

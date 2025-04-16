@@ -705,14 +705,14 @@ void pickRingUp(){
 // USE     rotate(180,1);
 
 void test(){
-    chassis.setPose(0,0,0);
+    //red right
+    chassis.setPose(56.5,24,90); // x = 48 + 0.5 + 8 (half length of bot)
 
-    chassis.moveToPoint(0,48,10000);
-
-    /*while(true){
-        pros::lcd::set_text(5,std::to_string(inertial.get_heading()));
-        pros::delay(20);
-    }*/
+    chassis.moveToPoint(26,24,10000,{.forwards = false});
+    pros::delay(2000);
+    grabber.set_value(true);
+    pros::delay(1000);
+    toggleIntake(true,1);
 }   
 
 void skills(){
