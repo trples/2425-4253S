@@ -1,8 +1,11 @@
 #include "main.h"
 
+
 void autonomous() {
-    test();
+    //test();
     
+    
+
     //skills();
     
     //redLeftAWP(); // switch autos
