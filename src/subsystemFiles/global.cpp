@@ -6,8 +6,7 @@
 #include <cstddef>
 #include "subsystemHeaders/global.hpp"
 
-bool isBlue = false;
-bool isRed = false;
+
 
 int intakeTimer = 0;
 bool intakeSlowed = false;

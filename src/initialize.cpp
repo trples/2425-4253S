@@ -35,6 +35,9 @@ void initialize() {
 	inertial.tare_heading();
 	resetDriveEncoders();
 
+	optical.set_led_pwm(50);
+	optical.set_integration_time(15);
+
 	rotation.reset_position();
 	rotation.set_data_rate(15);
 	rotation.set_reversed(true);

@@ -14,12 +14,14 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	
 	while (true) {
 		// loop for taking in driver controls
 		setDrive();
 		setIntake();
 		setGrabber();
 		setArm();
+
 
 
 		/*pros::lcd::set_text(1,std::to_string(driveLeftFront.get_position()));
