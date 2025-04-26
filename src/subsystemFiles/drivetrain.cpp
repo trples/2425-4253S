@@ -716,7 +716,6 @@ void test(){
 }   
 
 void skills(){
-    isRed = true;
     
     toggleIntake(true,1);
     pros::delay(700);
@@ -901,7 +900,6 @@ void skills(){
 
 void redLeftAWP(){
     // alliance stake /*
-    isRed = true;
     isBlue = false;
     //redLeftRingRush();
     redLeftDoubleStake();
@@ -981,7 +979,6 @@ void redLeftDoubleStake(){
 
 // facing alliance
 void redLeftAB(){
-    isRed = true;
     isBlue = false;
 
     inertial.set_heading(360-45);
@@ -1031,7 +1028,6 @@ void redLeftAB(){
 
 // facing alliance
 void redRightAWP(){
-    isRed = true;
     isBlue = false;
     
     //redRightAlliance();
@@ -1124,7 +1120,6 @@ void redRightLine(){
 
 // goal "rush"
 void redRightGoalSlow(){
-    isRed = true;
     isBlue = false;
     inertial.set_heading(0);
 
@@ -1170,7 +1165,6 @@ void redRightGoalSlow(){
 void redRightAB(){
     // ALSO AWP
 
-    isRed = true;
     isBlue = false;
     inertial.set_heading(0);
 
@@ -1218,7 +1212,6 @@ void redRightAB(){
 // facing alliance
 void blueLeftAWP(){
     // blue left
-    isRed = false;
     isBlue = true;
 
     //blueLeftLine();
@@ -1349,7 +1342,6 @@ void blueLeftGoalSlow(){
 }
 
 void blueLeftAB(){
-    isRed = false;
     isBlue = true;
     
     // ALLIANCE + 1 MOGO, wait at neutral goal
@@ -1428,7 +1420,6 @@ void blueLeftAB(){
 
 
 void blueRightAWP(){
-    isRed = false;
     isBlue = true;
     //blueRightRingRush(); // on line
     blueRightDoubleStake(); // facing alliance
@@ -1515,7 +1506,6 @@ void blueRightDoubleStake(){
 
 // on line
 void blueRightAB(){
-    isRed = false;
     isBlue = true;
 
     // ALLIANCE

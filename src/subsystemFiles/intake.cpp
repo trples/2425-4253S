@@ -1,22 +1,18 @@
 #include "main.h"
+#include "pros/misc.h"
 #include "subsystemHeaders/global.hpp"
 
 bool intakeOn = false;
 bool intakeReversed = false;
-int power = 115;
+int power = 100;
 double multiplier = 1;
 
+
+
 void setIntake(){
-    /*if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
-        if(multiplier == 1){
-            multiplier = 0.75;
-            intakeSlowed = true;
-            intakeTimer = 0;
-        }else{
-            multiplier = 1;
-        }
-    }*/
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)&&controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+        pros::lcd::set_text(8, "both pressed");
+    }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
         intake.move(int(power*multiplier));
     }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
         intake.move(int(-1*power*multiplier));
@@ -24,10 +20,6 @@ void setIntake(){
         intake.brake();
     }
 
-    /*if(intakeSlowed && intakeTimer > 4000){
-        intakeSlowed = false;
-        multiplier = 1;
-    }*/
 }
 
 void toggleIntake(bool status, double direction){

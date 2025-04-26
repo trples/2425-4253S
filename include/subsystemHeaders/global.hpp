@@ -10,7 +10,6 @@
 #include <cstddef>
 
 extern bool isBlue;
-extern bool isRed;
 
 extern int intakeTimer;
 extern bool intakeSlowed;

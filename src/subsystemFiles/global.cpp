@@ -7,7 +7,7 @@
 #include "subsystemHeaders/global.hpp"
 
 
-
+bool isBlue;
 int intakeTimer = 0;
 bool intakeSlowed = false;
 
