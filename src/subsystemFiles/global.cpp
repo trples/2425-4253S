@@ -8,6 +8,8 @@
 
 
 bool isBlue;
+bool armGoalPosition;
+
 int intakeTimer = 0;
 bool intakeSlowed = false;
 
@@ -28,10 +30,12 @@ pros::Motor driveRightTop(-4, pros::MotorGearset::blue, pros::MotorEncoderUnits:
 pros::MotorGroup driveLeft({-11,-3,16}, pros::MotorGearset::blue); 
 pros::MotorGroup driveRight({9,8,-4}, pros::MotorGearset::blue); 
 pros::MotorGroup intake({20 /*upper intake*/,-2 /*lower intake reversed*/});
+pros::Motor arm(10 /* fix this */, pros::MotorGearset::green, pros::MotorEncoderUnits::degrees);
 
 pros::adi::DigitalOut grabber('A');
 //pros::adi::DigitalOut sweeper('B');
-pros::adi::DigitalOut arm('B');
+pros::adi::DigitalOut arm_1('B');
+pros::adi::DigitalOut arm_2('C');
 
 pros::Imu inertial(19);
 

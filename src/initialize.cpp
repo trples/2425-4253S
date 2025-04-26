@@ -26,8 +26,11 @@ void initialize() {
 	
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	grabber.set_value(false);   
-	arm.set_value(false);
+	arm_1.set_value(false);
+	arm_2.set_value(false);
+	doinker.set_value(false);
 
+	arm.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	//arm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	//arm.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 

@@ -1,44 +1,27 @@
 #include "main.h"
+#include "pros/misc.h"
 #include "subsystemHeaders/global.hpp"
 
-//bool armIsUp = false;
-//bool armIsDown = true;
-//bool override = false;
-
 bool isExtended = false;
-
-/*void oldSetArm(){
-    int power = 100;
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-        override = !override;
-    }
-
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-        arm.move(-1*power);
-        pros::lcd::set_text(6,"motor reversed");
-    }else if(((rotation.get_position()/100 > 30)||override)&&controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
-        arm.move(1*power);
-        pros::lcd::set_text(6,"motor forwarded");
-    }else{
-        arm.brake();
-    }
-}*/
+ 
+// right arrow = up
+// Y = down
 
 void setArm(){
     int power = 100;
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){ // switch
-        if(isExtended){ // arm is up
-            arm.set_value(false);
-        }else{ // arm is down
-            arm.set_value(true);
+    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+        if(!isExtended){ // arm is up
+            arm_1.set_value(true);
+            arm_2.set_value(true);
+            armGoalPosition = true;
+            isExtended = !isExtended;
         }
-        isExtended = !isExtended;
+    }else if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+        if(isExtended){
+            arm_1.set_value(false);
+            arm_2.set_value(false);
+            armGoalPosition = false;
+            isExtended = !isExtended;
+        }
     }
 }
-
-/* 0 = starting
-75 = recieve
-140 = neutral (not obstructing)
-230 = up
-300 = on goal
-*/

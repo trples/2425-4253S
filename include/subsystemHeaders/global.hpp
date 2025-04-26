@@ -11,6 +11,8 @@
 
 extern bool isBlue;
 
+extern bool armGoalPosition;
+
 extern int intakeTimer;
 extern bool intakeSlowed;
 
@@ -28,10 +30,13 @@ extern pros::Motor intakeUpper;
 extern pros::MotorGroup driveLeft;
 extern pros::MotorGroup driveRight;
 extern pros::MotorGroup intake;
+extern pros::Motor arm;
 
 extern pros::adi::DigitalOut grabber;
-extern pros::adi::DigitalOut sweeper;
-extern pros::adi::DigitalOut arm;
+extern pros::adi::DigitalOut doinker;
+extern pros::adi::DigitalOut arm_1;
+extern pros::adi::DigitalOut arm_2;
+
 
 extern pros::Imu inertial;
 
