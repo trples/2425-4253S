@@ -82,7 +82,7 @@ void blueRight(){
     colorSortTask.remove();
 }
 
-void otherBlueRight(){
+void otherBlueRight(){ // 4 ring
     isBlue = true;
     chassis.setPose(56.5,24,90);
 
@@ -123,7 +123,7 @@ void otherBlueRight(){
     colorSortTask.remove();
 }
 
-void blueLeft(){
+void blueLeft(){ // unfinished
     isBlue = true;
 
     chassis.setPose(56.5,-24,90);
@@ -143,7 +143,7 @@ void blueLeft(){
     chassis.moveToPose(24,-4,0,4000,{.minSpeed = 40}, false);
 }
 
-void redRight(){
+void redRight(){ // middle ring path
     isBlue = false;
     
     chassis.setPose(-56.5,-24,270);
@@ -154,13 +154,36 @@ void redRight(){
     pros::delay(500);
     grabber.set_value(true);
 
-    chassis.swingToHeading(180, lemlib::DriveSide::LEFT, 3000);
+    chassis.swingToHeading(45, lemlib::DriveSide::LEFT, 4000);
+
+    //chassis.moveToPose(-11.75, -9.275, 45, 4000, {.minSpeed = 40}, false);
+    chassis.moveToPose(-11, -14, 60, 4000, {.minSpeed = 40}, false);
+
+    toggleDoinker(true);
+
+    chassis.moveToPose(-40, -20, 110, 4000, {.forwards = false, .minSpeed = 60, .earlyExitRange = 2}, false);
+    
+    toggleDoinker(false);
+
+    toggleIntake(true,1);
+    pros::Task colorSortTask(colorSort, "Color Sort");
+
+    chassis.moveToPose(-24, -44, 180, 4000, {.minSpeed = 40}, 4000);
+
+    chassis.turnToHeading(0,1000, {.minSpeed = 40, .earlyExitRange = 15}, false);
+
+    chassis.moveToPose(-24,-4,0,4000,{.minSpeed = 40}, false);
+
+    toggleIntake(false,0);
+    colorSortTask.remove();
+
+    /*chassis.swingToHeading(180, lemlib::DriveSide::LEFT, 3000);
     toggleIntake(true,1);
     chassis.moveToPoint(-24, -44, 4000, {.minSpeed = 50}, 4000);
 
     chassis.turnToHeading(0,1000, {.minSpeed = 40, .earlyExitRange = 15}, false);
 
-    chassis.moveToPose(-24,-4,0,4000,{.minSpeed = 40}, false);
+    chassis.moveToPose(-24,-4,0,4000,{.minSpeed = 40}, false);*/
 }
 
 void redLeft(){

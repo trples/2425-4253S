@@ -2,6 +2,7 @@
 
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/adi.hpp"
+#include "pros/colors.hpp"
 #include "pros/imu.hpp"
 #include "pros/motor_group.hpp"
 #include "pros/motors.hpp"
@@ -46,6 +47,8 @@ extern pros::Rotation rotation;
 extern pros::Rotation xPod;
 
 extern lemlib::Chassis chassis;
+
+extern pros::Task colorSortTask;
 
 // controller declaration
 extern pros::Controller controller;

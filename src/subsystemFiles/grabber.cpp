@@ -3,13 +3,23 @@
 #include "subsystemHeaders/global.hpp"
 
 bool extended = true;
-bool sweeping = false;
+bool doinkerDown = false;
 
 void setGrabber(){
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
         grabber.set_value(false);
     }else{
         grabber.set_value(true);
+    }
+
+    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
+        if(doinkerDown){ // extended
+            doinker.set_value(false);
+            doinkerDown = !doinkerDown;
+        }else{ // retracted
+            doinker.set_value(true);
+            doinkerDown = !doinkerDown;
+        }
     }
 }
 

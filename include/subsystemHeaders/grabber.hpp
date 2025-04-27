@@ -6,4 +6,6 @@ void setGrabber();
 
 void toggleGrabber(bool status); //auton
 
+void toggleDoinker(bool status);
+
 void switchGrabber(); //auton

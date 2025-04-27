@@ -33,7 +33,7 @@ pros::MotorGroup intake({20 /*upper intake*/,-2 /*lower intake reversed*/});
 pros::Motor arm(10 /* fix this */, pros::MotorGearset::green, pros::MotorEncoderUnits::degrees);
 
 pros::adi::DigitalOut grabber('A');
-//pros::adi::DigitalOut sweeper('B');
+pros::adi::DigitalOut doinker('E');
 pros::adi::DigitalOut arm_1('B');
 pros::adi::DigitalOut arm_2('C');
 
@@ -62,12 +62,12 @@ lemlib::ControllerSettings lateral_controller(4.8, // proportional gain (kP)
 
 // angular PID controller
 lemlib::ControllerSettings angular_controller(1.8, // proportional gain (kP)
-                                              0, // integral gain (kI)
+                                              3, // integral gain (kI)
                                               10, // derivative gain (kD)
                                               10, // anti windup
-                                              0, // small error range, in degrees
+                                              2, // small error range, in degrees
                                               100, // small error range timeout, in milliseconds
-                                              0, // large error range, in degrees
+                                              5, // large error range, in degrees
                                               500, // large error range timeout, in milliseconds
                                               0 // maximum acceleration (slew)
 );
