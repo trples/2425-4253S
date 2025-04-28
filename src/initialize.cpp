@@ -19,7 +19,7 @@ void on_center_button() {
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::register_btn1_cb(on_center_button);
-	pros::lcd::set_text(0, "Initializing...");
+	//pros::lcd::set_text(0, "Initializing...");
 
 	driveLeft.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
 	driveRight.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
@@ -53,7 +53,7 @@ void initialize() {
 
 	pros::lcd::set_text(0, "4253S bot is READY! :D");
 	
-	pros::Task screen_task([&]() {
+	/*pros::Task screen_task([&]() {
         while (true) {
             // print robot location to the brain screen
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
@@ -62,7 +62,7 @@ void initialize() {
             // delay to save resources
             pros::delay(20);
         }
-    });
+    });*/
 
 	//pros::delay(100);
 }

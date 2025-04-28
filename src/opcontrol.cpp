@@ -47,12 +47,12 @@ void driverColorSort(){
 }
 
 void armControl(){
-	double kP = 1;
-	double kD = 10;
+	double kP = 40;
+	//double kD = 10;
 	int power;
 	while(true){
 		if(armGoalPosition){ // goal = up
-			power = int((90-arm.get_position())*kP);
+			power = int((45-arm.get_position())*kP);
 			if(power > 127) power = 127;
 			if(power < -127) power = -127;
 			arm.move(power);
@@ -87,8 +87,6 @@ void opcontrol() {
 	pros::Task driverColorSortTask(driverColorSort, "Driver Color Sort");
 	pros::Task armControlTask(armControl, "Arm Control");
 	
-	colorSortTask.remove();
-	
 	while (true) {
 		// loop for taking in driver controls
 		setDrive();
@@ -96,7 +94,7 @@ void opcontrol() {
 		setGrabber();
 		setArm();
 
-		//pros::lcd::set_text(1, std::to_string(optical.get_hue()));
+		pros::lcd::set_text(1, std::to_string(optical.get_hue()));
 		//pros::lcd::set_text(4, std::to_string(optical.get_proximity()));
 
 		pros::lcd::set_text(4, std::to_string(arm.get_position()));
@@ -115,6 +113,6 @@ void opcontrol() {
 		//pros::lcd::set_text(5,std::to_string(arm.get_position()));
 		//pros::lcd::set_text(1,std::to_string(inertial.get_rotation()));
 		//pros::lcd::set_text(2,std::to_string(getAverageEncoderVal()));
-		pros::delay(10);
+		pros::delay(15);
 	}
 }

@@ -12,7 +12,14 @@ void setGrabber(){
         grabber.set_value(true);
     }
 
-    if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+        doinker.set_value(true);
+    }else{
+        doinker.set_value(false);
+    }
+}
+
+/*
         if(doinkerDown){ // extended
             doinker.set_value(false);
             doinkerDown = !doinkerDown;
@@ -20,9 +27,7 @@ void setGrabber(){
             doinker.set_value(true);
             doinkerDown = !doinkerDown;
         }
-    }
-}
-
+*/
 void toggleGrabber(bool status){
     grabber.set_value(status);
 }
