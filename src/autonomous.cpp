@@ -93,7 +93,7 @@ void blueRight(){ // 4 ring; working
     colorSortTask.remove();
 }
 
-void blueLeft(){ // unfinished goal rush
+void blueLeftGoalRush(){ // unfinished goal rush
     isBlue = true;
 
     chassis.setPose(52,-37,270);
@@ -105,20 +105,19 @@ void blueLeft(){ // unfinished goal rush
 
     chassis.waitUntilDone();
 
-    pros::delay(2000);
     
     // deploy doinker
+    toggleDoinker(true);
 
     //chassis.moveToPose(36, -35, 285, 4000, {.forwards = false, .minSpeed = 90, .earlyExitRange = 2}, false);
     chassis.moveToPoint(24,-35, 4000, {.forwards = false, .minSpeed = 90, .earlyExitRange = 2}, false);
 
     // undeploy doinker 
-
-    pros::delay(1000);
+    toggleDoinker(false);
 
     chassis.turnToHeading(135, 3000, {.maxSpeed = 70, .earlyExitRange = 5}, false);
 
-    pros::delay(500);
+    pros::delay(200);
     // goal 1
     //chassis.moveToPose(24, -24, 135, 4000, {.forwards = false, .minSpeed = 40}, false);
     chassis.moveToPoint(24, -24, 4000, {.forwards = false, .minSpeed = 40}, false);
@@ -129,9 +128,6 @@ void blueLeft(){ // unfinished goal rush
     pros::Task colorSortTask(colorSort, "Color Sort");
 
     chassis.moveToPoint(26,-46, 4000, {.maxSpeed = 70, .minSpeed = 40}, false);
-
-
-    
 
     //chassis.moveToPoint(24,-49, 4000, {.minSpeed = 50, .earlyExitRange = 2}, false);
     //chassis.moveToPoint(24,-38, 4000, {.forwards = false, .minSpeed = 50, .earlyExitRange = 2}, false);
@@ -155,83 +151,52 @@ void blueLeft(){ // unfinished goal rush
 
     chassis.turnToHeading(315, 4000, {.minSpeed = 20, .earlyExitRange = 5}, false);
 
-    // go ladder
-
-    //chassis.moveToPose()
-    //chassis.moveToPose(52, -30+24, 40, 4000, {.minSpeed = 40}, false); 
-    /*chassis.moveToPoint(48,-6,4000, {.minSpeed = 40}, false);
-
-
-
-    pros::delay(1000);
-
-    chassis.turnToHeading(315, 4000, {.minSpeed = 30, .earlyExitRange = 5}, false);
-
-    chassis.moveToPoint(24, -6, 4000, {.maxSpeed = 50, .minSpeed = 20, .earlyExitRange = 12}, false);
-    chassis.moveToPoint(24, -6, 4000, {.maxSpeed = 30, .minSpeed = 20,}, false);
-*/
-
-    /*
-    // goal 2
-    chassis.moveToPose(20, -45, 90, 4000, {.minSpeed = 40}, false);
-
-    grabber.set_value(true);
-
-    toggleIntake(true, 1);
-
-    chassis.moveToPoint(52, -28, 4000, {.minSpeed = 40}, false);
-
-    chassis.turnToHeading(315, 4000, {.minSpeed = 20, .earlyExitRange = 5}, false);
-
-    chassis.moveToPose(24, -6, 0, 4000, {.maxSpeed = 50, .earlyExitRange = 12}, false);
-
-    chassis.moveToPose(24, -6, 0, 4000, {.maxSpeed = 30, .minSpeed = 20, .earlyExitRange = 12}, false);
-
+    chassis.moveToPose(24, -6, 0, 4000, {.maxSpeed = 50, .minSpeed = 30, .earlyExitRange = 12}, false);
+    chassis.moveToPose(24, -6, 0, 4000, {.maxSpeed = 20, .minSpeed = 10}, false);
+    
     colorSortTask.remove();
-    toggleIntake(false,0);*/
+    toggleIntake(false,0);
+}
 
+void blueLeftRing(){ // middle ring path; UNTESTED
+    isBlue = true;
+    
+    chassis.setPose(56.5,-24,90);
 
+    chassis.moveToPose(28, -24, 90, 4000, {.forwards = false, .minSpeed = 70, .earlyExitRange = 2}, false);
 
-    /*chassis.moveToPoint(23, -36, 4000, {.forwards = false, .minSpeed = 50, .earlyExitRange = 4}, false);
-
-    chassis.moveToPose(13, -33, 135, 4000, {.forwards = false, .minSpeed = 40, .earlyExitRange = 2}, false);
-
+    chassis.waitUntilDone();
+    pros::delay(500);
     grabber.set_value(true);
+
+    //chassis.swingToHeading(315, lemlib::DriveSide::LEFT, 4000);
+    chassis.turnToHeading(315, 3000, {.maxSpeed = 70, .earlyExitRange = 5}, false);
+
+    chassis.moveToPose(11.75, -9.275, 315, 4000, {.minSpeed = 40}, false);
+
+    toggleDoinker(true);
+
+    chassis.moveToPose(40, -20, 260, 4000, {.forwards = false, .minSpeed = 60, .earlyExitRange = 2}, false);
+    
+    toggleDoinker(false);
 
     toggleIntake(true,1);
     pros::Task colorSortTask(colorSort, "Color Sort");
+    
+    // ring
+    chassis.moveToPose(24, -44, 180, 4000, {.minSpeed = 40}, 4000);
 
-    chassis.moveToPoint(20, -45, 4000, {.minSpeed = 50, .earlyExitRange = 2}, false);
+    // turn / touch ladder
+    chassis.turnToHeading(0,1000, {.minSpeed = 40, .earlyExitRange = 15}, false);
 
-    pros::delay(500);
-    toggleIntake(false, 0);
-    grabber.set_value(false);
+    chassis.moveToPose(24,-4,0,4000,{.minSpeed = 40, .earlyExitRange = 12}, false);
+    chassis.moveToPose(24,-4,0,4000,{.maxSpeed = 20, .minSpeed = 10}, false);
 
-    chassis.moveToPose(24, -48, 135, 4000, {.minSpeed = 40}, false);
-
-    chassis.turnToHeading(180, 4000, {.minSpeed = 40, .earlyExitRange = 10}, false);
-
-    chassis.moveToPose(24, -30, 180, 4000, {.minSpeed = 40}, false);
-    grabber.set_value(true);
-
-    chassis.swingToHeading(90, lemlib::DriveSide::LEFT, 4000, {.minSpeed = 30, .earlyExitRange = 5}, false);
-
-    toggleIntake(true,1);
-    chassis.moveToPoint(48, -28, 4000, {.minSpeed = 40}, false);
-
-    pros::delay(500);
-
-    chassis.turnToHeading(0, 4000, {.minSpeed = 40, .earlyExitRange = 10}, false);
-
-    chassis.moveToPose(24, -6, 0, 4000, {.maxSpeed = 50, .earlyExitRange = 12}, false);
-
-    chassis.moveToPose(24, -6, 0, 4000, {.maxSpeed = 30, .minSpeed = 20, .earlyExitRange = 12}, false);
-
+    toggleIntake(false,0);
     colorSortTask.remove();
-    toggleIntake(false,0);*/
 }
 
-void redRight(){ // middle ring path
+void redRightRing(){ // middle ring path
     isBlue = false;
     
     chassis.setPose(-56.5,-24,270);
@@ -242,7 +207,8 @@ void redRight(){ // middle ring path
     pros::delay(500);
     grabber.set_value(true);
 
-    chassis.swingToHeading(45, lemlib::DriveSide::LEFT, 4000);
+    //chassis.swingToHeading(45, lemlib::DriveSide::LEFT, 4000);
+    chassis.turnToHeading(45, 3000, {.maxSpeed = 70, .earlyExitRange = 5}, false);
 
     //chassis.moveToPose(-11.75, -9.275, 45, 4000, {.minSpeed = 40}, false);
     chassis.moveToPose(-11, -14, 60, 4000, {.minSpeed = 40}, false);
@@ -256,8 +222,10 @@ void redRight(){ // middle ring path
     toggleIntake(true,1);
     pros::Task colorSortTask(colorSort, "Color Sort");
 
+    // ring
     chassis.moveToPose(-24, -44, 180, 4000, {.minSpeed = 40}, 4000);
 
+    // turn / touch ladder
     chassis.turnToHeading(0,1000, {.minSpeed = 40, .earlyExitRange = 15}, false);
 
     chassis.moveToPose(-24,-4,0,4000,{.minSpeed = 40}, false);
@@ -325,7 +293,9 @@ void autonomous() {
     
     //blueRight();
     //redLeft();
-    blueLeft();
+    blueLeftGoalRush();
+
+
 
     //pros::Task blueRightAuton(blueRight, "Blue Right Auto");
 

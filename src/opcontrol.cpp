@@ -46,13 +46,16 @@ void driverColorSort(){
     }
 }
 
+int goalDegree = 270; // 215
+double previousError = 0;
 void armControl(){
-	double kP = 40;
-	//double kD = 10;
+	double kP = 5;
+	double kD = 10;
 	int power;
 	while(true){
 		if(armGoalPosition){ // goal = up
-			power = int((45-arm.get_position())*kP);
+			power = int((goalDegree-arm.get_position())*kP + (previousError - arm.get_position())*kD);
+			previousError = goalDegree-arm.get_position();
 			if(power > 127) power = 127;
 			if(power < -127) power = -127;
 			arm.move(power);
