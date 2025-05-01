@@ -46,29 +46,34 @@ void driverColorSort(){
     }
 }
 
-int goalDegree = 270; // 215
+int goalDegree = 300; // 215
 double previousError = 0;
 void armControl(){
-	double kP = 5;
-	double kD = 10;
+	double kP = 1;
+	double kD = 0;
+	double currentDegree;
 	int power;
 	while(true){
 		if(armGoalPosition){ // goal = up
-			power = int((goalDegree-arm.get_position())*kP + (previousError - arm.get_position())*kD);
+			currentDegree = arm_rotation.get_position()/100.0;
+			power = int((goalDegree-currentDegree)*kP + (previousError - currentDegree)*kD);
+			//power = int((goalDegree-arm.get_position())*kP + (previousError - arm.get_position())*kD);
 			previousError = goalDegree-arm.get_position();
 			if(power > 127) power = 127;
 			if(power < -127) power = -127;
 			arm.move(power);
-		}/*else{ // goal = down
-			//int power = int(arm.get_position()*kP + (prevError-arm.get_position())*kD);
-			power = int(0-arm.get_position()*kP);
+		}else{ // goal = down
+			currentDegree = arm_rotation.get_position()/100.0;
+			power = int((-currentDegree)*kP);
+			//power = int(-10-arm.get_position()*kP);
 			if(power > 127) power = 127;
 			if(power < -127) power = -127;
 			arm.move(power);
-		}*/
-		else{
-			arm.move(0);
 		}
+		/*else{
+			arm.move(0);
+		}*/
+		pros::Task::delay(15);
 	}
 }
 

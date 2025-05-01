@@ -41,9 +41,9 @@ void initialize() {
 	optical.set_led_pwm(50);
 	optical.set_integration_time(15);
 
-	rotation.reset_position();
-	rotation.set_data_rate(15);
-	rotation.set_reversed(true);
+	arm_rotation.reset_position();
+	arm_rotation.set_data_rate(15);
+	//arm_rotation.set_reversed(true);
 
 	chassis.calibrate();
 

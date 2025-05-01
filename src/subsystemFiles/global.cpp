@@ -41,7 +41,7 @@ pros::Imu inertial(19);
 
 pros::Optical optical(1);
 
-pros::Rotation rotation(9); // 
+pros::Rotation arm_rotation(-14); 
 pros::Rotation xPod(16); // horiz tracking
 
 lemlib::TrackingWheel horizontalEncoder(&xPod, lemlib::Omniwheel::NEW_2,-4);

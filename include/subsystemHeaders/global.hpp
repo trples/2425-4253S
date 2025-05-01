@@ -43,7 +43,7 @@ extern pros::Imu inertial;
 
 extern pros::Optical optical;
 
-extern pros::Rotation rotation;
+extern pros::Rotation arm_rotation;
 extern pros::Rotation xPod;
 
 extern lemlib::Chassis chassis;
