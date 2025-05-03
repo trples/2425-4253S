@@ -42,6 +42,38 @@ void colorSort(){
     }
 }
 
+//int goalDeg = 300; // 215
+double previousErr = 0;
+void autoArmControl(){
+	double kP = 1;
+	double kD = 0;
+	double currentDegree;
+	int power;
+	while(true){
+		if(armGoalPosition){ // goal = up
+			currentDegree = arm_rotation.get_position()/100.0;
+			power = int((300-currentDegree)*kP + (previousErr - currentDegree)*kD);
+			//power = int((goalDeg-arm.get_position())*kP + (previousError - arm.get_position())*kD);
+			previousErr = 300-arm.get_position();
+			if(power > 127) power = 127;
+			if(power < -127) power = -127;
+			arm.move(power);
+		}else{ // goal = down
+			currentDegree = arm_rotation.get_position()/100.0;
+			power = int((-currentDegree)*kP);
+			//power = int(-10-arm.get_position()*kP);
+			if(power > 127) power = 127;
+			if(power < -127) power = -127;
+			arm.move(power);
+		}
+		/*else{
+			arm.move(0);
+		}*/
+		pros::Task::delay(15);
+	}
+}
+
+
 void blueRight(){ // 4 ring; working PLEASE RETEST BORDER 12.5???
     isBlue = true;
     chassis.setPose(56.5,24,90);
@@ -166,6 +198,18 @@ void blueLeftRing(){ // middle ring path
     
     chassis.setPose(56.5,-24,90);
 
+    chassis.moveToPoint(48, -24, 4000, {.forwards = false, .minSpeed = 70, .earlyExitRange = 5}, false);
+
+    toggleArm(true);
+
+    toggleIntake(true,1);
+
+    chassis.moveToPose(68, -6, 70, 4000, {.maxSpeed = 70, .minSpeed = 30}, false);
+
+    toggleArm(false);
+
+    pros::delay(500);
+
     //chassis.moveToPose(28, -24, 90, 4000, {.forwards = false, .minSpeed = 70, .earlyExitRange = 2}, false);
     chassis.moveToPose(24, -24, 90, 4000, {.forwards = false, .minSpeed = 50}, false);
 
@@ -173,10 +217,12 @@ void blueLeftRing(){ // middle ring path
     pros::delay(500);
     grabber.set_value(true);
 
-    chassis.turnToHeading(325, 1500, {.earlyExitRange = 10}, false);
+    toggleIntake(false, 0);
+
+    chassis.turnToHeading(325, 1200, {.earlyExitRange = 10}, false);
 
     
-    chassis.moveToPose(14, -11.5, 325, 4000, {.minSpeed = 40}, false);
+    chassis.moveToPose(14, -10.5, 325, 4000, {.minSpeed = 40}, false);
    
     chassis.waitUntilDone();
     pros::delay(200);
@@ -185,11 +231,12 @@ void blueLeftRing(){ // middle ring path
 
     pros::delay(500);
 
-    chassis.moveToPoint(28,-20, 4000, {.forwards = false, .maxSpeed = 60, .minSpeed = 30, .earlyExitRange = 5}, false);
+    chassis.moveToPoint(28,-20, 4000, {.forwards = false, .maxSpeed = 50, .minSpeed = 30, .earlyExitRange = 5}, false);
 
     chassis.moveToPoint(34, -20, 4000, {.forwards = false, .maxSpeed = 60, .minSpeed = 30, .earlyExitRange = 5}, false);
 
-    chassis.turnToHeading(270, 1500, {.maxSpeed = 15, .earlyExitRange = 5}, false);
+    chassis.turnToHeading(270, 1500, {.maxSpeed = 15, .earlyExitRange = 10}, false);
+    toggleIntake(true,1);
     chassis.moveToPoint(38,-20, 4000, {.forwards = false, .minSpeed = 60}, false);
    
 
@@ -204,17 +251,20 @@ void blueLeftRing(){ // middle ring path
     chassis.moveToPose(27,-28, 200, 4000, {.minSpeed = 40, .earlyExitRange = 3}, true);
     chassis.waitUntilDone();
 
-    chassis.moveToPoint(27, -44, 4000, {.maxSpeed = 40, .minSpeed = 40}, true);
+    chassis.moveToPoint(28, -44, 4000, {.maxSpeed = 70, .minSpeed = 40}, true);
     chassis.waitUntilDone();
 
     pros::delay(1000);
 
-    chassis.turnToHeading(0, 1000, {.earlyExitRange = 10}, false);
+    chassis.turnToHeading(0, 1000, {.earlyExitRange = 10}, true);
+    chassis.waitUntilDone();
 
     pros::delay(200);
 
-    chassis.moveToPoint(26,-5, 4000, {.maxSpeed = 60, .earlyExitRange = 12}, false);
-    chassis.moveToPoint(27,-5, 2000, {.maxSpeed = 20, .minSpeed = 10}, false);
+    chassis.moveToPoint(28,-5, 4000, {.maxSpeed = 60, .earlyExitRange = 12}, true);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(27,-5, 2000, {.maxSpeed = 20, .minSpeed = 10}, true);
+    chassis.waitUntilDone();
 
     toggleIntake(false,0);
     colorSortTask.remove();
@@ -225,17 +275,33 @@ void redRightRing(){ // middle ring path
     
     chassis.setPose(-56.5,-24,270);
 
+
+    chassis.moveToPoint(-48, -24, 4000, {.forwards = false, .minSpeed = 70, .earlyExitRange = 5}, false);
+
+    toggleArm(true);
+
+    toggleIntake(true,1);
+
+    chassis.moveToPose(-68, -6, 290, 4000, {.maxSpeed = 70, .minSpeed = 30}, false);
+
+    toggleArm(false);
+
+    pros::delay(500);
+
+
     chassis.moveToPose(-24, -24, 270, 4000, {.forwards = false, .minSpeed = 50}, false);
     
     chassis.waitUntilDone();
     pros::delay(500);
     grabber.set_value(true);
 
+    toggleIntake(false,0);
+
     //chassis.swingToHeading(45, lemlib::DriveSide::LEFT, 4000);
     chassis.turnToHeading(30, 3000, {.maxSpeed = 70, .earlyExitRange = 5}, false);
 
     //chassis.moveToPose(-11.75, -9.275, 45, 4000, {.minSpeed = 40}, false);
-    chassis.moveToPose(-11, -8, 60, 4000, {.minSpeed = 40}, false);
+    chassis.moveToPose(-10, -8, 60, 4000, {.minSpeed = 40}, false);
 
     toggleDoinker(true);
 
@@ -259,13 +325,13 @@ void redRightRing(){ // middle ring path
     
     pros::Task colorSortTask(colorSort, "Color Sort");
 
-    chassis.moveToPoint(-24,-44, 4000, {.maxSpeed = 40, .minSpeed = 40}, true);
+    chassis.moveToPoint(-24,-44, 4000, {.maxSpeed = 55, .minSpeed = 40}, true);
     chassis.waitUntilDone();
 
-    chassis.turnToPoint(-24,0, 4000, {.maxSpeed = 70, .earlyExitRange = 5}, true);
+    chassis.turnToPoint(-24,0, 4000, {.maxSpeed = 70, .minSpeed = 30, .earlyExitRange = 10}, true);
 
-    chassis.moveToPoint(-24,-6, 4000, {.maxSpeed = 60, .earlyExitRange = 12}, false);
-    chassis.moveToPoint(-24,-6, 2000, {.maxSpeed = 20, .minSpeed = 10}, false);
+    chassis.moveToPoint(-24,-6, 4000, {.maxSpeed = 60, .earlyExitRange = 7}, false);
+    chassis.moveToPoint(-24,-4, 2000, {.maxSpeed = 30, .minSpeed = 20}, false);
 
     toggleIntake(false,0);
     colorSortTask.remove();
@@ -319,13 +385,17 @@ void redLeft(){ // 4 rings; working
 }
 
 void autonomous() {
-    
+    pros::Task armControlTask(autoArmControl, "Arm Control");
     //blueRight();
     //redLeft();
     //blueLeftGoalRush(); // not done
     
-    //blueLeftRing();
-    redRightRing();
+    blueLeftRing();
+    //redRightRing();
+
+    //redLeft();
+
+    armControlTask.remove();
 
 
     //pros::Task blueRightAuton(blueRight, "Blue Right Auto");

@@ -64,7 +64,7 @@ void armControl(){
 			arm.move(power);
 		}else{ // goal = down
 			currentDegree = arm_rotation.get_position()/100.0;
-			power = int((-currentDegree)*kP);
+			power = int((-20-currentDegree)*kP);
 			//power = int(-10-arm.get_position()*kP);
 			if(power > 127) power = 127;
 			if(power < -127) power = -127;
