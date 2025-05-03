@@ -94,7 +94,7 @@ void opcontrol() {
 	isBlue = true;
 	pros::Task driverColorSortTask(driverColorSort, "Driver Color Sort");
 	pros::Task armControlTask(armControl, "Arm Control");
-	
+	armGoalPosition = false;
 	while (true) {
 		// loop for taking in driver controls
 		setDrive();
